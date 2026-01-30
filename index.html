@@ -2,18 +2,17 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>McIntosh MSA5500 - XXL Fidelity Fixed</title>
+    <title>McIntosh MSA5500 - Échelle Courbe Précise</title>
     <style>
         :root {
             --mc-blue: #00c3ff;
             --mc-green: #00ff41;
             --mc-vumeter: #00aef2; 
             --panel-black: #080808;
-            --knob-silver: #c0c0c0;
         }
 
         body {
-            background-color: #3f3f3f;
+            background-color: #3f3f3f; /* Ta modification mémorisée */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -23,251 +22,227 @@
             overflow: hidden;
         }
 
+        .chassis-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .side-trim {
+            width: 50px;
+            height: 750px;
+            background: linear-gradient(to right, #bdbdbd, #f5f5f5 40%, #9e9e9e 60%, #eeeeee);
+            box-shadow: inset -1px 0 5px rgba(0,0,0,0.3), 10px 40px 60px rgba(0,0,0,0.5);
+            z-index: 2;
+        }
+        .side-left { border-radius: 10px 0 0 10px; }
+        .side-right { border-radius: 0 10px 10px 0; }
+
         .amplifier-panel {
-            width: 1750px;
+            width: 1650px;
             height: 750px;
             background: var(--panel-black);
             position: relative;
             border-bottom: 8px solid #1a1a1a;
-            box-shadow: 0 60px 120px rgba(0,0,0,0.9), inset 0 1px 2px rgba(255,255,255,0.1);
+            box-shadow: 0 60px 120px rgba(0,0,0,0.8);
             display: flex;
             flex-direction: column;
-            padding: 30px 40px;
+            padding: 40px;
             box-sizing: border-box;
+            z-index: 1;
         }
-
-        .side-trim {
-            position: absolute;
-            top: 0; bottom: 0; width: 50px;
-            background: linear-gradient(to right, #ccc, #eee 40%, #888 60%, #ddd);
-            box-shadow: inset -1px 0 5px rgba(0,0,0,0.4);
-            z-index: 10;
-        }
-        .side-left { left: -50px; border-radius: 8px 0 0 8px; }
-        .side-right { right: -50px; border-radius: 0 8px 8px 0; }
 
         .meter-container {
             display: flex;
             justify-content: space-between;
-            align-items: center; /* Aligne les VU-mètres et le logo sur le même axe horizontal */
-            height: 300px;
+            align-items: center;
+            height: 320px;
+            margin-bottom: 20px;
         }
 
         .meter {
             width: 550px;
-            height: 280px;
+            height: 300px;
             background: var(--mc-vumeter); 
-            border: 2px solid #000;
+            border: 3px solid #000;
             position: relative;
-            box-shadow: inset 0 0 60px rgba(0, 174, 242, 0.8), inset 0 0 120px rgba(0,0,0,0.6);
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
             overflow: hidden;
         }
 
-        .meter-scale {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="550" height="280" viewBox="0 0 550 280"><path d="M50 200 Q 275 100 500 200" fill="none" stroke="black" stroke-width="2" opacity="0.8"/><text x="275" y="240" fill="black" font-family="Arial" font-size="14" font-weight="bold" text-anchor="middle" opacity="0.9">POWER OUTPUT</text><text x="60" y="180" fill="black" font-size="12" font-weight="bold" opacity="0.8">.01</text><text x="140" y="140" fill="black" font-size="12" font-weight="bold" opacity="0.8">.1</text><text x="275" y="120" fill="black" font-size="12" font-weight="bold" opacity="0.8">1</text><text x="410" y="140" fill="black" font-size="12" font-weight="bold" opacity="0.8">10</text><text x="480" y="180" fill="black" font-size="12" font-weight="bold" opacity="0.8">100</text></svg>');
-            background-repeat: no-repeat;
-        }
+        .meter-svg { width: 100%; height: 100%; }
 
         .needle {
             position: absolute;
-            bottom: -30px; left: 50%; width: 3px; height: 240px;
-            background: #111;
+            bottom: -20px; /* Pivot abaissé pour une rotation plus naturelle */
+            left: 50%;
+            width: 2px;
+            height: 280px;
+            background: #000;
             transform-origin: bottom center;
-            transform: rotate(-50deg);
-            transition: transform 0.15s cubic-bezier(0.1, 0.5, 0.5, 1);
-            z-index: 5;
+            transform: rotate(-55deg);
+            z-index: 10;
+            transition: transform 0.1s ease-out;
         }
 
-        .brand-center { 
-            flex: 1; 
-            display: flex;
-            justify-content: center;
-            align-items: center; /* Centre le logo verticalement dans son conteneur */
-        }
-        
-        .brand-logo-img { 
-            height: 90px; /* Taille légèrement ajustée pour l'équilibre visuel */
-        }
+        .brand-center { flex: 1; display: flex; justify-content: center; }
+        .brand-logo-img { height: 85px; }
 
-        .display-area {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        .display-area { flex: 1; display: flex; justify-content: center; align-items: center; }
 
         .matrix-display {
-            width: 700px;
-            height: 130px;
-            background: #020202;
-            border: 2px solid #1a1a1a;
-            box-shadow: inset 0 0 30px #000;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: var(--mc-blue);
-            font-family: 'Courier New', monospace;
-            text-shadow: 0 0 15px var(--mc-blue);
-            letter-spacing: 4px;
+            width: 700px; height: 130px;
+            background: #020202; border: 2px solid #1a1a1a;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            color: var(--mc-blue); font-family: 'Courier New', monospace;
+            text-shadow: 0 0 15px var(--mc-blue); letter-spacing: 4px;
             opacity: 0.1;
-            transition: opacity 0.5s ease;
         }
-
-        #txt-top { font-size: 32px; margin-bottom: 5px; }
-        #txt-bottom { font-size: 44px; font-weight: bold; }
 
         .knob-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            height: 220px;
-            padding-bottom: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            height: 200px;
         }
 
-        .knob-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 250px;
-        }
+        .knob-wrapper { display: flex; flex-direction: column; align-items: center; width: 250px; }
+        .label-green { color: var(--mc-green); font-size: 16px; font-weight: bold; margin-bottom: 15px; text-transform: uppercase; }
 
         .knob-outer {
-            width: 155px;
-            height: 155px;
-            background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 45%, #666 55%, #ffffff 100%);
-            border-radius: 50%;
-            padding: 8px;
-            box-shadow: 0 12px 25px rgba(0,0,0,0.6);
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: transform 0.2s ease;
-            margin-top: 15px;
+            width: 140px; height: 140px;
+            background: linear-gradient(135deg, #ffffff, #888, #ffffff);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
-
         .knob-inner {
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, #333 0%, #000 75%),
-                        conic-gradient(from 0deg, #111, #222, #111, #222, #111);
+            width: 132px; height: 132px;
+            background: radial-gradient(circle, #333, #000);
             border-radius: 50%;
-            box-shadow: inset 0 2px 8px rgba(255,255,255,0.15);
         }
 
-        .label-green {
-            color: var(--mc-green);
-            font-size: 16px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-align: center;
-        }
-
-        .power-btn-container { 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 150px;
-            gap: 8px;
-        }
-
+        .power-btn-container { display: flex; flex-direction: column; align-items: center; gap: 8px; }
         .power-led {
-            width: 10px;
-            height: 10px;
-            background: #ff0000;
-            box-shadow: 0 0 10px #ff0000;
-            border-radius: 50%;
-            border: 1px solid #000;
+            width: 10px; height: 10px; background: #ff0000;
+            box-shadow: 0 0 12px #ff0000; border-radius: 50%; border: 1px solid #000;
         }
-
         .power-btn {
-            width: 45px;
-            height: 28px;
+            width: 45px; height: 28px;
             background: linear-gradient(to bottom, #8a0000, #4a0000);
-            border: 2px solid #222; border-radius: 6px;
-            cursor: pointer;
-            box-shadow: 0 4px 0 #111, 0 8px 12px rgba(0,0,0,0.6);
-            transition: all 0.1s;
+            border: 2px solid #222; border-radius: 5px; cursor: pointer;
+            box-shadow: 0 4px 0 #111;
         }
-        .power-btn.active {
-            background: linear-gradient(to bottom, #ff0000, #a00000);
-            box-shadow: 0 2px 0 #111, 0 0 15px rgba(255,0,0,0.5);
-            transform: translateY(2px);
-        }
-
-        .small-label {
-            color: #555;
-            font-size: 10px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+        .power-btn.active { background: #ff0000; box-shadow: 0 0 15px red, 0 2px 0 #111; transform: translateY(2px); }
+        .small-label { color: #555; font-size: 10px; font-weight: bold; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
-<div class="amplifier-panel">
+<div class="chassis-wrapper">
     <div class="side-trim side-left"></div>
+    
+    <div class="amplifier-panel">
+        <div class="meter-container">
+            <div class="meter">
+                <svg class="meter-svg" viewBox="0 0 550 300">
+                    <style>text { font-family: Arial; font-weight: bold; fill: black; }</style>
+                    
+                    <text x="275" y="40" font-size="14" text-anchor="middle" opacity="0.6">8 OHMS</text>
+                    
+                    <path id="curve" d="M80 180 Q 275 90 470 180" fill="none" stroke="black" stroke-width="4" stroke-dasharray="45,10"/>
+                    
+                    <g font-size="14">
+                        <text x="85" y="160" transform="rotate(-25 85,160)">1m</text>
+                        <text x="150" y="135" transform="rotate(-15 150,135)">.01</text>
+                        <text x="225" y="125" transform="rotate(-5 225,125)">.1</text>
+                        <text x="305" y="125" transform="rotate(5 305,125)">1</text>
+                        <text x="380" y="135" transform="rotate(15 380,135)">10</text>
+                        <text x="445" y="160" transform="rotate(25 445,160)">100</text>
+                    </g>
+                    
+                    <g font-size="14">
+                        <text x="115" y="195" transform="rotate(-20 115,195)">2m</text>
+                        <text x="180" y="210" transform="rotate(-10 180,210)">.02</text>
+                        <text x="245" y="218" transform="rotate(-3 245,218)">.2</text>
+                        <text x="325" y="218" transform="rotate(3 325,218)">2</text>
+                        <text x="390" y="210" transform="rotate(10 390,210)">20</text>
+                        <text x="450" y="195" transform="rotate(20 450,195)">200</text>
+                    </g>
+
+                    <text x="275" y="250" font-size="14" text-anchor="middle" opacity="0.6">4 OHMS</text>
+                    <text x="275" y="285" font-size="22" text-anchor="middle" letter-spacing="4">POWER OUTPUT</text>
+                </svg>
+                <div class="needle" id="needle-l"></div>
+            </div>
+            
+            <div class="brand-center">
+                <img src="img/mc-logo.png" alt="McIntosh" class="brand-logo-img">
+            </div>
+
+            <div class="meter">
+                <svg class="meter-svg" viewBox="0 0 550 300">
+                    <style>text { font-family: Arial; font-weight: bold; fill: black; }</style>
+                    <text x="275" y="40" font-size="14" text-anchor="middle" opacity="0.6">8 OHMS</text>
+                    <path d="M80 180 Q 275 90 470 180" fill="none" stroke="black" stroke-width="4" stroke-dasharray="45,10"/>
+                    
+                    <g font-size="14">
+                        <text x="85" y="160" transform="rotate(-25 85,160)">1m</text>
+                        <text x="150" y="135" transform="rotate(-15 150,135)">.01</text>
+                        <text x="225" y="125" transform="rotate(-5 225,125)">.1</text>
+                        <text x="305" y="125" transform="rotate(5 305,125)">1</text>
+                        <text x="380" y="135" transform="rotate(15 380,135)">10</text>
+                        <text x="445" y="160" transform="rotate(25 445,160)">100</text>
+                    </g>
+                    
+                    <g font-size="14">
+                        <text x="115" y="195" transform="rotate(-20 115,195)">2m</text>
+                        <text x="180" y="210" transform="rotate(-10 180,210)">.02</text>
+                        <text x="245" y="218" transform="rotate(-3 245,218)">.2</text>
+                        <text x="325" y="218" transform="rotate(3 325,218)">2</text>
+                        <text x="390" y="210" transform="rotate(10 390,210)">20</text>
+                        <text x="450" y="195" transform="rotate(20 450,195)">200</text>
+                    </g>
+
+                    <text x="275" y="250" font-size="14" text-anchor="middle" opacity="0.6">4 OHMS</text>
+                    <text x="275" y="285" font-size="22" text-anchor="middle" letter-spacing="4">POWER OUTPUT</text>
+                </svg>
+                <div class="needle" id="needle-r"></div>
+            </div>
+        </div>
+
+        <div class="display-area">
+            <div class="matrix-display" id="vfd">
+                <div>NETWORK 50%</div>
+                <div style="font-size: 40px; font-weight: bold;">Tidal HiFi</div>
+            </div>
+        </div>
+
+        <div class="knob-section">
+            <div class="knob-wrapper">
+                <span class="label-green">INPUT</span>
+                <div class="knob-outer"><div class="knob-inner"></div></div>
+            </div>
+
+            <div class="power-btn-container">
+                <span class="small-label">STANDBY/ON</span>
+                <div class="power-led"></div>
+                <div class="power-btn" id="pwr"></div>
+                <span class="small-label">RESET</span>
+            </div>
+
+            <div class="knob-wrapper">
+                <span class="label-green">VOLUME</span>
+                <div class="knob-outer"><div class="knob-inner"></div></div>
+            </div>
+        </div>
+    </div>
+
     <div class="side-trim side-right"></div>
-
-    <div class="meter-container">
-        <div class="meter">
-            <div class="meter-scale"></div>
-            <div class="needle" id="needle-l"></div>
-        </div>
-        
-        <div class="brand-center">
-            <img src="img/mc-logo.png" alt="McIntosh" class="brand-logo-img">
-        </div>
-
-        <div class="meter">
-            <div class="meter-scale"></div>
-            <div class="needle" id="needle-r"></div>
-        </div>
-    </div>
-
-    <div class="display-area">
-        <div class="matrix-display" id="main-vfd">
-            <div id="txt-top">NETWORK 50%</div>
-            <div id="txt-bottom">Tidal HiFi</div>
-        </div>
-    </div>
-
-    <div class="knob-section">
-        <div class="knob-wrapper">
-            <span class="label-green">INPUT</span>
-            <div class="knob-outer" id="knob-input">
-                <div class="knob-inner"></div>
-            </div>
-        </div>
-
-        <div class="power-btn-container">
-            <span class="small-label">STANDBY/ON</span>
-            <div class="power-led" id="pwr-led"></div>
-            <div class="power-btn" id="pwr"></div>
-            <span class="small-label">RESET</span>
-        </div>
-
-        <div class="knob-wrapper">
-            <span class="label-green">VOLUME</span>
-            <div class="knob-outer" id="knob-vol">
-                <div class="knob-inner"></div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <script>
     const pwr = document.getElementById('pwr');
-    const vfd = document.getElementById('main-vfd');
-    const needleL = document.getElementById('needle-l');
-    const needleR = document.getElementById('needle-r');
-    
+    const vfd = document.getElementById('vfd');
+    const nl = document.getElementById('needle-l');
+    const nr = document.getElementById('needle-r');
     let isOn = false;
 
     pwr.addEventListener('click', () => {
@@ -276,21 +251,19 @@
         vfd.style.opacity = isOn ? "1" : "0.1";
     });
 
-    function animateMeters() {
-        if (!isOn) {
-            needleL.style.transform = 'rotate(-50deg)';
-            needleR.style.transform = 'rotate(-50deg)';
+    function loop() {
+        if (isOn) {
+            let rL = -45 + Math.random() * 90;
+            let rR = -45 + Math.random() * 90;
+            nl.style.transform = `rotate(${rL}deg)`;
+            nr.style.transform = `rotate(${rR}deg)`;
         } else {
-            const base = -15; 
-            const jitterL = base + (Math.random() * 45);
-            const jitterR = base + (Math.random() * 45);
-            needleL.style.transform = `rotate(${jitterL}deg)`;
-            needleR.style.transform = `rotate(${jitterR}deg)`;
+            nl.style.transform = `rotate(-55deg)`;
+            nr.style.transform = `rotate(-55deg)`;
         }
-        requestAnimationFrame(() => setTimeout(animateMeters, 80));
+        setTimeout(loop, 120);
     }
-
-    animateMeters();
+    loop();
 </script>
 
 </body>
