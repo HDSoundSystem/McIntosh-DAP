@@ -1,8 +1,13 @@
+/* Importation de la police Bitcount */
+@import url('https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@300&family=Roboto:wght@300;400&display=swap');
+
 :root {
     --mc-blue: #00c3ff;
     --mc-green: #00ff41;
     --mc-vumeter: #00aef2; 
     --panel-black: #080808;
+    --mc-led-green: #00ff00; /* Vert pur pour le compteur */
 }
 
 body {
@@ -106,13 +111,83 @@ body {
     font-family: 'Courier New', monospace;
     text-shadow: 0 0 15px var(--mc-blue); 
     letter-spacing: 4px;
+    position: relative;
     opacity: 1; 
 }
 
-.vfd-small { font-size: 18px; margin-bottom: 5px; }
-.vfd-large { font-size: 48px; font-weight: bold; }
+/* --- COIN TECHNIQUE MISE Ã€ JOUR --- */
+.vfd-tech-corner {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: 'Roboto', sans-serif;
+    color: var(--mc-blue);
+}
 
-/* --- PARAMÈTRES MÉMORISÉS --- */
+.tech-label {
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    opacity: 0.7;
+}
+
+.tech-data {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-top: 2px;
+}
+
+#track-count {
+    color: var(--mc-led-green); 
+    font-size: 20px; 
+    font-weight: 700; /* Roboto Bold */
+    font-family: 'Roboto', sans-serif; /* Retour Ã  Roboto */
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+}
+
+#file-format, #bitrate {
+    font-size: 11px;
+    opacity: 0.8;
+}
+
+#file-format {
+    border: 1px solid var(--mc-blue);
+    padding: 0 4px;
+    border-radius: 3px;
+    font-size: 10px;
+}
+
+.vfd-small { 
+    font-size: 18px; 
+    margin-bottom: 10px; 
+    font-family: 'Courier New', monospace;
+}
+
+.vfd-large { 
+    font-family: 'Bitcount Single', sans-serif;
+    font-size: 38px; 
+    font-weight: 300;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+}
+
+.vfd-info {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px; 
+    font-weight: 300;
+    color: var(--mc-blue);
+    text-align: center;
+    opacity: 0.9;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+/* --- PARAMÃˆTRES MÃ‰MORISÃ‰S --- */
 .knob-section {
     display: flex;
     justify-content: space-between;
@@ -149,7 +224,7 @@ body {
 }
 
 .knob-inner {
-    width: 110px; /* BORDURE 15PX MAINTENUE */
+    width: 110px; /* BORDURE 15PX GARANTIE (140 - 110 = 30 / 2 = 15) */
     height: 110px;
     background: radial-gradient(circle, #333, #000);
     border-radius: 50%;
@@ -168,7 +243,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 80px; /* Légèrement augmenté pour accommoder les boutons de 65px */
+    width: 80px;
     position: relative;
 }
 
@@ -191,7 +266,6 @@ body {
 
 .small-label i { font-size: 14px; color: var(--mc-green); }
 
-/* --- MISE À JOUR DES BOUTONS DU BAS --- */
 .btn-base {
     background: linear-gradient(180deg, #1d1d1d, #050505);
     border: 3px solid #2e2e2e;
@@ -213,12 +287,7 @@ body {
 }
 
 .power-btn { 
-    background: #a10202; /* Couleur fixe */
-}
-
-.power-btn.active { 
     background: #a10202; 
-    box-shadow: 0 4px 0 #111; 
 }
 
 .power-led {
@@ -233,7 +302,9 @@ body {
     box-shadow: 0 0 10px #ff0000;
 }
 
-/* Le dégradé est déjà géré par .btn-base pour les black-btn */
+.black-btn { 
+    background: linear-gradient(180deg, #1d1d1d, #050505); 
+}
 
 .bottom-label-reset { 
     position: absolute;
