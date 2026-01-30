@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>McIntosh MSA5500 - Full Restoration</title>
+    <title>McIntosh MSA5500 - Silver Trim 15px Locked</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         :root {
@@ -117,12 +117,12 @@
             transform: translateY(10px);
         }
 
-        /* --- BORDURE ARGENTÉE VERROUILLÉE --- */
+        /* --- BORDURE ARGENTÉE BLOQUÉE À 15PX --- */
         .knob-wrapper { 
             display: flex; 
             flex-direction: column; 
             align-items: center; 
-            width: 160px;
+            width: 180px;
         }
 
         .knob-outer {
@@ -138,8 +138,8 @@
         }
 
         .knob-inner {
-            width: 132px; 
-            height: 132px;
+            width: 110px; /* 140 - (15*2) = 110px pour une bordure de 15px */
+            height: 110px;
             background: radial-gradient(circle, #333, #000);
             border-radius: 50%;
             flex-shrink: 0;
