@@ -96,7 +96,7 @@ body {
 
 .matrix-display {
     width: 850px; 
-    height: 240px; /* HAUTEUR AUGMENTÉE SANS POUSSER LES BOUTONS */
+    height: 240px;
     background: #020202; 
     border: 2px solid #1a1a1a;
     display: flex; 
@@ -107,7 +107,7 @@ body {
     font-family: 'Courier New', monospace;
     text-shadow: 0 0 15px var(--mc-blue); 
     letter-spacing: 4px;
-    opacity: 0.1;
+    opacity: 1; /* Changé de 0.1 à 1 pour qu'il soit allumé au départ */
 }
 
 .vfd-small { font-size: 18px; margin-bottom: 5px; }
