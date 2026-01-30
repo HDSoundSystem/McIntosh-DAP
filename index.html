@@ -13,7 +13,7 @@
         }
 
         body {
-            background-color: #121212;
+            background-color: #3f3f3f;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -49,7 +49,7 @@
         .meter-container {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center; /* Aligne les VU-mètres et le logo sur le même axe horizontal */
             height: 300px;
         }
 
@@ -81,8 +81,16 @@
             z-index: 5;
         }
 
-        .brand-center { flex: 1; text-align: center; }
-        .brand-logo-img { height: 100px; margin-top: 10px; }
+        .brand-center { 
+            flex: 1; 
+            display: flex;
+            justify-content: center;
+            align-items: center; /* Centre le logo verticalement dans son conteneur */
+        }
+        
+        .brand-logo-img { 
+            height: 90px; /* Taille légèrement ajustée pour l'équilibre visuel */
+        }
 
         .display-area {
             flex: 1;
@@ -160,7 +168,6 @@
             text-align: center;
         }
 
-        /* POWER SECTION STYLES */
         .power-btn-container { 
             display: flex;
             flex-direction: column;
@@ -172,20 +179,15 @@
         .power-led {
             width: 10px;
             height: 10px;
-            background: #400000; 
-            border-radius: 50%;
-            border: 1px solid #000;
-            transition: all 0.3s;
-        }
-
-        .power-led.active-red {
             background: #ff0000;
             box-shadow: 0 0 10px #ff0000;
+            border-radius: 50%;
+            border: 1px solid #000;
         }
 
         .power-btn {
-            width: 45px; /* Taille réduite */
-            height: 28px; /* Taille réduite */
+            width: 45px;
+            height: 28px;
             background: linear-gradient(to bottom, #8a0000, #4a0000);
             border: 2px solid #222; border-radius: 6px;
             cursor: pointer;
@@ -246,7 +248,7 @@
 
         <div class="power-btn-container">
             <span class="small-label">STANDBY/ON</span>
-            <div class="power-led active-red" id="pwr-led"></div>
+            <div class="power-led" id="pwr-led"></div>
             <div class="power-btn" id="pwr"></div>
             <span class="small-label">RESET</span>
         </div>
@@ -262,39 +264,16 @@
 
 <script>
     const pwr = document.getElementById('pwr');
-    const pwrLed = document.getElementById('pwr-led');
-    const volKnob = document.getElementById('knob-vol');
-    const inputKnob = document.getElementById('knob-input');
+    const vfd = document.getElementById('main-vfd');
     const needleL = document.getElementById('needle-l');
     const needleR = document.getElementById('needle-r');
-    const vfd = document.getElementById('main-vfd');
     
     let isOn = false;
-    let volRotation = 0;
-    let inputRotation = 0;
 
     pwr.addEventListener('click', () => {
         isOn = !isOn;
         pwr.classList.toggle('active');
         vfd.style.opacity = isOn ? "1" : "0.1";
-        
-        if (isOn) {
-            pwrLed.classList.remove('active-red');
-        } else {
-            pwrLed.classList.add('active-red');
-        }
-    });
-
-    volKnob.addEventListener('click', () => {
-        if(!isOn) return;
-        volRotation += 15;
-        volKnob.style.transform = `rotate(${volRotation}deg)`;
-    });
-
-    inputKnob.addEventListener('click', () => {
-        if(!isOn) return;
-        inputRotation += 30;
-        inputKnob.style.transform = `rotate(${inputRotation}deg)`;
     });
 
     function animateMeters() {
