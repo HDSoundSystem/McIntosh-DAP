@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>McIntosh MSA5500 - Échelle Courbe Précise</title>
+    <title>McIntosh MSA5500 - Full Transport Controls</title>
     <style>
         :root {
             --mc-blue: #00c3ff;
@@ -12,7 +12,7 @@
         }
 
         body {
-            background-color: #3f3f3f; /* Ta modification mémorisée */
+            background-color: #3f3f3f;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -74,7 +74,7 @@
 
         .needle {
             position: absolute;
-            bottom: -20px; /* Pivot abaissé pour une rotation plus naturelle */
+            bottom: -20px;
             left: 50%;
             width: 2px;
             height: 280px;
@@ -100,16 +100,20 @@
         }
 
         .knob-section {
-            display: flex; justify-content: space-between; align-items: center;
-            height: 200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            height: 180px;
+            padding-bottom: -10px; /* Aligné à 15px du bas */
+            margin-top: auto;
         }
 
-        .knob-wrapper { display: flex; flex-direction: column; align-items: center; width: 250px; }
+        .knob-wrapper { display: flex; flex-direction: column; align-items: center; width: 220px; }
         .label-green { color: var(--mc-green); font-size: 16px; font-weight: bold; margin-bottom: 15px; text-transform: uppercase; }
 
         .knob-outer {
             width: 140px; height: 140px;
-            background: linear-gradient(135deg, #ffffff, #888, #ffffff);
+            background: linear-gradient(135deg, #f0f0f0, #888, #f0f0f0);
             border-radius: 50%; display: flex; justify-content: center; align-items: center;
             box-shadow: 0 10px 20px rgba(0,0,0,0.5);
         }
@@ -119,19 +123,61 @@
             border-radius: 50%;
         }
 
-        .power-btn-container { display: flex; flex-direction: column; align-items: center; gap: 8px; }
-        .power-led {
-            width: 10px; height: 10px; background: #ff0000;
-            box-shadow: 0 0 12px #ff0000; border-radius: 50%; border: 1px solid #000;
+        .controls-center-group {
+            display: flex;
+            align-items: flex-end;
+            gap: 25px; /* Réduit légèrement l'espace pour faire tenir les 8 boutons */
+            padding-bottom: 0px;
         }
-        .power-btn {
-            width: 45px; height: 28px;
-            background: linear-gradient(to bottom, #8a0000, #4a0000);
-            border: 2px solid #222; border-radius: 5px; cursor: pointer;
+
+        .button-unit {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 60px;
+            position: relative;
+        }
+
+        .label-zone {
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .btn-base {
+            width: 45px;
+            height: 28px;
+            border: 2px solid #222;
+            border-radius: 5px;
+            cursor: pointer;
             box-shadow: 0 4px 0 #111;
+            transition: all 0.1s;
         }
-        .power-btn.active { background: #ff0000; box-shadow: 0 0 15px red, 0 2px 0 #111; transform: translateY(2px); }
-        .small-label { color: #555; font-size: 10px; font-weight: bold; text-transform: uppercase; }
+        .btn-base:active { transform: translateY(2px); box-shadow: 0 2px 0 #111; }
+
+        .power-btn { background: linear-gradient(to bottom, #8a0000, #4a0000); }
+        .power-btn.active { background: #ff0000; box-shadow: 0 0 15px red, 0 2px 0 #111; }
+
+        .black-btn { background: linear-gradient(to bottom, #333, #111); }
+
+        .power-led {
+            width: 8px; height: 8px; background: #ff0000;
+            box-shadow: 0 0 10px #ff0000; border-radius: 50%; border: 1px solid #000;
+            margin-bottom: 6px;
+        }
+        
+        .small-label { color: #555; font-size: 10px; font-weight: bold; text-transform: uppercase; text-align: center; white-space: nowrap; }
+        
+        .bottom-label-reset { 
+            position: absolute;
+            top: 100%;
+            padding-top: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
     </style>
 </head>
 <body>
@@ -144,11 +190,8 @@
             <div class="meter">
                 <svg class="meter-svg" viewBox="0 0 550 300">
                     <style>text { font-family: Arial; font-weight: bold; fill: black; }</style>
-                    
                     <text x="275" y="40" font-size="14" text-anchor="middle" opacity="0.6">8 OHMS</text>
-                    
-                    <path id="curve" d="M80 180 Q 275 90 470 180" fill="none" stroke="black" stroke-width="4" stroke-dasharray="45,10"/>
-                    
+                    <path d="M80 180 Q 275 90 470 180" fill="none" stroke="black" stroke-width="4" stroke-dasharray="45,10"/>
                     <g font-size="14">
                         <text x="85" y="160" transform="rotate(-25 85,160)">1m</text>
                         <text x="150" y="135" transform="rotate(-15 150,135)">.01</text>
@@ -157,7 +200,6 @@
                         <text x="380" y="135" transform="rotate(15 380,135)">10</text>
                         <text x="445" y="160" transform="rotate(25 445,160)">100</text>
                     </g>
-                    
                     <g font-size="14">
                         <text x="115" y="195" transform="rotate(-20 115,195)">2m</text>
                         <text x="180" y="210" transform="rotate(-10 180,210)">.02</text>
@@ -166,7 +208,6 @@
                         <text x="390" y="210" transform="rotate(10 390,210)">20</text>
                         <text x="450" y="195" transform="rotate(20 450,195)">200</text>
                     </g>
-
                     <text x="275" y="250" font-size="14" text-anchor="middle" opacity="0.6">4 OHMS</text>
                     <text x="275" y="285" font-size="22" text-anchor="middle" letter-spacing="4">POWER OUTPUT</text>
                 </svg>
@@ -182,7 +223,6 @@
                     <style>text { font-family: Arial; font-weight: bold; fill: black; }</style>
                     <text x="275" y="40" font-size="14" text-anchor="middle" opacity="0.6">8 OHMS</text>
                     <path d="M80 180 Q 275 90 470 180" fill="none" stroke="black" stroke-width="4" stroke-dasharray="45,10"/>
-                    
                     <g font-size="14">
                         <text x="85" y="160" transform="rotate(-25 85,160)">1m</text>
                         <text x="150" y="135" transform="rotate(-15 150,135)">.01</text>
@@ -191,7 +231,6 @@
                         <text x="380" y="135" transform="rotate(15 380,135)">10</text>
                         <text x="445" y="160" transform="rotate(25 445,160)">100</text>
                     </g>
-                    
                     <g font-size="14">
                         <text x="115" y="195" transform="rotate(-20 115,195)">2m</text>
                         <text x="180" y="210" transform="rotate(-10 180,210)">.02</text>
@@ -200,7 +239,6 @@
                         <text x="390" y="210" transform="rotate(10 390,210)">20</text>
                         <text x="450" y="195" transform="rotate(20 450,195)">200</text>
                     </g>
-
                     <text x="275" y="250" font-size="14" text-anchor="middle" opacity="0.6">4 OHMS</text>
                     <text x="275" y="285" font-size="22" text-anchor="middle" letter-spacing="4">POWER OUTPUT</text>
                 </svg>
@@ -221,11 +259,44 @@
                 <div class="knob-outer"><div class="knob-inner"></div></div>
             </div>
 
-            <div class="power-btn-container">
-                <span class="small-label">STANDBY/ON</span>
-                <div class="power-led"></div>
-                <div class="power-btn" id="pwr"></div>
-                <span class="small-label">RESET</span>
+            <div class="controls-center-group">
+                <div class="button-unit">
+                    <div class="label-zone"><span class="small-label">PREV</span></div>
+                    <div class="btn-base black-btn"></div>
+                </div>
+                <div class="button-unit">
+                    <div class="label-zone"><span class="small-label">NEXT</span></div>
+                    <div class="btn-base black-btn"></div>
+                </div>
+                <div class="button-unit">
+                    <div class="label-zone"><span class="small-label">PLAY</span></div>
+                    <div class="btn-base black-btn"></div>
+                </div>
+                <div class="button-unit">
+                    <div class="label-zone"><span class="small-label">STOP</span></div>
+                    <div class="btn-base black-btn"></div>
+                </div>
+                
+                <div class="button-unit">
+                    <div class="label-zone"><span class="small-label">MUTE</span></div>
+                    <div class="btn-base black-btn"></div>
+                </div>
+                <div class="button-unit">
+                    <div class="label-zone"><span class="small-label">DISPLAY</span></div>
+                    <div class="btn-base black-btn"></div>
+                </div>
+                <div class="button-unit">
+                    <div class="label-zone"><span class="small-label">OPTIONS</span></div>
+                    <div class="btn-base black-btn"></div>
+                </div>
+                <div class="button-unit">
+                    <div class="label-zone">
+                        <div class="power-led"></div>
+                        <span class="small-label">STANDBY/ON</span>
+                    </div>
+                    <div class="btn-base power-btn" id="pwr"></div>
+                    <span class="small-label bottom-label-reset">RESET</span>
+                </div>
             </div>
 
             <div class="knob-wrapper">
