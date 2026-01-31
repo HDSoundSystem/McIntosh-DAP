@@ -472,7 +472,7 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 280px;
-    background: #1a1a1a;
+    background: #000000;
     border: 2px solid #ce9e48;
     padding: 20px;
     z-index: 100;
