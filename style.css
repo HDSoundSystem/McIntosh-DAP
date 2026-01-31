@@ -704,3 +704,21 @@ body {
     pointer-events: none;
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
 }
+
+#vfd-status-icon {
+    color: var(--mc-led-green);
+    /* Augmentation de la taille */
+    font-size: 45px; 
+    
+    /* Positionnement dans le coin bas droit */
+    position: absolute;
+    right: 20px;
+    bottom: 15px;
+    
+    /* On retire les marges automatiques qui pourraient gêner */
+    margin: 0;
+    height: auto;
+    
+    text-shadow: 0 0 12px rgba(0, 255, 0, 0.6);
+    z-index: 10;
+}
