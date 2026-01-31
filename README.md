@@ -1,4 +1,4 @@
-# McIntosh MSA5500 - Modular Web Audio Player
+# McIntosh MSA5500 - Audio Player
 
 A high-fidelity web-based audio player inspired by the iconic McIntosh amplifier design, featuring vintage VU meters, equalizer controls, and a sleek interface reminiscent of premium audio equipment.
 
