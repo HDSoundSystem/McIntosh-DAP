@@ -3,7 +3,7 @@ const nl = document.getElementById('needle-l');
 const nr = document.getElementById('needle-r');
 const vfdLarge = document.querySelector('.vfd-large');
 const vfdInfo = document.querySelector('.vfd-info');
-const statusIcon = document.getElementById('vfd-status-icon'); // Nouveau sélecteur
+const statusIcon = document.getElementById('vfd-status-icon');
 const trackCount = document.getElementById('track-count');
 const fileFormat = document.getElementById('file-format');
 const bitrateDisplay = document.getElementById('bitrate');
@@ -39,8 +39,7 @@ let targetAngleR = -55;
 // Fonction pour mettre à jour l'icône de statut
 function updateStatusIcon(state) {
     if (!isPoweredOn || !statusIcon) return;
-    statusIcon.className = ""; // Reset classes
-    
+    statusIcon.className = "";
     if (state === 'play') {
         statusIcon.innerHTML = '<i class="fas fa-play"></i>';
     } else if (state === 'pause') {
@@ -57,7 +56,6 @@ function updateStatusIcon(state) {
 pwr.addEventListener('click', () => {
     isPoweredOn = !isPoweredOn;
     powerLed.classList.toggle('active', isPoweredOn);
-    
     if (!isPoweredOn) {
         audio.pause();
         audio.currentTime = 0;
@@ -68,13 +66,11 @@ pwr.addEventListener('click', () => {
     } else {
         vfdLarge.textContent = "SELECT INPUT";
         updateStatusIcon('stop');
-        if (playlist.length > 0) {
-            loadTrack(currentIndex);
-        }
+        if (playlist.length > 0) loadTrack(currentIndex);
     }
 });
 
-// --- MOTEUR AUDIO (HYPER REACTIF) ---
+// --- MOTEUR AUDIO ---
 function initEngine() {
     if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -94,18 +90,15 @@ function initEngine() {
 // --- CHARGEMENT FICHIER ---
 function loadTrack(index) {
     if (playlist.length === 0 || !isPoweredOn) return;
-    
     currentIndex = index;
     const file = playlist[currentIndex];
     trackCount.textContent = `${currentIndex + 1}/${playlist.length}`;
     fileFormat.textContent = file.name.split('.').pop().toUpperCase();
     const url = URL.createObjectURL(file);
     audio.src = url;
-    
     audio.onloadedmetadata = () => {
         bitrateDisplay.textContent = Math.round(((file.size * 8) / audio.duration) / 1000) + " KBPS";
     };
-
     if (window.jsmediatags) {
         window.jsmediatags.read(file, {
             onSuccess: (tag) => {
@@ -119,7 +112,6 @@ function loadTrack(index) {
             }
         });
     }
-
     initEngine();
     audio.play().then(() => updateStatusIcon('play')).catch(e => console.warn("Interaction requise"));
 }
@@ -195,14 +187,34 @@ audio.addEventListener('timeupdate', () => {
     }
 });
 
+// --- CONTROLE VOLUME (ROULETTE + CLIC GAUCHE/DROIT) ---
 let currentVolume = 0.7;
 audio.volume = currentVolume;
+
+function updateVolumeDisplay() {
+    audio.volume = currentVolume;
+    volumeKnob.style.transform = `rotate(${currentVolume * 270 - 135}deg)`;
+}
+
+// Clic Gauche pour baisser, Clic Droit pour monter
+volumeKnob.addEventListener('click', (e) => {
+    if (!isPoweredOn) return;
+    const rect = volumeKnob.getBoundingClientRect();
+    const x = e.clientX - rect.left; // Position X du clic dans le bouton
+    
+    if (x < rect.width / 2) {
+        currentVolume = Math.max(0, currentVolume - 0.05); // Clic à gauche
+    } else {
+        currentVolume = Math.min(1, currentVolume + 0.05); // Clic à droite
+    }
+    updateVolumeDisplay();
+});
+
 volumeKnob.addEventListener('wheel', (e) => {
     if (!isPoweredOn) return;
     e.preventDefault();
     currentVolume = e.deltaY < 0 ? Math.min(1, currentVolume + 0.05) : Math.max(0, currentVolume - 0.05);
-    audio.volume = currentVolume;
-    volumeKnob.style.transform = `rotate(${currentVolume * 270 - 135}deg)`;
+    updateVolumeDisplay();
 });
 
 audio.onended = () => {
