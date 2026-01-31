@@ -279,9 +279,12 @@ body {
 }
 
 #input-knob:active {
-    transform: scale(0.95); /* Le bouton rétrécit légèrement */
-    filter: brightness(1.2); /* Il devient un peu plus brillant */
-    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 255, 102, 0.3); /* Ombre interne + lueur externe */
+    transform: scale(0.95);
+    /* Le bouton rétrécit légèrement */
+    filter: brightness(1.2);
+    /* Il devient un peu plus brillant */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 255, 102, 0.3);
+    /* Ombre interne + lueur externe */
 }
 
 .label-green {
@@ -626,4 +629,21 @@ body {
     background-color: #000;
     border: 2px solid #555;
     padding: 20px;
+}
+
+
+.options-logo-container {
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+}
+
+.options-logo {
+    max-width: 120px;
+    /* Ajuste la taille selon tes besoins */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+    /* Optionnel: petite ombre sous le logo */
 }
