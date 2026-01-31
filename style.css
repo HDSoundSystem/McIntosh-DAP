@@ -223,12 +223,26 @@ body {
 .knob-outer {
     width: 140px; 
     height: 140px;
-    background: linear-gradient(135deg, #f0f0f0, #888, #f0f0f0);
+    /* Dégradé conique ou linéaire multi-points pour simuler les reflets du chrome */
+    background: linear-gradient(
+        145deg, 
+        #ffffff 0%, 
+        #e0e0e0 20%, 
+        #464646 45%, 
+        #999999 50%, 
+        #464646 55%, 
+        #e0e0e0 80%, 
+        #ffffff 100%
+    );
+    /* Ajout d'une bordure fine pour l'aspect biseauté métallique */
+    border: 2px solid #b0b0b0;
     border-radius: 50%; 
     display: flex; 
     justify-content: center; 
     align-items: center;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    box-shadow: 
+        0 10px 20px rgba(0,0,0,0.5), 
+        inset 0 2px 5px rgba(255,255,255,0.8); /* Reflet interne sur le bord supérieur */
     flex-shrink: 0;
 }
 
