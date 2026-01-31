@@ -102,7 +102,7 @@ body {
     width: 850px; 
     height: 240px;
     background: #020202; 
-    border: 2px solid #1a1a1a;
+    border: 3px solid #1a1a1a;
     display: flex; 
     flex-direction: column; 
     justify-content: center; 

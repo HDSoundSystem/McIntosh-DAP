@@ -51,6 +51,9 @@ let targetAngleR = -55;
 let isRandom = false;
 let repeatMode = 0; // 0: OFF, 1: REPEAT 1, 2: REPEAT ALL
 
+// --- VARIABLES VOLUME CONTINU ---
+let volHoldInterval = null;
+
 // --- INITIALISATION VOLUME PAR DÉFAUT ---
 let currentVolume = 0.05;
 audio.volume = currentVolume;
@@ -111,7 +114,6 @@ pwr.addEventListener('click', () => {
     isPoweredOn = !isPoweredOn;
     
     if (!isPoweredOn) {
-        // --- RÉINITIALISATION COMPLÈTE ---
         audio.pause();
         audio.src = ""; 
         fileUpload.value = ""; 
@@ -122,12 +124,10 @@ pwr.addEventListener('click', () => {
         isRandom = false;
         repeatMode = 0;
         
-        // Reset Volume par défaut (5%)
         currentVolume = 0.05;
         audio.volume = currentVolume;
         volumeKnob.style.transform = `rotate(${currentVolume * 270 - 135}deg)`;
         
-        // Reset VFD
         vfdLarge.textContent = "SYSTEM OFF";
         vfdInfo.textContent = "";
         statusIcon.innerHTML = "";
@@ -139,11 +139,9 @@ pwr.addEventListener('click', () => {
         const modeIndicator = document.getElementById('vfd-mode-indicator');
         if(modeIndicator) modeIndicator.textContent = "";
         
-        // Reset Needles
         targetAngleL = -55;
         targetAngleR = -55;
 
-        // Fermer popup si ouvert
         if(albumOverlay) albumOverlay.style.display = 'none';
         if(albumPopup) albumPopup.style.display = 'none';
         if(optionsPopup) optionsPopup.style.display = 'none';
@@ -275,7 +273,6 @@ muteBtn.addEventListener('click', () => {
     isMuted = !isMuted; audio.muted = isMuted; showVolumeBriefly(true); 
 });
 
-// Logique Bouton Random dans Popup
 const randomBtn = document.getElementById('random-btn');
 if (randomBtn) {
     randomBtn.addEventListener('click', () => {
@@ -285,7 +282,6 @@ if (randomBtn) {
     });
 }
 
-// Logique Bouton Repeat dans Popup
 const repeatBtn = document.getElementById('repeat-btn');
 if (repeatBtn) {
     repeatBtn.addEventListener('click', () => {
@@ -316,7 +312,6 @@ audio.addEventListener('timeupdate', () => {
     }
 });
 
-// --- POPUP POCHTETTE ---
 if (albumOverlay) {
     albumOverlay.addEventListener('click', () => {
         albumOverlay.style.display = 'none';
@@ -326,7 +321,6 @@ if (albumOverlay) {
 
 vfdLarge.addEventListener('click', () => {
     if (!isPoweredOn || playlist.length === 0) return;
-    
     const file = playlist[currentIndex];
     if (window.jsmediatags) {
         window.jsmediatags.read(file, {
@@ -353,12 +347,27 @@ function updateVolumeDisplay() {
     showVolumeBriefly();
 }
 
-volumeKnob.addEventListener('click', (e) => {
+// --- LOGIQUE VOLUME : CLIC SIMPLE ET MAINTENU ---
+volumeKnob.addEventListener('mousedown', (e) => {
     if (!isPoweredOn) return;
     const rect = volumeKnob.getBoundingClientRect();
     const x = e.clientX - rect.left;
-    currentVolume = (x < rect.width / 2) ? Math.max(0, currentVolume - 0.05) : Math.min(1, currentVolume + 0.05);
+    const isRightSide = x > rect.width / 2;
+
+    // Clic immédiat
+    currentVolume = isRightSide ? Math.min(1, currentVolume + 0.01) : Math.max(0, currentVolume - 0.01);
     updateVolumeDisplay();
+
+    // Démarrage du maintien après un court délai
+    clearInterval(volHoldInterval);
+    volHoldInterval = setInterval(() => {
+        currentVolume = isRightSide ? Math.min(1, currentVolume + 0.01) : Math.max(0, currentVolume - 0.01);
+        updateVolumeDisplay();
+    }, 50); // Vitesse de montée/descente
+});
+
+window.addEventListener('mouseup', () => {
+    clearInterval(volHoldInterval);
 });
 
 volumeKnob.addEventListener('mouseenter', showVolumeBriefly);
@@ -369,25 +378,17 @@ volumeKnob.addEventListener('wheel', (e) => {
     updateVolumeDisplay();
 });
 
-// LOGIQUE FIN DE PISTE (RANDOM ET REPEAT)
 audio.onended = () => {
     if (!isPoweredOn) return;
-
     if (repeatMode === 1) {
-        // REPEAT 1 : Relit le même fichier
         loadTrack(currentIndex);
     } else if (isRandom && playlist.length > 1) {
-        // RANDOM
         let nextIndex;
-        do {
-            nextIndex = Math.floor(Math.random() * playlist.length);
-        } while (nextIndex === currentIndex);
+        do { nextIndex = Math.floor(Math.random() * playlist.length); } while (nextIndex === currentIndex);
         loadTrack(nextIndex);
     } else if (currentIndex < playlist.length - 1) {
-        // SUIVANT NORMAL
         loadTrack(currentIndex + 1);
     } else if (repeatMode === 2) {
-        // REPEAT ALL : Retour au début
         loadTrack(0);
     } else {
         updateStatusIcon('stop');
@@ -425,8 +426,6 @@ function animate() {
 }
 animate();
 
-
-// --- GESTION DU POPUP OPTIONS ---
 const optionsPopup = document.getElementById('options-popup');
 const optionsToggleBtn = document.getElementById('options-toggle-btn');
 const btnOpt = document.getElementById('btn-options-trigger');
