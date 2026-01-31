@@ -28,6 +28,7 @@ let dataArray = null;
 let source = null;
 let isPoweredOn = false;
 let isMuted = false;
+let isShowingRemaining = false; // Variable pour basculer entre temps écoulé et restant
 
 let currentAngleL = -55;
 let currentAngleR = -55;
@@ -160,12 +161,30 @@ muteBtn.addEventListener('click', () => {
     muteBtn.style.opacity = isMuted ? '0.5' : '1';
 });
 
-// Mise à jour du compteur de temps (Ajouté)
+// Gestion du clic pour inverser le temps
+if (timeDisplay) {
+    timeDisplay.style.cursor = "pointer";
+    timeDisplay.addEventListener('click', () => {
+        isShowingRemaining = !isShowingRemaining;
+    });
+}
+
+// Mise à jour du compteur de temps
 audio.addEventListener('timeupdate', () => {
     if (isPoweredOn && timeDisplay && !isNaN(audio.currentTime)) {
-        const mins = Math.floor(audio.currentTime / 60).toString().padStart(2, '0');
-        const secs = Math.floor(audio.currentTime % 60).toString().padStart(2, '0');
-        timeDisplay.textContent = `${mins}:${secs}`;
+        let displaySeconds;
+        let prefix = "";
+
+        if (isShowingRemaining && !isNaN(audio.duration)) {
+            displaySeconds = Math.max(0, audio.duration - audio.currentTime);
+            prefix = "-";
+        } else {
+            displaySeconds = audio.currentTime;
+        }
+
+        const mins = Math.floor(displaySeconds / 60).toString().padStart(2, '0');
+        const secs = Math.floor(displaySeconds % 60).toString().padStart(2, '0');
+        timeDisplay.textContent = `${prefix}${mins}:${secs}`;
     }
 });
 
