@@ -189,42 +189,67 @@ function initEngine() {
 }
 
 // --- LOGIQUE EQ ---
-if (bassUp) bassUp.addEventListener('click', () => {
-    if (!isPoweredOn) return;
-    bassGain = Math.min(12, bassGain + 2);
-    if (bassFilter) bassFilter.gain.value = bassGain;
-    showStatusBriefly(`BASS: ${bassGain > 0 ? '+' : ''}${bassGain}dB`);
-});
+if (bassUp) {
+    bassUp.addEventListener('click', () => {
+        if (!isPoweredOn) return;
+        bassGain = Math.min(12, bassGain + 2);
+        if (bassFilter) bassFilter.gain.value = bassGain;
+        showStatusBriefly(`BASS: ${bassGain > 0 ? '+' : ''}${bassGain}dB`);
+    });
+    bassUp.addEventListener('mouseenter', () => {
+        if (isPoweredOn) showStatusBriefly(`BASS: ${bassGain > 0 ? '+' : ''}${bassGain}dB`);
+    });
+}
 
-if (bassDown) bassDown.addEventListener('click', () => {
-    if (!isPoweredOn) return;
-    bassGain = Math.max(-12, bassGain - 2);
-    if (bassFilter) bassFilter.gain.value = bassGain;
-    showStatusBriefly(`BASS: ${bassGain > 0 ? '+' : ''}${bassGain}dB`);
-});
+if (bassDown) {
+    bassDown.addEventListener('click', () => {
+        if (!isPoweredOn) return;
+        bassGain = Math.max(-12, bassGain - 2);
+        if (bassFilter) bassFilter.gain.value = bassGain;
+        showStatusBriefly(`BASS: ${bassGain > 0 ? '+' : ''}${bassGain}dB`);
+    });
+    bassDown.addEventListener('mouseenter', () => {
+        if (isPoweredOn) showStatusBriefly(`BASS: ${bassGain > 0 ? '+' : ''}${bassGain}dB`);
+    });
+}
 
-if (trebleUp) trebleUp.addEventListener('click', () => {
-    if (!isPoweredOn) return;
-    trebleGain = Math.min(12, trebleGain + 2);
-    if (trebleFilter) trebleFilter.gain.value = trebleGain;
-    showStatusBriefly(`TREBLE: ${trebleGain > 0 ? '+' : ''}${trebleGain}dB`);
-});
+if (trebleUp) {
+    trebleUp.addEventListener('click', () => {
+        if (!isPoweredOn) return;
+        trebleGain = Math.min(12, trebleGain + 2);
+        if (trebleFilter) trebleFilter.gain.value = trebleGain;
+        showStatusBriefly(`TREBLE: ${trebleGain > 0 ? '+' : ''}${trebleGain}dB`);
+    });
+    trebleUp.addEventListener('mouseenter', () => {
+        if (isPoweredOn) showStatusBriefly(`TREBLE: ${trebleGain > 0 ? '+' : ''}${trebleGain}dB`);
+    });
+}
 
-if (trebleDown) trebleDown.addEventListener('click', () => {
-    if (!isPoweredOn) return;
-    trebleGain = Math.max(-12, trebleGain - 2);
-    if (trebleFilter) trebleFilter.gain.value = trebleGain;
-    showStatusBriefly(`TREBLE: ${trebleGain > 0 ? '+' : ''}${trebleGain}dB`);
-});
+if (trebleDown) {
+    trebleDown.addEventListener('click', () => {
+        if (!isPoweredOn) return;
+        trebleGain = Math.max(-12, trebleGain - 2);
+        if (trebleFilter) trebleFilter.gain.value = trebleGain;
+        showStatusBriefly(`TREBLE: ${trebleGain > 0 ? '+' : ''}${trebleGain}dB`);
+    });
+    trebleDown.addEventListener('mouseenter', () => {
+        if (isPoweredOn) showStatusBriefly(`TREBLE: ${trebleGain > 0 ? '+' : ''}${trebleGain}dB`);
+    });
+}
 
-if (toneReset) toneReset.addEventListener('click', () => {
-    if (!isPoweredOn) return;
-    bassGain = 0;
-    trebleGain = 0;
-    if (bassFilter) bassFilter.gain.value = 0;
-    if (trebleFilter) trebleFilter.gain.value = 0;
-    showStatusBriefly("TONE FLAT");
-});
+if (toneReset) {
+    toneReset.addEventListener('click', () => {
+        if (!isPoweredOn) return;
+        bassGain = 0;
+        trebleGain = 0;
+        if (bassFilter) bassFilter.gain.value = 0;
+        if (trebleFilter) trebleFilter.gain.value = 0;
+        showStatusBriefly("TONE FLAT");
+    });
+    toneReset.addEventListener('mouseenter', () => {
+        if (isPoweredOn) showStatusBriefly("TONE RESET");
+    });
+}
 
 // --- CHARGEMENT FICHIER ---
 function loadTrack(index) {
@@ -413,19 +438,14 @@ document.addEventListener('click', (e) => {
 });
 
 // --- GESTION DU BOUTON DISPLAY ---
-// On récupère tous les boutons noirs du groupe central
 const centralButtons = document.querySelectorAll('.controls-center-group .black-btn');
-// Le bouton DISPLAY est le 6ème (index 5)
 const displayBtn = centralButtons[5]; 
 
 if (displayBtn) {
     displayBtn.addEventListener('click', () => {
         if (!isPoweredOn) return;
-
         const vfd = document.getElementById('vfd');
         const meterContainer = document.querySelector('.meter-container');
-
-        // Toggle des classes pour extinction
         vfd.classList.toggle('vfd-off');
         meterContainer.classList.toggle('stealth-mode');
     });
@@ -435,32 +455,88 @@ const playlistPopup = document.getElementById('playlist-popup');
 const playlistItemsContainer = document.getElementById('playlist-items');
 const trackCountTrigger = document.getElementById('track-count');
 
-// 1. Ouvrir la playlist au clic sur le compteur
 trackCountTrigger.style.cursor = "pointer";
 trackCountTrigger.addEventListener('click', (e) => {
     if (!isPoweredOn || playlist.length === 0) return;
     e.stopPropagation();
-    
-    // On vide et on régénère la liste
     playlistItemsContainer.innerHTML = "";
     playlist.forEach((file, index) => {
         const item = document.createElement('div');
         item.className = `playlist-item ${index === currentIndex ? 'active-track' : ''}`;
         item.innerHTML = `<span>${index + 1}. ${file.name.toUpperCase()}</span>`;
-        
         item.addEventListener('click', () => {
             loadTrack(index);
             playlistPopup.style.display = 'none';
         });
         playlistItemsContainer.appendChild(item);
     });
-
     playlistPopup.style.display = 'block';
 });
 
-// 2. Fermer la playlist si on clique ailleurs
 document.addEventListener('click', (e) => {
     if (playlistPopup.style.display === 'block' && !playlistPopup.contains(e.target)) {
         playlistPopup.style.display = 'none';
     }
 });
+
+// --- OUVERTURE DE LA POCHETTE AU CLIC SUR LE TITRE ---
+if (vfdLarge) {
+    vfdLarge.style.cursor = "pointer";
+    vfdLarge.addEventListener('click', (e) => {
+        if (!isPoweredOn || playlist.length === 0) return;
+        e.stopPropagation();
+
+        const file = playlist[currentIndex];
+        if (window.jsmediatags) {
+            window.jsmediatags.read(file, {
+                onSuccess: (tag) => {
+                    const image = tag.tags.picture;
+                    if (image) {
+                        let base64String = "";
+                        for (let i = 0; i < image.data.length; i++) {
+                            base64String += String.fromCharCode(image.data[i]);
+                        }
+                        const base64 = window.btoa(base64String);
+                        popupImg.src = `data:${image.format};base64,${base64}`;
+                        albumOverlay.style.display = 'block';
+                        albumPopup.style.display = 'block';
+                    } else {
+                        showStatusBriefly("NO ALBUM ART");
+                    }
+                },
+                onError: () => showStatusBriefly("TAG ERROR")
+            });
+        }
+    });
+}
+
+if (albumOverlay) {
+    albumOverlay.addEventListener('click', () => {
+        albumOverlay.style.display = 'none';
+        albumPopup.style.display = 'none';
+    });
+}
+
+// --- BASCULE TEMPS ÉCOULÉ / RESTANT ---
+if (timeDisplay) {
+    timeDisplay.style.cursor = "pointer";
+    timeDisplay.addEventListener('click', (e) => {
+        if (!isPoweredOn) return;
+        e.stopPropagation();
+        
+        // Alterne l'état de la variable
+        isShowingRemaining = !isShowingRemaining;
+        
+        // Affiche un bref message sur le VFD pour confirmer le mode
+        showStatusBriefly(isShowingRemaining ? "REMAINING TIME" : "ELAPSED TIME");
+        
+        // Force la mise à jour immédiate de l'affichage
+        const displaySeconds = (isShowingRemaining && !isNaN(audio.duration)) 
+            ? audio.duration - audio.currentTime 
+            : audio.currentTime;
+            
+        const mins = Math.floor(displaySeconds / 60).toString().padStart(2, '0');
+        const secs = Math.floor(displaySeconds % 60).toString().padStart(2, '0');
+        timeDisplay.textContent = `${isShowingRemaining ? '-' : ''}${mins}:${secs}`;
+    });
+}
