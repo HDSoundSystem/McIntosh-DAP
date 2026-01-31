@@ -6,6 +6,7 @@ const vfdInfo = document.querySelector('.vfd-info');
 const trackCount = document.getElementById('track-count');
 const fileFormat = document.getElementById('file-format');
 const bitrateDisplay = document.getElementById('bitrate');
+const timeDisplay = document.getElementById('time-display'); // Ajouté pour le compteur de temps
 const inputBtn = document.getElementById('input-knob'); 
 const fileUpload = document.getElementById('audio-upload');
 const playPauseBtn = document.getElementById('play-pause');
@@ -43,6 +44,7 @@ pwr.addEventListener('click', () => {
         audio.currentTime = 0;
         vfdLarge.textContent = "SYSTEM OFF";
         vfdInfo.textContent = "";
+        if(timeDisplay) timeDisplay.textContent = "00:00";
     } else {
         vfdLarge.textContent = "SELECT INPUT";
         if (playlist.length > 0) {
@@ -156,6 +158,15 @@ muteBtn.addEventListener('click', () => {
     isMuted = !isMuted;
     audio.muted = isMuted;
     muteBtn.style.opacity = isMuted ? '0.5' : '1';
+});
+
+// Mise à jour du compteur de temps (Ajouté)
+audio.addEventListener('timeupdate', () => {
+    if (isPoweredOn && timeDisplay && !isNaN(audio.currentTime)) {
+        const mins = Math.floor(audio.currentTime / 60).toString().padStart(2, '0');
+        const secs = Math.floor(audio.currentTime % 60).toString().padStart(2, '0');
+        timeDisplay.textContent = `${mins}:${secs}`;
+    }
 });
 
 // Controle volume

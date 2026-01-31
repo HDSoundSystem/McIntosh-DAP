@@ -315,3 +315,12 @@ body {
     color: #ffffff; 
     font-weight: bold;
 }
+
+/* Harmonisation du compteur de temps avec le compteur de track */
+#time-display {
+    color: var(--mc-led-green); /* Utilise le même vert que le track-count */
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+}
