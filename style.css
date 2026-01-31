@@ -8,6 +8,7 @@
     --mc-vumeter: #00aef2;
     --panel-black: #080808;
     --mc-led-green: #00ff00;
+    --mc-gold: #ffd700;
     /* Vert pur pour le compteur */
 }
 
@@ -536,7 +537,7 @@ body {
     width: 200px;
     min-height: 250px;
     background: #000000;
-    border: 2px solid #ffd700;
+    border: 2px solid var(--mc-gold);
     padding: 15px;
     z-index: 100;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
@@ -658,4 +659,42 @@ body {
     margin: 0 auto;
     filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
     /* Optionnel: petite ombre sous le logo */
+}
+
+.push-label-input {
+    color: var(--mc-gold);
+    font-family: 'Roboto', sans-serif;
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    
+    /* Positionnement précis sur le bas du cercle */
+    position: absolute;
+    bottom: 8px; /* Ajuste pour monter/descendre le mot dans le cercle */
+    left: 50%;
+    transform: translateX(-2230%);
+    
+    z-index: 20;
+    pointer-events: none;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+}
+
+.push-label-volume {
+    color: var(--mc-gold);
+    font-family: 'Roboto', sans-serif;
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    
+    /* Positionnement précis sur le bas du cercle */
+    position: absolute;
+    bottom: 8px; /* Ajuste pour monter/descendre le mot dans le cercle */
+    left: 50%;
+    transform: translateX(1460%);
+    
+    z-index: 20;
+    pointer-events: none;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
 }
