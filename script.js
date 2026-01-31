@@ -411,3 +411,22 @@ document.addEventListener('click', (e) => {
         optionsPopup.style.display = 'none';
     }
 });
+
+// --- GESTION DU BOUTON DISPLAY ---
+// On récupère tous les boutons noirs du groupe central
+const centralButtons = document.querySelectorAll('.controls-center-group .black-btn');
+// Le bouton DISPLAY est le 6ème (index 5)
+const displayBtn = centralButtons[5]; 
+
+if (displayBtn) {
+    displayBtn.addEventListener('click', () => {
+        if (!isPoweredOn) return;
+
+        const vfd = document.getElementById('vfd');
+        const meterContainer = document.querySelector('.meter-container');
+
+        // Toggle des classes pour extinction
+        vfd.classList.toggle('vfd-off');
+        meterContainer.classList.toggle('stealth-mode');
+    });
+}

@@ -484,3 +484,23 @@ body {
     pointer-events: none;
     text-transform: uppercase;
 }
+
+
+/* --- MODE STEALTH (NOIR TOTAL) --- */
+/* Éteint le texte du VFD */
+.matrix-display.vfd-off {
+    opacity: 0 !important;
+    transition: opacity 0.4s ease;
+}
+
+/* Éteint le fond bleu et les graduations des VU-mètres */
+.meter-container.stealth-mode {
+    filter: brightness(0);
+    opacity: 0.1; /* On laisse une infime trace ou 0 pour le noir complet */
+    transition: all 0.4s ease;
+}
+
+/* Optionnel : si tu veux aussi figer les aiguilles en bas quand c'est éteint */
+.meter-container.stealth-mode .needle {
+    display: none;
+}
