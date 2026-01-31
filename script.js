@@ -54,17 +54,17 @@ pwr.addEventListener('click', () => {
     }
 });
 
-// --- MOTEUR AUDIO (OPTIMISE) ---
+// --- MOTEUR AUDIO (HYPER REACTIF) ---
 function initEngine() {
     if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         analyser = audioCtx.createAnalyser();
         
-        // Configuration optimisee pour les VU metres
-        analyser.fftSize = 512; // Plus de precision
-        analyser.smoothingTimeConstant = 0.6; // Lissage modere
-        analyser.minDecibels = -90;
-        analyser.maxDecibels = -10;
+        // Configuration ultra-réactive
+        analyser.fftSize = 1024; // Plus de détails fréquentiels
+        analyser.smoothingTimeConstant = 0.3; // Moins de lissage = plus réactif
+        analyser.minDecibels = -85; // Seuil plus bas pour capter plus de nuances
+        analyser.maxDecibels = -15; // Seuil plus haut pour éviter saturation
         
         dataArray = new Uint8Array(analyser.frequencyBinCount);
         source = audioCtx.createMediaElementSource(audio);
@@ -187,49 +187,67 @@ audio.onended = () => {
     if (currentIndex < playlist.length - 1) loadTrack(currentIndex + 1);
 };
 
-// --- ANIMATION VU METRES (CORRIGEE) ---
+// --- ANIMATION VU METRES (ULTRA REACTIF) ---
 function animate() {
     requestAnimationFrame(animate);
     
     if (analyser && !audio.paused && isPoweredOn) {
         analyser.getByteFrequencyData(dataArray);
         
-        // Calcul separe pour canal gauche et droit (simulation)
+        // Analyse large spectre pour plus de reactivite
         let bassL = 0;
-        let bassR = 0;
         let midL = 0;
-        let midR = 0;
+        let highL = 0;
         
-        // Basses (0-5 bins) - kick et sub-bass
-        for (let i = 0; i < 5; i++) {
+        // Basses profondes (0-8 bins) - kick, sub-bass
+        for (let i = 0; i < 8; i++) {
             bassL += dataArray[i];
         }
         
-        // Mediums-aigus (5-15 bins) pour plus de dynamique
-        for (let i = 5; i < 15; i++) {
+        // Mediums (8-25 bins) - voix, instruments
+        for (let i = 8; i < 25; i++) {
             midL += dataArray[i];
         }
         
-        // Simulation stereo avec leger decalage
-        bassR = bassL * 0.95;
-        midR = midL * 1.05;
+        // Aigus (25-40 bins) - cymbales, hi-hat
+        for (let i = 25; i < 40; i++) {
+            highL += dataArray[i];
+        }
         
-        // Mix pondre: 70% basses + 30% mediums
-        let levelL = (bassL * 0.7 + midL * 0.3) / 10;
-        let levelR = (bassR * 0.7 + midR * 0.3) / 10;
+        // Moyennes
+        bassL = bassL / 8;
+        midL = midL / 17;
+        highL = highL / 15;
         
-        // Mapping vers angles (-55deg a +40deg = 95deg de course)
-        // Normalisation: 0-255 -> -55 a +40
-        targetAngleL = -55 + (levelL / 255) * 95;
-        targetAngleR = -55 + (levelR / 255) * 95;
+        // Mix pondéré optimisé: priorité basses mais avec dynamique complète
+        let levelL = (bassL * 0.5 + midL * 0.35 + highL * 0.15);
         
-        // Limitation
+        // Simulation stéréo avec variation réaliste
+        let levelR = levelL * (0.92 + Math.random() * 0.16); // 92% à 108%
+        
+        // BOOST de sensibilité (multiplicateur)
+        levelL = levelL * 1.8;
+        levelR = levelR * 1.8;
+        
+        // Mapping vers angles avec courbe exponentielle pour plus de punch
+        // Utilisation d'une courbe pour accentuer les variations
+        let normalizedL = Math.min(255, levelL) / 255;
+        let normalizedR = Math.min(255, levelR) / 255;
+        
+        // Courbe exponentielle pour meilleure réactivité visuelle
+        normalizedL = Math.pow(normalizedL, 0.7); // Exposant < 1 = plus de mouvement
+        normalizedR = Math.pow(normalizedR, 0.7);
+        
+        targetAngleL = -55 + normalizedL * 95;
+        targetAngleR = -55 + normalizedR * 95;
+        
+        // Limitation sécurisée
         targetAngleL = Math.max(-55, Math.min(40, targetAngleL));
         targetAngleR = Math.max(-55, Math.min(40, targetAngleR));
         
-        // Interpolation douce avec attack/release
-        let attackSpeed = 0.5;  // Montee rapide
-        let releaseSpeed = 0.15; // Descente plus lente
+        // Attack/Release ULTRA rapide
+        let attackSpeed = 0.75;   // Montée très rapide
+        let releaseSpeed = 0.25;  // Descente modérée
         
         if (targetAngleL > currentAngleL) {
             currentAngleL += (targetAngleL - currentAngleL) * attackSpeed;
@@ -243,17 +261,17 @@ function animate() {
             currentAngleR += (targetAngleR - currentAngleR) * releaseSpeed;
         }
         
-        // Application avec micro-jitter pour realisme
-        const jitterL = (Math.random() - 0.5) * 0.8;
-        const jitterR = (Math.random() - 0.5) * 0.8;
+        // Jitter plus prononcé pour effet vintage
+        const jitterL = (Math.random() - 0.5) * 1.2;
+        const jitterR = (Math.random() - 0.5) * 1.2;
         
         nl.style.transform = `rotate(${currentAngleL + jitterL}deg)`;
         nr.style.transform = `rotate(${currentAngleR + jitterR}deg)`;
         
     } else {
         // Retour progressif au repos
-        currentAngleL += (-55 - currentAngleL) * 0.08;
-        currentAngleR += (-55 - currentAngleR) * 0.08;
+        currentAngleL += (-55 - currentAngleL) * 0.1;
+        currentAngleR += (-55 - currentAngleR) * 0.1;
         
         nl.style.transform = `rotate(${currentAngleL}deg)`;
         nr.style.transform = `rotate(${currentAngleR}deg)`;
