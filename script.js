@@ -118,12 +118,12 @@ function updateStatusIcon(state) {
     if (!isPoweredOn || !statusIcon) return;
     statusIcon.className = "";
     if (state === 'play') {
-        statusIcon.innerHTML = '<i class="fas fa-play"></i>PLAY';
+        statusIcon.innerHTML = 'PLAY<i class="fas fa-play"></i>';
     } else if (state === 'pause') {
-        statusIcon.innerHTML = '<i class="fas fa-pause"></i>PAUSE';
+        statusIcon.innerHTML = 'PAUSE<i class="fas fa-pause"></i>';
         statusIcon.classList.add('blink-soft');
     } else if (state === 'stop') {
-        statusIcon.innerHTML = '<i class="fas fa-stop"></i>STOP';
+        statusIcon.innerHTML = 'STOP<i class="fas fa-stop"></i>';
     } else {
         statusIcon.innerHTML = "";
     }
