@@ -550,7 +550,7 @@ body {
     padding: 15px;
     z-index: 100;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-    transform: translate(95%, calc(-50% + 100px));
+    transform: translate(150%, calc(-50% + 100px));
 }
 
 .options-row {
@@ -713,7 +713,7 @@ body {
 #vfd-status-icon {
     color: var(--mc-led-green);
     /* Augmentation de la taille */
-    font-size: 45px;
+    font-size: 30px;
 
     /* Positionnement dans le coin bas droit */
     position: absolute;
