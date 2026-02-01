@@ -727,3 +727,13 @@ body {
     text-shadow: 0 0 12px rgba(0, 255, 0, 0.6);
     z-index: 10;
 }
+
+/* Pour le compteur de pistes et l'affichage du temps */
+#track-count {
+    font-variant-numeric: tabular-nums;
+    display: inline-block; /* Assure que la largeur est respectée */
+    min-width: 3ch;       /* Optionnel : réserve une place de 3 caractères minimum */
+    text-align: left;
+    width: 60px;
+    margin-right: 35px;
+}
