@@ -8,7 +8,7 @@ A high-fidelity web-based audio player inspired by the iconic McIntosh amplifier
 
 ![McIntosh_Logo](https://github.com/user-attachments/assets/9f65f1d2-5f77-458b-b0fc-5ec35e992042)
 
-<img width="1805" height="799" alt="1" src="https://github.com/user-attachments/assets/caf96e05-5d72-415b-8e21-57d962977617" />
+<img width="1818" height="802" alt="1" src="https://github.com/user-attachments/assets/2a6ba9bb-eacb-4a78-a232-f426d74042f9" />
 
 ## Features
 
