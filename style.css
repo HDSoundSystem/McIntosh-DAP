@@ -770,9 +770,23 @@ body {
     visibility: visible;
 }
 
-/* Cette classe éteint le label quand le mode DISPLAY est actif */
+
+/* État de base (Allumé) */
+.label-green, 
+.small-label, 
+.small-label i {
+    transition: color 0.8s ease, opacity 0.8s ease !important;
+}
+
+/* État éteint (Appelé par .label-off dans le JS) */
 .label-off {
-    color: #c0c0c0 !important; /* Gris très sombre ou 'transparent' pour éteindre */
+    color: #c0c0c0 !important; /* Gris très sombre pour simuler l'extinction */
+    opacity: 1; /* Optionnel : laisse une légère trace pour le réalisme */
     text-shadow: none !important;
     transition: color 0.5s ease;
+}
+
+/* On force les icônes FontAwesome à suivre la couleur du parent */
+.small-label i {
+    color: inherit;
 }

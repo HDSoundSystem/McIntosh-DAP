@@ -353,8 +353,15 @@ document.getElementById('display-btn')?.addEventListener('click', () => {
     // --- AUTRES ÉLÉMENTS À ÉTEINDRE ---
     document.getElementById('vfd')?.classList.toggle('force-off');
     document.querySelectorAll('.meter').forEach(m => m.classList.toggle('force-off'));
+    
+    // Éteint/Allume les labels INPUT et VOLUME
     document.querySelectorAll('.label-green').forEach(label => {
         label.classList.toggle('label-off');
+    });
+
+    // AJOUT : Éteint/Allume les symboles (icônes) et textes des boutons centraux
+    document.querySelectorAll('.small-label').forEach(symbol => {
+        symbol.classList.toggle('label-off');
     });
 });
 
