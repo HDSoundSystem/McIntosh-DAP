@@ -83,17 +83,14 @@ body {
     overflow: hidden;
 }
 
-.meter-svg {
-    width: 100%;
-    height: 100%;
-}
+
 
 .needle {
     position: absolute;
-    bottom: -20px;
+    bottom: 5px;
     left: 50%;
     width: 2px;
-    height: 268px;
+    height: 245px;
     background: #000;
     transform-origin: bottom center;
     transform: rotate(-55deg);
@@ -127,7 +124,7 @@ body {
 
 .matrix-display {
     width: 950px;
-    height: 240px;
+    height: 280px;
     background: #020202;
     border: 3px solid #1a1a1a;
     display: flex;
@@ -140,6 +137,7 @@ body {
     letter-spacing: 4px;
     position: relative;
     opacity: 1;
+    transform: translateY(-35px);
 }
 
 .vfd-tech-corner {
@@ -770,9 +768,46 @@ body {
     visibility: visible;
 }
 
-/* Cette classe éteint le label quand le mode DISPLAY est actif */
+
+/* État de base (Allumé) */
+.label-green, 
+.small-label, 
+.small-label i {
+    transition: color 0.8s ease, opacity 0.8s ease !important;
+}
+
+/* État éteint (Appelé par .label-off dans le JS) */
 .label-off {
-    color: #c0c0c0 !important; /* Gris très sombre ou 'transparent' pour éteindre */
+    color: #c0c0c0 !important; /* Gris très sombre pour simuler l'extinction */
+    opacity: 1; /* Optionnel : laisse une légère trace pour le réalisme */
     text-shadow: none !important;
     transition: color 0.5s ease;
+}
+
+/* On force les icônes FontAwesome à suivre la couleur du parent */
+.small-label i {
+    color: inherit;
+}
+
+
+/* État normal du VU-mètre */
+.meter {
+    background-image: url('img/vumeter-new.png'); /* Ton image actuelle */
+    width: 550px;
+    height: 300px;
+    background-position: center;
+    transition: background-image 0.8s ease; /* Transition douce */
+    position: relative;
+}
+
+/* État quand on clique sur DISPLAY (Nouvelle image) */
+.meter.meter-alt-bg {
+    background-image: url('img/vumeter-new-off.png') !important; /* Ton image sombre */
+}
+
+/* L'aiguille reste inchangée et continue de bouger */
+.needle {
+    z-index: 10;
+    transition: transform 0.1s ease-out;
+    /* Assure-toi que l'aiguille n'est pas masquée */
 }

@@ -334,27 +334,25 @@ document.getElementById('loudness-btn')?.addEventListener('click', () => { if (i
 document.getElementById('display-btn')?.addEventListener('click', () => {
     if (!isPoweredOn) return;
 
+    // --- 1. LOGOS (Ton code actuel) ---
     const mainLogo = document.getElementById('logo-main');
     const altLogo = document.getElementById('logo-alt');
-
     if (mainLogo && altLogo) {
-        // On vérifie si le logo principal est masqué
         const isMainHidden = mainLogo.style.display === 'none';
-
-        if (isMainHidden) {
-            mainLogo.style.setProperty('display', 'block', 'important');
-            altLogo.style.setProperty('display', 'none', 'important');
-        } else {
-            mainLogo.style.setProperty('display', 'none', 'important');
-            altLogo.style.setProperty('display', 'block', 'important');
-        }
+        mainLogo.style.setProperty('display', isMainHidden ? 'block' : 'none', 'important');
+        altLogo.style.setProperty('display', isMainHidden ? 'none' : 'block', 'important');
     }
 
-    // --- AUTRES ÉLÉMENTS À ÉTEINDRE ---
+    // --- 2. CHANGEMENT D'IMAGE DES VU-MÈTRES ---
+    document.querySelectorAll('.meter').forEach(m => {
+        // On ajoute une classe qui va changer l'image de fond en CSS
+        m.classList.toggle('meter-alt-bg');
+    });
+
+    // --- 3. AUTRES ÉLÉMENTS (VFD, Labels, Symboles) ---
     document.getElementById('vfd')?.classList.toggle('force-off');
-    document.querySelectorAll('.meter').forEach(m => m.classList.toggle('force-off'));
-    document.querySelectorAll('.label-green').forEach(label => {
-        label.classList.toggle('label-off');
+    document.querySelectorAll('.label-green, .small-label').forEach(el => {
+        el.classList.toggle('label-off');
     });
 });
 
