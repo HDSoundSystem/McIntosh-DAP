@@ -679,17 +679,17 @@ body {
 }
 
 .led-red.active {
-    background-color: #ff0000;
+    background-color: var();
     box-shadow: 0 0 10px #ff0000, inset 0 0 2px #fff;
 }
 
 .led-green.active {
-    background-color: #00ff66;
-    box-shadow: 0 0 10px #00ff66, inset 0 0 2px #fff;
+    background-color: var(--mc-led-green);
+    box-shadow: 0 0 10px var(--mc-green), inset 0 0 2px #fff;
 }
 
 .indicator-label {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 10px;
     font-weight: 700;
     color: #c0c0c0;
