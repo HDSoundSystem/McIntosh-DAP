@@ -330,7 +330,31 @@ playPauseBtn.addEventListener('click', () => { if (!isPoweredOn || playlist.leng
 stopBtn.addEventListener('click', () => { if (isPoweredOn) { audio.pause(); audio.currentTime = 0; updateStatusIcon('stop'); } });
 muteBtn.addEventListener('click', () => { if (isPoweredOn) { isMuted = !isMuted; audio.muted = isMuted; showVolumeBriefly(); } });
 document.getElementById('loudness-btn')?.addEventListener('click', () => { if (isPoweredOn) { isLoudnessActive = !isLoudnessActive; document.getElementById('vfd-loudness-text')?.classList.toggle('loudness-visible', isLoudnessActive); applyLoudnessEffect(); } });
-document.getElementById('display-btn')?.addEventListener('click', () => { if (isPoweredOn) { document.getElementById('vfd').classList.toggle('vfd-off'); document.querySelector('.meter-container').classList.toggle('stealth-mode'); } });
+
+document.getElementById('display-btn')?.addEventListener('click', () => {
+    if (!isPoweredOn) return;
+
+    const mainLogo = document.getElementById('logo-main');
+    const altLogo = document.getElementById('logo-alt');
+
+    if (mainLogo && altLogo) {
+        // On vérifie si le logo principal est masqué
+        const isMainHidden = mainLogo.style.display === 'none';
+
+        if (isMainHidden) {
+            mainLogo.style.setProperty('display', 'block', 'important');
+            altLogo.style.setProperty('display', 'none', 'important');
+        } else {
+            mainLogo.style.setProperty('display', 'none', 'important');
+            altLogo.style.setProperty('display', 'block', 'important');
+        }
+    }
+
+    // --- AUTRES ÉLÉMENTS À ÉTEINDRE ---
+    document.getElementById('vfd')?.classList.toggle('force-off');
+    document.querySelectorAll('.meter').forEach(m => m.classList.toggle('force-off'));
+});
+
 document.getElementById('random-btn')?.addEventListener('click', () => { if (isPoweredOn) { isRandom = !isRandom; updateVFDStatusDisplay(); } });
 document.getElementById('repeat-btn')?.addEventListener('click', () => { if (isPoweredOn) { repeatMode = (repeatMode + 1) % 3; updateVFDStatusDisplay(); } });
 document.getElementById('ab-loop-btn')?.addEventListener('click', () => {

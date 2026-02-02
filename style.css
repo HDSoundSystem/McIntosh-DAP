@@ -732,3 +732,40 @@ body {
         opacity: 1;
     }
 }
+
+/* Cette classe force l'extinction peu importe les autres réglages */
+.force-off {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: opacity 0.4s ease !important;
+}
+
+/* Optionnel : si tu veux que les VU-mètres restent bleus mais sans aiguilles */
+.meter.force-off .needle {
+    display: none !important;
+}
+
+.brand-center {
+    position: relative; /* Pour permettre la superposition */
+}
+
+.alternate-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centre parfaitement sur l'autre */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease;
+}
+
+/* Quand le mode "off" est actif sur le logo principal, on affiche l'autre */
+#logo-main.force-off {
+    opacity: 0;
+    visibility: hidden;
+}
+
+#logo-alt.active {
+    opacity: 1;
+    visibility: visible;
+}
