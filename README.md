@@ -1,4 +1,5 @@
 # McIntosh MSA5500 - Inspired by the high-end McIntosh MSA5500 2-CHANNEL STREAMING INTEGRATED AMPLIFIER
+# Inspired by the high-end McIntosh MSA5500 2-CHANNEL STREAMING INTEGRATED AMPLIFIER
 
 A premium web-based audio player inspired by the legendary McIntosh amplifier design, featuring authentic VU meters, professional equalizer controls, stereo balance, A-B loop functionality, mono mode, loudness compensation, power guard protection, and a stunning interface that captures the essence of high-end audio equipment.
 
