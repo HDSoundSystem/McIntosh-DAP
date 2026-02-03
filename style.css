@@ -8,7 +8,7 @@
     --panel-black: #080808;
     --mc-led-green: #00ff00;
     --mc-led-red: #ff0000;
-    --mc-gold: #ffd700;
+    --mc-gold: #786b46;
     --police-size-counter: 30px;
     --police-size-label-counter: 12px;
 }
@@ -431,7 +431,7 @@ body {
     padding-top: 4px;
     left: 50%;
     transform: translateX(-50%);
-    color: #c0c0c0;
+    color: var(--mc-gold);
     font-weight: bold;
 }
 
@@ -649,7 +649,7 @@ body {
 }
 
 .push-label-input {
-    color: #c0c0c0;
+    color: var(--mc-gold);
     font-family: 'Roboto', sans-serif;
     font-size: 10px;
     font-weight: 900;
@@ -665,7 +665,7 @@ body {
 }
 
 .push-label-volume {
-    color: #c0c0c0;
+    color: var(--mc-gold);
     font-family: 'Roboto', sans-serif;
     font-size: 10px;
     font-weight: 900;
@@ -741,7 +741,7 @@ body {
     font-family: 'Roboto', sans-serif;
     font-size: 10px;
     font-weight: 700;
-    color: #c0c0c0;
+    color: var(--mc-gold);
     letter-spacing: 0.5px;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
 }
