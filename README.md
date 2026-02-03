@@ -980,6 +980,7 @@ A: Yes, once installed as a PWA. However, audio files must be loaded each sessio
 <img width="1807" height="802" alt="3" src="https://github.com/user-attachments/assets/5cb8de9b-e934-4999-af32-ca1aa95734f5" />
 <img width="1811" height="806" alt="4" src="https://github.com/user-attachments/assets/a545d44d-156b-47ca-b7ec-4c6222211894" />
 <img width="1826" height="795" alt="5" src="https://github.com/user-attachments/assets/f603d093-d0b4-4f6e-85b1-e4ec169f4eac" />
+<img width="1831" height="811" alt="2" src="https://github.com/user-attachments/assets/078ddd8e-ee1f-4f75-a1a0-07d21b3b03c6" />
 <img width="1802" height="805" alt="6" src="https://github.com/user-attachments/assets/afa663eb-8d07-4ee2-a16d-53ef301efd94" />
 
 **Enjoy your premium web audio experience! 🎵🎛️**
