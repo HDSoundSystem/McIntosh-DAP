@@ -69,15 +69,23 @@
 
                 <div class="display-area">
                     <div class="matrix-display" id="vfd">
-                        <div class="vfd-tech-corner">
-                            <div class="tech-label">TRACK</div>
-                            <div class="tech-data">
-                                <span id="track-count">0/0</span>
-                                <span id="file-format">---</span>
-                                <span id="bitrate">---</span>
-                                <span id="vfd-loudness-text"
-                                    class="loudness-indicator">(LOUDNESS
-                                    ON)</span>
+                        <div class="vfd-tech-corner"
+                            style="display: flex; flex-direction: column; align-items: flex-start;">
+                            <div class="tech-label"
+                                style="margin-bottom: 2px;">TRACK</div>
+                            <div class="tech-data"
+                                style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <span id="track-count"
+                                    style="line-height: 1;">0/0</span>
+
+                                <div class="sub-tech-row"
+                                    style="display: flex; gap: 6px; font-size: 0.8em; margin-top: 4px; white-space: nowrap;">
+                                    <span id="file-format">---</span>
+                                    <span id="bitrate">---</span>
+                                    <span id="vfd-loudness-text"
+                                        class="loudness-indicator">(LOUDNESS
+                                        ON)</span>
+                                </div>
                             </div>
                         </div>
                         <div id="volume-display">VOL: 70%</div>
@@ -168,13 +176,9 @@
                 </div>
 
                 <div id="options-popup" class="options-menu">
-                    <div class="options-logo-container">
-                        <img src="img/logo_b.png" alt="Logo"
-                            class="options-logo">
-                    </div>
-
+                    <div class="label-green"
+                        style="text-align: center; margin-bottom: 15px;">OPTIONS</div>
                     <div class="options-row">
-
                         <div class="button-option">
                             <div class="label-zone-option"><span
                                     class="small-label">RANDOM</span></div>
@@ -192,6 +196,12 @@
                                     class="small-label">A - B</span></div>
                             <div class="btn-base black-btn"
                                 id="ab-loop-btn"></div>
+                        </div>
+                        <div class="button-option">
+                            <div class="label-zone-option"><span
+                                    class="small-label">LIBRARY</span></div>
+                            <div class="btn-base black-btn"
+                                id="library-btn"></div>
                         </div>
                     </div>
 
@@ -254,6 +264,7 @@
                     <div class="gold-divider"></div>
 
                     <div class="options-row">
+
                         <div class="button-option">
                             <div class="label-zone-option"><span
                                     class="small-label">BALANCE L</span></div>
@@ -268,14 +279,12 @@
                         </div>
 
                     </div>
-
-                </div>
-                <div id="playlist-popup" class="options-menu"
-                    style="width: 400px; max-height: 500px; overflow-y: auto;">
                     <div class="options-logo-container">
                         <img src="img/logo_b.png" alt="Logo"
                             class="options-logo">
                     </div>
+                </div>
+                <div id="playlist-popup" class="options-menu">
                     <div class="label-green"
                         style="text-align: center; margin-bottom: 15px;">Current
                         Playlist</div>
@@ -291,11 +300,32 @@
         <div id="album-overlay"></div>
         <div id="album-popup">
             <img id="popup-img" src alt="Pochette">
-            <div class="options-logo-container">
-                        <img src="img/logo_b.png" alt="Logo"
-                            class="options-logo">
-                    </div>
+            <div class="logo-mc-cover">
+                <img src="img/logo_cover.png" alt="Logo"
+                    class="options-logo">
+            </div>
         </div>
+
+        <div id="library-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="small-label">AUDIO STORAGE SYSTEM</span>
+                    <span class="close-btn">&times;</span>
+                </div>
+
+                <label for="folder-input" class="scan-label">SCAN
+                    DIRECTORY</label>
+                <input type="file" id="folder-input" webkitdirectory directory
+                    multiple style="display:none;">
+
+                <div class="file-browser">
+                    <ul id="file-list">
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <audio id="main-audio-player"></audio>
 
         <audio id="main-audio" crossorigin="anonymous"></audio>
 

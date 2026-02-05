@@ -37,6 +37,13 @@ const albumOverlay = document.getElementById('album-overlay');
 const albumPopup = document.getElementById('album-popup');
 const popupImg = document.getElementById('popup-img');
 
+// --- SELECTEURS LIBRARY (AJOUTÉS) ---
+const libBtn = document.getElementById('library-btn');
+const modal = document.getElementById('library-modal');
+const closeBtn = document.querySelector('.close-btn');
+const folderInput = document.getElementById('folder-input');
+const fileList = document.getElementById('file-list');
+
 // --- VARIABLES ---
 let playlist = [];
 let currentIndex = 0;
@@ -57,7 +64,7 @@ let bassGain = 0;
 let trebleGain = 0;
 let currentBalance = 0;
 let isLoudnessActive = false;
-let isMonoActive = false; // Nouvelle variable Mono
+let isMonoActive = false;
 
 let seekInterval = null;
 let isSeeking = false;
@@ -100,7 +107,6 @@ function showStatusBriefly(text) {
 
 function showVolumeBriefly() {
     if (isMuted) {
-        // On annule le timeout pour que "MUTE" reste fixe
         clearTimeout(volTimeout);
         volDisplay.textContent = "MUTE";
         volDisplay.style.opacity = "1";
@@ -183,7 +189,7 @@ function initEngine() {
     if (audioCtx.state === 'suspended') audioCtx.resume();
 }
 
-// --- BALANCE & EQ (RESTAURÉ) ---
+// --- BALANCE & EQ ---
 function showBalanceStatus() {
     let balText = "BAL: CENTER";
     if (currentBalance < -0.05) balText = `BAL: ${Math.round(Math.abs(currentBalance) * 100)}% L`;
@@ -210,7 +216,7 @@ eqBtns.forEach(item => {
 toneReset?.addEventListener('click', () => { if (isPoweredOn) { bassGain = 0; trebleGain = 0; currentBalance = 0; if (balanceNode && !isMonoActive) balanceNode.pan.value = 0; applyLoudnessEffect(); showStatusBriefly("TONE FLAT"); } });
 toneReset?.addEventListener('mouseenter', () => isPoweredOn && showStatusBriefly("TONE RESET"));
 
-// --- TRACK LOADING & COVERS (JSMediatags RESTAURÉ) ---
+// --- TRACK LOADING & COVERS ---
 function loadTrack(index) {
     if (playlist.length === 0 || !isPoweredOn) return;
     currentIndex = index; abMode = 0; updateVFDStatusDisplay();
@@ -295,27 +301,19 @@ function stopSeeking(dir) {
 
     if (isPoweredOn && playlist.length > 0 && !isSeeking) {
         if (dir === 'next') {
-            // Logique NEXT (inchangée)
             if (isRandom && playlist.length > 1) {
                 let n; do { n = Math.floor(Math.random() * playlist.length); } while (n === currentIndex);
                 loadTrack(n);
             } else if (currentIndex < playlist.length - 1) loadTrack(currentIndex + 1);
             else if (repeatMode === 2) loadTrack(0);
         } else {
-            // --- LOGIQUE PREV EN DEUX TEMPS ---
             if (audio.currentTime > 3) {
-                // Temps > 3s : On recommence le morceau
                 audio.currentTime = 0;
                 if (audio.paused) audio.play();
             } else {
-                // Temps < 3s : On va à la piste précédente
-                if (currentIndex > 0) {
-                    loadTrack(currentIndex - 1);
-                } else if (repeatMode === 2) {
-                    loadTrack(playlist.length - 1); // Retour à la fin si REPEAT ALL
-                } else {
-                    audio.currentTime = 0; // Sécurité si c'est la première piste
-                }
+                if (currentIndex > 0) { loadTrack(currentIndex - 1); }
+                else if (repeatMode === 2) { loadTrack(playlist.length - 1); }
+                else { audio.currentTime = 0; }
             }
         }
     }
@@ -328,7 +326,7 @@ nextBtn.addEventListener('mouseup', () => stopSeeking('next'));
 prevBtn.addEventListener('mousedown', () => startSeeking('prev'));
 prevBtn.addEventListener('mouseup', () => stopSeeking('prev'));
 
-// --- PLAYLIST POPUP (RESTAURÉ) ---
+// --- PLAYLIST POPUP ---
 trackCount.addEventListener('click', (e) => {
     if (!isPoweredOn || playlist.length === 0) return;
     e.stopPropagation();
@@ -352,10 +350,28 @@ stopBtn.addEventListener('click', () => { if (isPoweredOn) { audio.pause(); audi
 muteBtn.addEventListener('click', () => { if (isPoweredOn) { isMuted = !isMuted; audio.muted = isMuted; showVolumeBriefly(); } });
 document.getElementById('loudness-btn')?.addEventListener('click', () => { if (isPoweredOn) { isLoudnessActive = !isLoudnessActive; document.getElementById('vfd-loudness-text')?.classList.toggle('loudness-visible', isLoudnessActive); applyLoudnessEffect(); } });
 
+// --- FONCTION LIBRARY (AJOUTÉ SANS CASSER LE RESTE) ---
+libBtn.onclick = () => { if (isPoweredOn) modal.style.display = "block"; else showStatusBriefly("POWER ON FIRST"); };
+closeBtn.onclick = () => modal.style.display = "none";
+
+folderInput.onchange = (e) => {
+    const files = Array.from(e.target.files).filter(f => f.type.startsWith('audio/'));
+    if (files.length > 0) {
+        playlist = files;
+        fileList.innerHTML = "";
+        playlist.forEach((file, index) => {
+            const li = document.createElement('li');
+            li.innerHTML = `<span style="color:var(--mc-led-green)">▶</span> ${file.name.toUpperCase()}`;
+            li.onclick = () => { loadTrack(index); modal.style.display = "none"; };
+            fileList.appendChild(li);
+        });
+        showStatusBriefly(`${playlist.length} TRACKS LOADED`);
+    }
+};
+
+// --- DISPLAY BUTTON ---
 document.getElementById('display-btn')?.addEventListener('click', () => {
     if (!isPoweredOn) return;
-
-    // --- 1. LOGOS (Ton code actuel) ---
     const mainLogo = document.getElementById('logo-main');
     const altLogo = document.getElementById('logo-alt');
     if (mainLogo && altLogo) {
@@ -363,18 +379,9 @@ document.getElementById('display-btn')?.addEventListener('click', () => {
         mainLogo.style.setProperty('display', isMainHidden ? 'block' : 'none', 'important');
         altLogo.style.setProperty('display', isMainHidden ? 'none' : 'block', 'important');
     }
-
-    // --- 2. CHANGEMENT D'IMAGE DES VU-MÈTRES ---
-    document.querySelectorAll('.meter').forEach(m => {
-        // On ajoute une classe qui va changer l'image de fond en CSS
-        m.classList.toggle('meter-alt-bg');
-    });
-
-    // --- 3. AUTRES ÉLÉMENTS (VFD, Labels, Symboles) ---
+    document.querySelectorAll('.meter').forEach(m => m.classList.toggle('meter-alt-bg'));
     document.getElementById('vfd')?.classList.toggle('force-off');
-    document.querySelectorAll('.label-green, .small-label').forEach(el => {
-        el.classList.toggle('label-off');
-    });
+    document.querySelectorAll('.label-green, .small-label').forEach(el => el.classList.toggle('label-off'));
 });
 
 document.getElementById('random-btn')?.addEventListener('click', () => { if (isPoweredOn) { isRandom = !isRandom; updateVFDStatusDisplay(); } });
@@ -408,17 +415,12 @@ function updateVolumeDisplay() {
     volumeKnob.style.transform = `rotate(${currentVolume * 270 - 135}deg)`;
     applyLoudnessEffect();
     showVolumeBriefly();
-
-    // --- LOGIQUE POWER GUARD ---
     const pgL = document.getElementById('led-pg-l');
     const pgR = document.getElementById('led-pg-r');
-
     if (isPoweredOn && currentVolume >= 0.90) {
-        pgL?.classList.add('blink-fast');
-        pgR?.classList.add('blink-fast');
+        pgL?.classList.add('blink-fast'); pgR?.classList.add('blink-fast');
     } else {
-        pgL?.classList.remove('blink-fast');
-        pgR?.classList.remove('blink-fast');
+        pgL?.classList.remove('blink-fast'); pgR?.classList.remove('blink-fast');
     }
 }
 volumeKnob.addEventListener('mousedown', (e) => {
@@ -430,8 +432,6 @@ volumeKnob.addEventListener('mousedown', (e) => {
 });
 window.addEventListener('mouseup', () => clearInterval(volHoldInterval));
 volumeKnob.addEventListener('wheel', (e) => { if (isPoweredOn) { e.preventDefault(); currentVolume = e.deltaY < 0 ? Math.min(1, currentVolume + 0.05) : Math.max(0, currentVolume - 0.05); updateVolumeDisplay(); } });
-
-// --- HOVER VOLUME ---
 volumeKnob.addEventListener('mouseenter', () => { if (isPoweredOn) showVolumeBriefly(); });
 
 // --- MEDIA SESSION ---
@@ -445,6 +445,17 @@ audio.onended = () => {
     else updateStatusIcon('stop');
 };
 
+// --- GESTION OPTION ET CLICS GLOBAUX ---
 const optionsPopup = document.getElementById('options-popup');
-document.getElementById('options-btn')?.addEventListener('click', (e) => { if (isPoweredOn) { e.stopPropagation(); optionsPopup.style.display = optionsPopup.style.display === 'block' ? 'none' : 'block'; } });
-document.addEventListener('click', (e) => { if (!optionsPopup?.contains(e.target)) optionsPopup.style.display = 'none'; if (!document.getElementById('playlist-popup')?.contains(e.target)) document.getElementById('playlist-popup').style.display = 'none'; });
+document.getElementById('options-btn')?.addEventListener('click', (e) => {
+    if (isPoweredOn) {
+        e.stopPropagation();
+        optionsPopup.style.display = optionsPopup.style.display === 'block' ? 'none' : 'block';
+    }
+});
+
+document.addEventListener('click', (e) => {
+    if (!optionsPopup?.contains(e.target)) optionsPopup.style.display = 'none';
+    if (!document.getElementById('playlist-popup')?.contains(e.target)) document.getElementById('playlist-popup').style.display = 'none';
+    if (e.target == modal) modal.style.display = "none";
+});
