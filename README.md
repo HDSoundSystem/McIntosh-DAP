@@ -16,19 +16,29 @@ A premium web-based audio player inspired by the legendary McIntosh amplifier de
 ### 🎵 Audio Playback
 
 - **Multi-format support**: FLAC, MP3, MP4, WAV
-- **Playlist management**: Load and manage multiple audio files with visual playlist browser
+- **Multiple loading methods**: 
+  - INPUT knob: Click to select individual files (multiple selection supported)
+  - LIBRARY button: Load entire folders and browse tracks in organized modal
+- **Playlist management**: 
+  - Load and manage multiple audio files with visual playlist browser
+  - Interactive playlist popup - click track counter to browse and select tracks
+  - Visual indicator shows currently playing track
+  - Library modal with organized file list display
 - **Comprehensive playback controls**: Play, pause, stop, previous, next
 - **Fast seeking**: Press and hold previous/next buttons for rapid track navigation (3-second jumps)
+  - 500ms hold delay to prevent accidental seeks
+  - 3-second jumps every 100ms while holding
 - **Repeat modes**:
   - Off
-  - Repeat single track
-  - Repeat all tracks
+  - Repeat single track - REPEAT(1)
+  - Repeat all tracks - REPEAT(ALL)
 - **Random playback**: Shuffle mode with intelligent track selection (avoids immediate repeats)
 - **A-B Loop**: Set loop points for practicing or repeated listening
   - First click: Set point A
   - Second click: Set point B and activate loop
   - Third click: Disable loop
   - Automatic validation (B must be after A)
+  - Visual indicator "A-B" in VFD display
 - **Media session integration**: Control playback from keyboard media keys and system controls
 - **Automatic track progression**: Respects repeat and random modes when track ends
 - **Progressive Web App (PWA)**: Installable with service worker for offline caching
@@ -112,6 +122,15 @@ A premium web-based audio player inspired by the legendary McIntosh amplifier de
 
 ### ⚙️ Advanced Features
 
+- **Library Management**:
+  - Dedicated LIBRARY button for folder-based loading
+  - Modal interface for browsing and selecting tracks
+  - Automatic audio file filtering (supports all audio/* MIME types)
+  - Track list displayed with green play indicators
+  - Click any track to load and start playback
+  - Displays total track count on load
+  - Requires system to be powered on
+  - Close button and click-outside-to-close functionality
 - **Web Audio API processing**: Professional audio graph with:
   - MediaElementSourceNode for audio input
   - StereoPanner for balance control
@@ -148,6 +167,7 @@ A premium web-based audio player inspired by the legendary McIntosh amplifier de
   - Options menu closes when clicking outside
   - Playlist popup closes when clicking outside
   - Album art popup closes on overlay click
+  - Library modal closes on overlay click or X button
 - **Seek Hold Feature**:
   - Hold previous/next buttons for 500ms to activate seeking
   - 3-second jumps every 100ms while holding
@@ -162,6 +182,7 @@ A premium web-based audio player inspired by the legendary McIntosh amplifier de
 
 #### Mouse/Click Interactions
 - **INPUT Knob**: Click to select audio files (multiple selection supported)
+- **LIBRARY Button**: Open folder browser modal to load entire directories
 - **VOLUME Knob**: 
   - Click left half: Decrease volume
   - Click right half: Increase volume
