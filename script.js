@@ -21,6 +21,11 @@ const pwr = document.getElementById('pwr');
 const powerLed = document.querySelector('.power-led');
 const audio = document.getElementById('main-audio');
 
+// --- SELECTEURS REBOOT ---
+const rebootModal = document.getElementById('reboot-modal');
+const btnYes = document.getElementById('reboot-yes');
+const btnNo = document.getElementById('reboot-no');
+
 // --- SELECTEURS EQ ---
 const bassDown = document.getElementById('bass-down');
 const bassUp = document.getElementById('bass-up');
@@ -148,9 +153,17 @@ function updateVFDStatusDisplay() {
     modeIndicator.innerHTML = `<span>${isRandom ? "RANDOM" : ""}</span><span>${repeatText}</span><span style="color: #00ff66;">${abText}</span>`;
 }
 
-// --- POWER (MODIFIÉ POUR RAFRAICHIR LA PAGE) ---
+// --- POWER (MODIFIÉ AVEC POPUP REBOOT) ---
 pwr.addEventListener('click', () => {
+    rebootModal.style.display = 'flex';
+});
+
+btnYes.addEventListener('click', () => {
     location.reload();
+});
+
+btnNo.addEventListener('click', () => {
+    rebootModal.style.display = 'none';
 });
 
 // --- ENGINE ---
