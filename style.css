@@ -570,7 +570,8 @@ body {
     z-index: 1000;
     background: #222;
     padding: 10px;
-    border: 2px solid var(--mc-gold);
+    border: 5px solid var(--mc-gold);
+    border-radius: 15px;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
 }
 
