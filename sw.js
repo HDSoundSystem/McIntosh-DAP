@@ -1,27 +1,27 @@
 // McIntosh MSA5500 - Service Worker
 // Version 1.0.0
 
-const CACHE_NAME = ‘mcintosh-msa5500-v1.0.0’;
+const CACHE_NAME = ‘mcintosh-msa5500 - v1.0.0’;
 const ASSETS_TO_CACHE = [
 ‘/’,
 ‘/index.html’,
 ‘/style.css’,
 ‘/script.js’,
 ‘/manifest.json’,
-‘/img/mc-logo.png’,
+‘/img/mc - logo.png’,
 ‘/img/logo_b.png’,
 ‘/img/favicon.png’,
-‘/img/vumeter-new.png’,
-‘/fontawesome7/css/all.min.css’,
-‘/fontawesome7/webfonts/fa-solid-900.woff2’,
-‘/fontawesome7/webfonts/fa-solid-900.ttf’
+‘/img/vumeter - new.png’,
+‘/fontawesome7/css / all.min.css’,
+‘/fontawesome7/webfonts / fa - solid - 900.woff2’,
+‘/fontawesome7/webfonts / fa - solid - 900.ttf’
 ];
 
 // Installation du Service Worker
 self.addEventListener(‘install’, (event) => {
-console.log(’[Service Worker] Installation…’);
+    console.log(’[Service Worker] Installation…’);
 
-```
+    ```
 event.waitUntil(
     caches.open(CACHE_NAME)
         .then((cache) => {
@@ -42,9 +42,9 @@ event.waitUntil(
 
 // Activation du Service Worker
 self.addEventListener(‘activate’, (event) => {
-console.log(’[Service Worker] Activation…’);
+    console.log(’[Service Worker] Activation…’);
 
-```
+    ```
 event.waitUntil(
     caches.keys().then((cacheNames) => {
         return Promise.all(
@@ -67,13 +67,13 @@ event.waitUntil(
 
 // Interception des requêtes réseau
 self.addEventListener(‘fetch’, (event) => {
-// Ne pas mettre en cache les fichiers audio uploadés par l’utilisateur
-if (event.request.url.startsWith(‘blob:’) ||
-event.request.url.includes(‘audio-upload’)) {
-return;
-}
+    // Ne pas mettre en cache les fichiers audio uploadés par l’utilisateur
+    if (event.request.url.startsWith(‘blob:’) ||
+        event.request.url.includes(‘audio - upload’)) {
+        return;
+    }
 
-```
+    ```
 event.respondWith(
     caches.match(event.request)
         .then((cachedResponse) => {
@@ -114,8 +114,8 @@ event.respondWith(
 
 // Gestion des messages depuis l’application
 self.addEventListener(‘message’, (event) => {
-if (event.data && event.data.type === ‘SKIP_WAITING’) {
-self.skipWaiting();
+    if (event.data && event.data.type === ‘SKIP_WAITING’) {
+    self.skipWaiting();
 }
 
 ```

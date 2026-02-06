@@ -7,6 +7,7 @@
     --panel-black: #080808;
     --mc-led-green: #00ff00;
     --mc-led-red: #ff0000;
+    --mc-red-button: #a10202;
     --mc-gold: #786b46;
     --chassis-shadow: rgba(58, 58, 58, 0.8);
     --border-bottom: #2e2e2e;
@@ -357,8 +358,8 @@ body {
 }
 
 .knob-outer {
-    width: 140px;
-    height: 140px;
+    width: 160px;
+    height: 160px;
     background: linear-gradient(145deg,
             #ffffff 0%,
             #e0e0e0 20%,
@@ -379,9 +380,9 @@ body {
 }
 
 .knob-inner {
-    width: 110px;
-    height: 110px;
-    background: radial-gradient(circle, #333, #000);
+    width: 130px;
+    height: 130px;
+    background: conic-gradient(#1a1a1a, #333, #1a1a1a, #444, #1a1a1a);
     border-radius: 50%;
     flex-shrink: 0;
 }
@@ -480,7 +481,7 @@ body {
 }
 
 .power-btn {
-    background: #a10202;
+    background: var(--mc-red-button);
 }
 
 .power-led {
@@ -1022,4 +1023,96 @@ body {
     margin-top: 30px;
     margin-bottom: 20px;
     width: 100%;
+}
+
+.reboot-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.reboot-content {
+    border: 5px solid var(--mc-gold);
+    border-radius: 15px;
+    background: #1a1a1a;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.reboot-title {
+    color: var(--mc-green);
+    font-family: 'roboto', sans-serif;
+    font-size: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+/* --- AJUSTEMENT DES BOUTONS --- */
+.reboot-buttons {
+    display: flex;
+    gap: 40px; /* Augmenté pour laisser de la place aux labels */
+    justify-content: center;
+}
+
+.reboot-btn-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Espace entre le texte et le bouton */
+}
+
+.reboot-label {
+    color: var(--mc-blue);
+    font-family: 'roboto', sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.chassis-btn {
+    background: linear-gradient(180deg, #1d1d1d, #050505);
+    border: 5px solid #2c2c2c;
+    width: 65px;
+    height: 45px;
+    border-radius: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    box-shadow:
+        0 4px 0 #000000,
+        inset 0 0 0 4px #000000,
+        inset 0 3px 5px rgba(12, 12, 12, 0.5);
+}
+
+.chassis-btn-yes {
+    background: linear-gradient(180deg, var(--mc-red-button));
+    border: 5px solid #2c2c2c;
+    width: 65px;
+    height: 45px;
+    border-radius: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+    box-shadow:
+        0 4px 0 #000000,
+        inset 0 0 0 4px #000000,
+        inset 0 3px 5px rgba(12, 12, 12, 0.5);
+}
+
+.chassis-btn:active {
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.8);
+    transform: translateY(1px);
 }

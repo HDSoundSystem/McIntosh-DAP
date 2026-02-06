@@ -21,6 +21,11 @@ const pwr = document.getElementById('pwr');
 const powerLed = document.querySelector('.power-led');
 const audio = document.getElementById('main-audio');
 
+// --- SELECTEURS REBOOT ---
+const rebootModal = document.getElementById('reboot-modal');
+const btnYes = document.getElementById('reboot-yes');
+const btnNo = document.getElementById('reboot-no');
+
 // --- SELECTEURS EQ ---
 const bassDown = document.getElementById('bass-down');
 const bassUp = document.getElementById('bass-up');
@@ -148,21 +153,17 @@ function updateVFDStatusDisplay() {
     modeIndicator.innerHTML = `<span>${isRandom ? "RANDOM" : ""}</span><span>${repeatText}</span><span style="color: #00ff66;">${abText}</span>`;
 }
 
-// --- POWER ---
+// --- POWER (MODIFIÉ AVEC POPUP REBOOT) ---
 pwr.addEventListener('click', () => {
-    isPoweredOn = !isPoweredOn;
-    if (!isPoweredOn) {
-        audio.pause(); audio.src = ""; playlist = [];
-        isRandom = false; repeatMode = 0; abMode = 0; isMonoActive = false;
-        vfdLarge.textContent = "SYSTEM OFF"; vfdInfo.textContent = "";
-        document.getElementById('led-mono')?.classList.remove('active');
-        targetAngleL = targetAngleR = -55;
-        document.querySelector('.power-led').classList.remove('active');
-    } else {
-        vfdLarge.textContent = "Push input to select your tracks";
-        document.querySelector('.power-led').classList.add('active');
-        updateStatusIcon('stop');
-    }
+    rebootModal.style.display = 'flex';
+});
+
+btnYes.addEventListener('click', () => {
+    location.reload();
+});
+
+btnNo.addEventListener('click', () => {
+    rebootModal.style.display = 'none';
 });
 
 // --- ENGINE ---

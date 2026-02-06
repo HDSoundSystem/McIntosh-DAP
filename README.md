@@ -9,7 +9,7 @@ A premium web-based audio player inspired by the legendary McIntosh amplifier de
 
 ![McIntosh_Logo](https://github.com/user-attachments/assets/9f65f1d2-5f77-458b-b0fc-5ec35e992042)
 
-<img width="1801" height="809" alt="1" src="https://github.com/user-attachments/assets/0a0ef47f-4ac1-4cf4-823f-25759c8a0c61" />
+<img width="1816" height="799" alt="1" src="https://github.com/user-attachments/assets/6a6ff571-4bf8-4ad5-b307-fd850861a055" />
 
 ## ✨ Features
 
@@ -952,11 +952,12 @@ A: Ensure audio is playing and system is powered on. Check browser console for W
 A: Yes, once installed as a PWA. However, audio files must be loaded each session (not cached).
 
 -----
-<img width="1818" height="810" alt="2" src="https://github.com/user-attachments/assets/ea6b00ff-9808-4d62-89f1-13a700c7dc4c" />
-<img width="1802" height="805" alt="3" src="https://github.com/user-attachments/assets/33a7c62e-3d70-4e4e-8b07-a2b378f00ac9" />
-<img width="1816" height="808" alt="4" src="https://github.com/user-attachments/assets/c2b6061b-85aa-40ac-a80c-932bfd84d862" />
-<img width="1804" height="804" alt="5" src="https://github.com/user-attachments/assets/49109061-5c20-4d10-9bc3-b5bd0bb98dd3" />
-<img width="1810" height="804" alt="6" src="https://github.com/user-attachments/assets/68af4f6f-35d7-4b75-bae0-3f0bc918c59c" />
+<img width="1802" height="801" alt="2" src="https://github.com/user-attachments/assets/ce179959-13f4-4ace-882e-d8877527082c" />
+<img width="1814" height="806" alt="3" src="https://github.com/user-attachments/assets/5980d1d2-ab1a-4d6b-83ce-74fc6e878475" />
+<img width="1806" height="802" alt="4" src="https://github.com/user-attachments/assets/9b8b0531-eaee-4158-8b36-50bd2d0ad99a" />
+<img width="1804" height="804" alt="5" src="https://github.com/user-attachments/assets/ecbd3bba-0e1e-484c-8dcb-e3ff7f5d7811" />
+<img width="1792" height="799" alt="6" src="https://github.com/user-attachments/assets/dfebed7a-c5db-4a4d-be2f-b3a5b08cf3fe" />
+<img width="1804" height="805" alt="9" src="https://github.com/user-attachments/assets/f07515b8-d461-4921-892b-9902fa4131c9" />
 
 **Enjoy your premium web audio experience! 🎵🎛️**
 
