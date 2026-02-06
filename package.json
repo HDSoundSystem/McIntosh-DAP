@@ -1,0 +1,27 @@
+{
+  "name": "mcintosh-msa-5500",
+  "version": "1.0.0",
+  "description": "Mon application McIntosh",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "keywords": [],
+  "author": "Yohan",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^26.0.0",
+    "electron-builder": "^24.6.4"
+  },
+  "build": {
+    "appId": "com.yohan.mcintosh",
+    "productName": "McIntosh MSA5500",
+    "win": {
+      "target": "portable"
+    },
+    "directories": {
+      "output": "dist"
+    }
+  }
+}
