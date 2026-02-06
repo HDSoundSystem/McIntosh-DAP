@@ -10,7 +10,6 @@ A premium web-based audio player inspired by the legendary McIntosh amplifier de
 ![McIntosh_Logo](https://github.com/user-attachments/assets/9f65f1d2-5f77-458b-b0fc-5ec35e992042)
 
 <img width="1816" height="799" alt="1" src="https://github.com/user-attachments/assets/6a6ff571-4bf8-4ad5-b307-fd850861a055" />
-[VIDEO DEMO](https://yohannzaoui.github.io/McIntosh-MSA5500/demo.html)
 
 ## ✨ Features
 

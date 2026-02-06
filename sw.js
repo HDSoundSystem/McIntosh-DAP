@@ -7,7 +7,6 @@ const ASSETS_TO_CACHE = [
 ‘/index.html’,
 ‘/style.css’,
 ‘/script.js’,
-‘/demon.html’,
 ‘/manifest.json’,
 ‘/assets/img/mc - logo.png’,
 ‘/assets/img/logo_b.png’,
