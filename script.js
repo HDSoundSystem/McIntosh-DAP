@@ -460,3 +460,43 @@ document.addEventListener('click', (e) => {
     if (!document.getElementById('playlist-popup')?.contains(e.target)) document.getElementById('playlist-popup').style.display = 'none';
     if (e.target == modal) modal.style.display = "none";
 });
+
+const { ipcRenderer } = require('electron');
+
+ipcRenderer.on('media-control', (event, action) => {
+    // On vérifie si l'appareil est allumé
+    if (!isPoweredOn) return;
+
+    if (action === 'play-pause') {
+        if (playlist.length > 0) {
+            initEngine();
+            if (audio.paused) {
+                audio.play();
+                updateStatusIcon('play');
+            } else {
+                audio.pause();
+                updateStatusIcon('pause');
+            }
+        }
+    } 
+    else if (action === 'next') {
+        // On force le passage à la piste suivante directement
+        if (isRandom && playlist.length > 1) {
+            let n; do { n = Math.floor(Math.random() * playlist.length); } while (n === currentIndex);
+            loadTrack(n);
+        } else if (currentIndex < playlist.length - 1) {
+            loadTrack(currentIndex + 1);
+        } else if (repeatMode === 2) {
+            loadTrack(0);
+        }
+    } 
+    else if (action === 'prev') {
+        if (audio.currentTime > 3) {
+            audio.currentTime = 0;
+        } else if (currentIndex > 0) {
+            loadTrack(currentIndex - 1);
+        } else if (repeatMode === 2) {
+            loadTrack(playlist.length - 1);
+        }
+    }
+});
