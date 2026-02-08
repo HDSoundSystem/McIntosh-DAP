@@ -500,3 +500,13 @@ ipcRenderer.on('media-control', (event, action) => {
         }
     }
 });
+
+function openInfo() {
+    // Si l'appareil est éteint, on ne fait rien
+    if (typeof isPoweredOn !== 'undefined' && !isPoweredOn) return;
+
+    const overlay = document.getElementById('info-overlay-fix');
+    if (overlay) {
+        overlay.style.display = 'flex'; // Affiche la popup
+    }
+}

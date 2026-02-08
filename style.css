@@ -1116,3 +1116,28 @@ body {
     box-shadow: inset 2px 2px 5px rgba(0,0,0,0.8);
     transform: translateY(1px);
 }
+
+/* Overlay de la pop-up Info */
+#info-overlay-fix {
+    display: none; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: rgba(0, 0, 0, 0.85); 
+    z-index: 99999; 
+    align-items: center; 
+    justify-content: center; 
+    cursor: pointer;
+}
+
+/* L'image à l'intérieur de la pop-up */
+#info-overlay-fix img {
+    max-width: 90%; 
+    max-height: 90%; 
+    border: 5px solid var(--mc-gold);
+    border-radius: 15px;
+    background: #000; 
+    pointer-events: none; /* Empêche de glisser l'image par erreur */
+}
