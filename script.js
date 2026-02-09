@@ -1,3 +1,14 @@
+// --- IMPORT COMPATIBLE ---
+let McIntoshAudioEngine;
+
+if (typeof require !== 'undefined') {
+    // On est dans Electron
+    McIntoshAudioEngine = require('./js/mcintosh-audio-engine.js');
+} else {
+    // On est dans le Web (le fichier doit être chargé dans le HTML avant script.js)
+    McIntoshAudioEngine = window.McIntoshAudioEngine;
+}
+
 // --- SELECTEURS ---
 const nl = document.getElementById('needle-l');
 const nr = document.getElementById('needle-r');
@@ -20,6 +31,9 @@ const volumeKnob = document.getElementById('volume-knob');
 const pwr = document.getElementById('pwr');
 const powerLed = document.querySelector('.power-led');
 const audio = document.getElementById('main-audio');
+
+// --- INITIALISATION DU MOTEUR ---
+const engine = new McIntoshAudioEngine(audio);
 
 // --- SELECTEURS REBOOT ---
 const rebootModal = document.getElementById('reboot-modal');
@@ -52,19 +66,10 @@ const fileList = document.getElementById('file-list');
 // --- VARIABLES ---
 let playlist = [];
 let currentIndex = 0;
-let audioCtx = null;
-let analyserL = null;
-let analyserR = null;
-let dataArrayL = null;
-let dataArrayR = null;
-let source = null;
 let isPoweredOn = false;
 let isMuted = false;
 let isShowingRemaining = false;
 let volTimeout = null;
-let bassFilter = null;
-let trebleFilter = null;
-let balanceNode = null;
 let bassGain = 0;
 let trebleGain = 0;
 let currentBalance = 0;
@@ -88,7 +93,7 @@ let volHoldInterval = null;
 
 // --- INITIALISATION VOLUME ---
 let currentVolume = 0.05;
-audio.volume = currentVolume;
+engine.setVolume(currentVolume);
 if (volumeKnob) volumeKnob.style.transform = `rotate(${currentVolume * 270 - 135}deg)`;
 
 // --- FONCTIONS UTILITAIRES ---
@@ -129,15 +134,7 @@ function updateStatusIcon(state) {
 }
 
 function applyLoudnessEffect() {
-    if (!bassFilter || !trebleFilter) return;
-    if (isLoudnessActive) {
-        const intensity = Math.max(0, (0.7 - currentVolume) / 0.7);
-        bassFilter.gain.value = bassGain + (intensity * 8);
-        trebleFilter.gain.value = trebleGain + (intensity * 4);
-    } else {
-        bassFilter.gain.value = bassGain;
-        trebleFilter.gain.value = trebleGain;
-    }
+    engine.updateEQ(bassGain, trebleGain, isLoudnessActive);
 }
 
 function updateVFDStatusDisplay() {
@@ -166,28 +163,9 @@ btnNo.addEventListener('click', () => {
     rebootModal.style.display = 'none';
 });
 
-// --- ENGINE ---
+// --- ENGINE INIT ---
 function initEngine() {
-    if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        analyserL = audioCtx.createAnalyser(); analyserR = audioCtx.createAnalyser();
-        analyserL.fftSize = 1024; analyserR.fftSize = 1024;
-        dataArrayL = new Uint8Array(analyserL.frequencyBinCount);
-        dataArrayR = new Uint8Array(analyserR.frequencyBinCount);
-        const splitter = audioCtx.createChannelSplitter(2);
-        balanceNode = audioCtx.createStereoPanner();
-        balanceNode.pan.value = currentBalance;
-        bassFilter = audioCtx.createBiquadFilter(); bassFilter.type = "lowshelf";
-        bassFilter.frequency.value = 200; bassFilter.gain.value = bassGain;
-        trebleFilter = audioCtx.createBiquadFilter(); trebleFilter.type = "highshelf";
-        trebleFilter.frequency.value = 3000; trebleFilter.gain.value = trebleGain;
-        source = audioCtx.createMediaElementSource(audio);
-        source.connect(balanceNode); balanceNode.connect(bassFilter);
-        bassFilter.connect(trebleFilter); trebleFilter.connect(splitter);
-        splitter.connect(analyserL, 0); splitter.connect(analyserR, 1);
-        trebleFilter.connect(audioCtx.destination);
-    }
-    if (audioCtx.state === 'suspended') audioCtx.resume();
+    engine.init();
 }
 
 // --- BALANCE & EQ ---
@@ -197,7 +175,13 @@ function showBalanceStatus() {
     else if (currentBalance > 0.05) balText = `BAL: ${Math.round(currentBalance * 100)}% R`;
     showStatusBriefly(balText);
 }
-function setBalance(val) { if (isPoweredOn && !isMonoActive) { currentBalance = Math.max(-1, Math.min(1, val)); if (balanceNode) balanceNode.pan.value = currentBalance; showBalanceStatus(); } }
+function setBalance(val) { 
+    if (isPoweredOn && !isMonoActive) { 
+        currentBalance = Math.max(-1, Math.min(1, val)); 
+        engine.setBalance(currentBalance); 
+        showBalanceStatus(); 
+    } 
+}
 
 balL?.addEventListener('click', () => setBalance(currentBalance - 0.1));
 balR?.addEventListener('click', () => setBalance(currentBalance + 0.1));
@@ -214,7 +198,7 @@ eqBtns.forEach(item => {
     item.b?.addEventListener('click', () => { if (isPoweredOn) { item.f(); applyLoudnessEffect(); showStatusBriefly(`${item.t}: ${(item.t === 'BASS' ? bassGain : trebleGain) > 0 ? '+' : ''}${item.t === 'BASS' ? bassGain : trebleGain}dB`); } });
     item.b?.addEventListener('mouseenter', () => { if (isPoweredOn) { showStatusBriefly(`${item.t}: ${(item.t === 'BASS' ? bassGain : trebleGain) > 0 ? '+' : ''}${item.t === 'BASS' ? bassGain : trebleGain}dB`); } });
 });
-toneReset?.addEventListener('click', () => { if (isPoweredOn) { bassGain = 0; trebleGain = 0; currentBalance = 0; if (balanceNode && !isMonoActive) balanceNode.pan.value = 0; applyLoudnessEffect(); showStatusBriefly("TONE FLAT"); } });
+toneReset?.addEventListener('click', () => { if (isPoweredOn) { bassGain = 0; trebleGain = 0; currentBalance = 0; if (!isMonoActive) engine.setBalance(0); applyLoudnessEffect(); showStatusBriefly("TONE FLAT"); } });
 toneReset?.addEventListener('mouseenter', () => isPoweredOn && showStatusBriefly("TONE RESET"));
 
 // --- TRACK LOADING & COVERS ---
@@ -244,7 +228,8 @@ function loadTrack(index) {
             onError: () => { vfdLarge.textContent = file.name.toUpperCase(); vfdInfo.textContent = "ARTIST – ALBUM"; setTimeout(() => fitText(vfdLarge, 30), 10); }
         });
     }
-    initEngine(); audio.play().then(() => updateStatusIcon('play'));
+    engine.init(); 
+    engine.play().then(() => updateStatusIcon('play'));
 }
 
 // --- CLICS INTERACTIFS ---
@@ -272,14 +257,14 @@ audio.addEventListener('timeupdate', () => {
 // --- MONO ---
 document.getElementById('mono-btn')?.addEventListener('click', () => {
     if (!isPoweredOn) return;
-    if (!audioCtx) initEngine();
+    engine.init();
     isMonoActive = !isMonoActive;
     const ledMono = document.getElementById('led-mono');
     if (isMonoActive) {
-        if (balanceNode) balanceNode.pan.setValueAtTime(0, audioCtx.currentTime);
+        engine.setBalance(0);
         ledMono?.classList.add('active'); showStatusBriefly("MODE: MONO");
     } else {
-        if (balanceNode) balanceNode.pan.setValueAtTime(currentBalance, audioCtx.currentTime);
+        engine.setBalance(currentBalance);
         ledMono?.classList.remove('active'); showStatusBriefly("MODE: STEREO");
     }
 });
@@ -310,7 +295,7 @@ function stopSeeking(dir) {
         } else {
             if (audio.currentTime > 3) {
                 audio.currentTime = 0;
-                if (audio.paused) audio.play();
+                if (audio.paused) engine.play();
             } else {
                 if (currentIndex > 0) { loadTrack(currentIndex - 1); }
                 else if (repeatMode === 2) { loadTrack(playlist.length - 1); }
@@ -346,12 +331,12 @@ trackCount.addEventListener('click', (e) => {
 // --- AUTRES CONTROLES ---
 inputBtn.addEventListener('click', () => fileUpload.click());
 fileUpload.addEventListener('change', (e) => { if (e.target.files.length > 0) { if (!isPoweredOn) { isPoweredOn = true; } playlist = Array.from(e.target.files); loadTrack(0); } });
-playPauseBtn.addEventListener('click', () => { if (!isPoweredOn || playlist.length === 0) return; initEngine(); audio.paused ? (audio.play(), updateStatusIcon('play')) : (audio.pause(), updateStatusIcon('pause')); });
-stopBtn.addEventListener('click', () => { if (isPoweredOn) { audio.pause(); audio.currentTime = 0; updateStatusIcon('stop'); } });
+playPauseBtn.addEventListener('click', () => { if (!isPoweredOn || playlist.length === 0) return; engine.init(); audio.paused ? (engine.play(), updateStatusIcon('play')) : (engine.pause(), updateStatusIcon('pause')); });
+stopBtn.addEventListener('click', () => { if (isPoweredOn) { engine.stop(); updateStatusIcon('stop'); } });
 muteBtn.addEventListener('click', () => { if (isPoweredOn) { isMuted = !isMuted; audio.muted = isMuted; showVolumeBriefly(); } });
 document.getElementById('loudness-btn')?.addEventListener('click', () => { if (isPoweredOn) { isLoudnessActive = !isLoudnessActive; document.getElementById('vfd-loudness-text')?.classList.toggle('loudness-visible', isLoudnessActive); applyLoudnessEffect(); } });
 
-// --- FONCTION LIBRARY (AJOUTÉ SANS CASSER LE RESTE) ---
+// --- FONCTION LIBRARY ---
 libBtn.onclick = () => { if (isPoweredOn) modal.style.display = "block"; else showStatusBriefly("POWER ON FIRST"); };
 closeBtn.onclick = () => modal.style.display = "none";
 
@@ -399,20 +384,25 @@ document.getElementById('ab-loop-btn')?.addEventListener('click', () => {
 // --- VU-METRES ---
 function animate() {
     requestAnimationFrame(animate);
-    if (analyserL && analyserR && !audio.paused && isPoweredOn) {
-        analyserL.getByteFrequencyData(dataArrayL); analyserR.getByteFrequencyData(dataArrayR);
-        let lvlL = dataArrayL.reduce((a, b) => a + b) / dataArrayL.length, lvlR = dataArrayR.reduce((a, b) => a + b) / dataArrayR.length;
-        targetAngleL = -55 + Math.pow(Math.min(255, lvlL * 1.8) / 255, 0.7) * 95;
-        targetAngleR = -55 + Math.pow(Math.min(255, lvlR * 1.8) / 255, 0.7) * 95;
-        currentAngleL += (targetAngleL - currentAngleL) * 0.25; currentAngleR += (targetAngleR - currentAngleR) * 0.25;
-    } else { currentAngleL += (-55 - currentAngleL) * 0.1; currentAngleR += (-55 - currentAngleR) * 0.1; }
-    nl.style.transform = `rotate(${currentAngleL}deg)`; nr.style.transform = `rotate(${currentAngleR}deg)`;
+    const levels = engine.getLevels();
+    
+    if (!audio.paused && isPoweredOn) {
+        targetAngleL = -55 + Math.pow(Math.min(255, levels.left * 1.8) / 255, 0.7) * 95;
+        targetAngleR = -55 + Math.pow(Math.min(255, levels.right * 1.8) / 255, 0.7) * 95;
+        currentAngleL += (targetAngleL - currentAngleL) * 0.25; 
+        currentAngleR += (targetAngleR - currentAngleR) * 0.25;
+    } else { 
+        currentAngleL += (-55 - currentAngleL) * 0.1; 
+        currentAngleR += (-55 - currentAngleR) * 0.1; 
+    }
+    nl.style.transform = `rotate(${currentAngleL}deg)`; 
+    nr.style.transform = `rotate(${currentAngleR}deg)`;
 }
 animate();
 
 // --- VOLUME ---
 function updateVolumeDisplay() {
-    audio.volume = currentVolume;
+    engine.setVolume(currentVolume);
     volumeKnob.style.transform = `rotate(${currentVolume * 270 - 135}deg)`;
     applyLoudnessEffect();
     showVolumeBriefly();
@@ -461,52 +451,51 @@ document.addEventListener('click', (e) => {
     if (e.target == modal) modal.style.display = "none";
 });
 
-const { ipcRenderer } = require('electron');
+// --- ELECTRON SPECIFIC ---
+if (typeof require !== 'undefined') {
+    const { ipcRenderer } = require('electron');
 
-ipcRenderer.on('media-control', (event, action) => {
-    // On vérifie si l'appareil est allumé
-    if (!isPoweredOn) return;
+    ipcRenderer.on('media-control', (event, action) => {
+        if (!isPoweredOn) return;
 
-    if (action === 'play-pause') {
-        if (playlist.length > 0) {
-            initEngine();
-            if (audio.paused) {
-                audio.play();
-                updateStatusIcon('play');
-            } else {
-                audio.pause();
-                updateStatusIcon('pause');
+        if (action === 'play-pause') {
+            if (playlist.length > 0) {
+                engine.init();
+                if (audio.paused) {
+                    engine.play();
+                    updateStatusIcon('play');
+                } else {
+                    engine.pause();
+                    updateStatusIcon('pause');
+                }
+            }
+        } 
+        else if (action === 'next') {
+            if (isRandom && playlist.length > 1) {
+                let n; do { n = Math.floor(Math.random() * playlist.length); } while (n === currentIndex);
+                loadTrack(n);
+            } else if (currentIndex < playlist.length - 1) {
+                loadTrack(currentIndex + 1);
+            } else if (repeatMode === 2) {
+                loadTrack(0);
+            }
+        } 
+        else if (action === 'prev') {
+            if (audio.currentTime > 3) {
+                audio.currentTime = 0;
+            } else if (currentIndex > 0) {
+                loadTrack(currentIndex - 1);
+            } else if (repeatMode === 2) {
+                loadTrack(playlist.length - 1);
             }
         }
-    } 
-    else if (action === 'next') {
-        // On force le passage à la piste suivante directement
-        if (isRandom && playlist.length > 1) {
-            let n; do { n = Math.floor(Math.random() * playlist.length); } while (n === currentIndex);
-            loadTrack(n);
-        } else if (currentIndex < playlist.length - 1) {
-            loadTrack(currentIndex + 1);
-        } else if (repeatMode === 2) {
-            loadTrack(0);
-        }
-    } 
-    else if (action === 'prev') {
-        if (audio.currentTime > 3) {
-            audio.currentTime = 0;
-        } else if (currentIndex > 0) {
-            loadTrack(currentIndex - 1);
-        } else if (repeatMode === 2) {
-            loadTrack(playlist.length - 1);
-        }
-    }
-});
+    });
+}
 
 function openInfo() {
-    // Si l'appareil est éteint, on ne fait rien
     if (typeof isPoweredOn !== 'undefined' && !isPoweredOn) return;
-
     const overlay = document.getElementById('info-overlay-fix');
     if (overlay) {
-        overlay.style.display = 'flex'; // Affiche la popup
+        overlay.style.display = 'flex';
     }
 }
