@@ -9,7 +9,7 @@ A premium web-based audio player inspired by the legendary McIntosh amplifier de
 
 ![McIntosh_Logo](https://github.com/user-attachments/assets/9f65f1d2-5f77-458b-b0fc-5ec35e992042)
 
-<img width="1816" height="799" alt="1" src="https://github.com/user-attachments/assets/6a6ff571-4bf8-4ad5-b307-fd850861a055" />
+<img width="1821" height="824" alt="1" src="https://github.com/user-attachments/assets/6720d65d-98d0-45ab-891c-92034c604524" />
 
 ## ✨ Features
 
@@ -952,12 +952,14 @@ A: Ensure audio is playing and system is powered on. Check browser console for W
 A: Yes, once installed as a PWA. However, audio files must be loaded each session (not cached).
 
 -----
-<img width="1802" height="801" alt="2" src="https://github.com/user-attachments/assets/ce179959-13f4-4ace-882e-d8877527082c" />
-<img width="1814" height="806" alt="3" src="https://github.com/user-attachments/assets/5980d1d2-ab1a-4d6b-83ce-74fc6e878475" />
-<img width="1806" height="802" alt="4" src="https://github.com/user-attachments/assets/9b8b0531-eaee-4158-8b36-50bd2d0ad99a" />
-<img width="1804" height="804" alt="5" src="https://github.com/user-attachments/assets/ecbd3bba-0e1e-484c-8dcb-e3ff7f5d7811" />
-<img width="1792" height="799" alt="6" src="https://github.com/user-attachments/assets/dfebed7a-c5db-4a4d-be2f-b3a5b08cf3fe" />
-<img width="1804" height="805" alt="9" src="https://github.com/user-attachments/assets/f07515b8-d461-4921-892b-9902fa4131c9" />
+
+<img width="1827" height="822" alt="2" src="https://github.com/user-attachments/assets/1451b7e9-3075-4fec-a4e4-048125788bfd" />
+<img width="1842" height="862" alt="3" src="https://github.com/user-attachments/assets/7d10e7c2-d6cf-46a1-89bf-13fa474eb961" />
+<img width="1829" height="823" alt="4" src="https://github.com/user-attachments/assets/bee9ec8c-6485-4f8c-b523-044c14632fb3" />
+<img width="1825" height="860" alt="5" src="https://github.com/user-attachments/assets/ee865f48-5028-4b6a-859d-5b9db2bba930" />
+<img width="1828" height="839" alt="6" src="https://github.com/user-attachments/assets/578bcfd3-4595-4ea7-8023-11bd68721737" />
+<img width="1809" height="866" alt="7" src="https://github.com/user-attachments/assets/71bfeadd-fcf1-457e-b4b8-5c6ec14b47f7" />
+
 
 **Enjoy your premium web audio experience! 🎵🎛️**
 
