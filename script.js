@@ -175,12 +175,12 @@ function showBalanceStatus() {
     else if (currentBalance > 0.05) balText = `BAL: ${Math.round(currentBalance * 100)}% R`;
     showStatusBriefly(balText);
 }
-function setBalance(val) { 
-    if (isPoweredOn && !isMonoActive) { 
-        currentBalance = Math.max(-1, Math.min(1, val)); 
-        engine.setBalance(currentBalance); 
-        showBalanceStatus(); 
-    } 
+function setBalance(val) {
+    if (isPoweredOn && !isMonoActive) {
+        currentBalance = Math.max(-1, Math.min(1, val));
+        engine.setBalance(currentBalance);
+        showBalanceStatus();
+    }
 }
 
 balL?.addEventListener('click', () => setBalance(currentBalance - 0.1));
@@ -228,7 +228,7 @@ function loadTrack(index) {
             onError: () => { vfdLarge.textContent = file.name.toUpperCase(); vfdInfo.textContent = "ARTIST – ALBUM"; setTimeout(() => fitText(vfdLarge, 30), 10); }
         });
     }
-    engine.init(); 
+    engine.init();
     engine.play().then(() => updateStatusIcon('play'));
 }
 
@@ -385,17 +385,17 @@ document.getElementById('ab-loop-btn')?.addEventListener('click', () => {
 function animate() {
     requestAnimationFrame(animate);
     const levels = engine.getLevels();
-    
+
     if (!audio.paused && isPoweredOn) {
         targetAngleL = -55 + Math.pow(Math.min(255, levels.left * 1.8) / 255, 0.7) * 95;
         targetAngleR = -55 + Math.pow(Math.min(255, levels.right * 1.8) / 255, 0.7) * 95;
-        currentAngleL += (targetAngleL - currentAngleL) * 0.25; 
+        currentAngleL += (targetAngleL - currentAngleL) * 0.25;
         currentAngleR += (targetAngleR - currentAngleR) * 0.25;
-    } else { 
-        currentAngleL += (-55 - currentAngleL) * 0.1; 
-        currentAngleR += (-55 - currentAngleR) * 0.1; 
+    } else {
+        currentAngleL += (-55 - currentAngleL) * 0.1;
+        currentAngleR += (-55 - currentAngleR) * 0.1;
     }
-    nl.style.transform = `rotate(${currentAngleL}deg)`; 
+    nl.style.transform = `rotate(${currentAngleL}deg)`;
     nr.style.transform = `rotate(${currentAngleR}deg)`;
 }
 animate();
@@ -469,7 +469,7 @@ if (typeof require !== 'undefined') {
                     updateStatusIcon('pause');
                 }
             }
-        } 
+        }
         else if (action === 'next') {
             if (isRandom && playlist.length > 1) {
                 let n; do { n = Math.floor(Math.random() * playlist.length); } while (n === currentIndex);
@@ -479,7 +479,7 @@ if (typeof require !== 'undefined') {
             } else if (repeatMode === 2) {
                 loadTrack(0);
             }
-        } 
+        }
         else if (action === 'prev') {
             if (audio.currentTime > 3) {
                 audio.currentTime = 0;
@@ -499,3 +499,24 @@ function openInfo() {
         overlay.style.display = 'flex';
     }
 }
+
+// Changement de la couleur de fond de l'application
+const bgPicker = document.getElementById('bg-picker');
+bgPicker?.addEventListener('input', (e) => {
+    const color = e.target.value;
+    document.body.style.backgroundColor = color;
+    // On met à jour la couleur du bouton pour le feedback visuel
+    document.getElementById('background-color-btn').style.background = color;
+});
+
+// Changement de la couleur de l'ombre du châssis
+const shadowPicker = document.getElementById('shadow-picker');
+shadowPicker?.addEventListener('input', (e) => {
+    const color = e.target.value;
+    const chassis = document.querySelector('.amplifier-panel');
+    if (chassis) {
+        // Applique l'ombre selon tes réglages de base (0 60px 120px)
+        chassis.style.boxShadow = `0 60px 120px ${color}`;
+    }
+    document.getElementById('shadow-color-btn').style.background = color;
+});

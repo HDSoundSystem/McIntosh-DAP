@@ -1058,7 +1058,8 @@ body {
 /* --- AJUSTEMENT DES BOUTONS --- */
 .reboot-buttons {
     display: flex;
-    gap: 40px; /* Augmenté pour laisser de la place aux labels */
+    gap: 40px;
+    /* Augmenté pour laisser de la place aux labels */
     justify-content: center;
 }
 
@@ -1066,7 +1067,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px; /* Espace entre le texte et le bouton */
+    gap: 10px;
+    /* Espace entre le texte et le bouton */
 }
 
 .reboot-label {
@@ -1113,31 +1115,50 @@ body {
 }
 
 .chassis-btn:active {
-    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.8);
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.8);
     transform: translateY(1px);
 }
 
 /* Overlay de la pop-up Info */
 #info-overlay-fix {
-    display: none; 
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100%; 
-    height: 100%; 
-    background: rgba(0, 0, 0, 0.85); 
-    z-index: 99999; 
-    align-items: center; 
-    justify-content: center; 
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 99999;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
 }
 
 /* L'image à l'intérieur de la pop-up */
 #info-overlay-fix img {
-    max-width: 90%; 
-    max-height: 90%; 
+    max-width: 90%;
+    max-height: 90%;
     border: 5px solid var(--mc-gold);
     border-radius: 15px;
-    background: #000; 
-    pointer-events: none; /* Empêche de glisser l'image par erreur */
+    background: #000;
+    pointer-events: none;
+    /* Empêche de glisser l'image par erreur */
+}
+
+/* --- COLOR PICKERS DANS LES BOUTONS --- */
+.btn-base.black-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-base.black-btn input[type="color"] {
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    cursor: pointer;
+    opacity: 0;
+    /* Rend l'input invisible */
+    border: none;
 }
