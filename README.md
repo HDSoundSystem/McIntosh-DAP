@@ -863,6 +863,7 @@ A: Taskbar thumbnail buttons are Windows-only. However, global media key shortcu
 <img width="1825" height="860" alt="5" src="https://github.com/user-attachments/assets/ee865f48-5028-4b6a-859d-5b9db2bba930" />
 <img width="1828" height="839" alt="6" src="https://github.com/user-attachments/assets/578bcfd3-4595-4ea7-8023-11bd68721737" />
 <img width="1809" height="866" alt="7" src="https://github.com/user-attachments/assets/71bfeadd-fcf1-457e-b4b8-5c6ec14b47f7" />
+<img width="1799" height="806" alt="8" src="https://github.com/user-attachments/assets/71fa6119-9539-4417-b3a0-3f762483b370" />
 
 **Enjoy your premium web audio experience! 🎵🎛️**
 
