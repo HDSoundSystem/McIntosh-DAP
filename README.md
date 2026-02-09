@@ -42,6 +42,10 @@ A premium web-based audio player inspired by the legendary McIntosh amplifier de
 - **Media session integration**: Control playback from keyboard media keys and system controls
 - **Automatic track progression**: Respects repeat and random modes when track ends
 - **Progressive Web App (PWA)**: Installable with service worker for offline caching
+- **Electron desktop app**: Cross-platform desktop application with system integration
+  - Windows taskbar thumbnail buttons (Previous, Play/Pause, Next)
+  - Media key support (Play/Pause, Next, Previous)
+  - Native window controls and menu bar
 
 ### 📺 Visual Interface
 
@@ -71,6 +75,7 @@ A premium web-based audio player inspired by the legendary McIntosh amplifier de
   - Power LED (red) - indicates system on/off state
   - MONO LED (green) - active when mono mode enabled
   - POWER GUARD LEDs (red, left and right) - blink rapidly when volume ≥ 90%
+- **Reboot confirmation modal**: Safety popup to confirm system restart
 
 ### 🎛️ Audio Controls
 
@@ -156,6 +161,7 @@ A premium web-based audio player inspired by the legendary McIntosh amplifier de
   - LED indicator shows system status
   - Complete system reset on power off
   - Clears playlist and resets all modes
+  - Confirmation modal prevents accidental reboot
 - **Professional UI**: 
   - McIntosh-inspired design with authentic colors
   - Chrome-finished side trims with realistic shadows
@@ -177,619 +183,509 @@ A premium web-based audio player inspired by the legendary McIntosh amplifier de
   - Progressive Web App capabilities
   - Cache versioning and management
   - Force update support via message API
+- **Electron Desktop Integration**:
+  - Native application window with auto-hide menu bar
+  - Windows taskbar thumbnail buttons with custom icons
+  - Global keyboard shortcut support for media keys
+  - Proper window lifecycle management
+  - Cross-platform support (Windows, macOS, Linux)
 
-### 🎹 Input Controls Summary
+## 🚀 Getting Started
 
-#### Mouse/Click Interactions
-- **INPUT Knob**: Click to select audio files (multiple selection supported)
-- **LIBRARY Button**: Open folder browser modal to load entire directories
-- **VOLUME Knob**: 
-  - Click left half: Decrease volume
-  - Click right half: Increase volume
-  - Hold: Continuous adjustment
-  - Scroll wheel: Fine adjustment
-  - Hover: Show current volume
-- **Play/Pause Button**: Toggle playback
-- **Stop Button**: Stop and reset to beginning
-- **Previous Button**: Click for previous track, hold for rewind
-- **Next Button**: Click for next track, hold for fast forward
-- **Mute Button**: Toggle mute
-- **OPTIONS Button**: Open/close options menu
-- **DISPLAY Button**: Toggle stealth mode
-- **POWER Button**: System on/off
-- **Track Title (VFD)**: Click to view album art
-- **Track Counter**: Click to open playlist browser
-- **Time Display**: Click to toggle elapsed/remaining time
+### Web Version (Browser)
 
-#### Options Menu Buttons
-- **RANDOM**: Toggle shuffle mode
-- **REPEAT**: Cycle through repeat modes
-- **A-B**: Set loop points
-- **LOUDNESS**: Toggle loudness compensation
-- **MONO**: Toggle mono mode
-- **BASS +/-**: Adjust bass EQ
-- **TREBLE +/-**: Adjust treble EQ
-- **BALANCE L/R**: Adjust stereo balance
-- **TONE RESET**: Reset EQ and balance
+#### Prerequisites
 
-#### Keyboard Shortcuts
-- **Left Arrow**: Balance left
-- **Right Arrow**: Balance right
-- **Media Keys**: Control playback (play/pause/stop/next/previous)
+- **Modern web browser** with Web Audio API support:
+  - Chrome 57+ (recommended)
+  - Firefox 53+
+  - Safari 14.1+
+  - Edge 79+
+- **Local web server** (for testing):
+  - Python: `python -m http.server 8000`
+  - Node.js: `npx http-server`
+  - PHP: `php -S localhost:8000`
+- **HTTPS required** for PWA installation (localhost exempt)
 
-## 🚀 Installation
+#### Installation
 
-### Quick Start
-
-1. **Clone or download** this repository:
+1. **Clone** the repository:
    
    ```bash
    git clone https://github.com/yourusername/mcintosh-msa5500.git
+   cd mcintosh-msa5500
    ```
-1. **Verify file structure**:
+
+2. **Serve** the files via a local web server:
+   
+   ```bash
+   # Using Python 3
+   python -m http.server 8000
+   
+   # Using Node.js
+   npx http-server -p 8000
+   
+   # Using PHP
+   php -S localhost:8000
+   ```
+
+3. **Open** your browser:
    
    ```
-   mcintosh-msa5500/
-   ├── index.html
-   ├── script.js
-   ├── style.css
-   ├── README.md
-   ├── manifest.json
-   ├── sw.js (service worker)
-   ├── img/
-   │   ├── mc-logo.png
-   │   ├── logo_b.png
-   │   ├── favicon.png
-   │   └── vumeter-new.png
-   └── fontawesome7/
-       └── css/
-           └── all.min.css
+   http://localhost:8000
    ```
-1. **Add required assets**:
-- **McIntosh logo** (`mc-logo.png`): Main brand logo for center display
-- **Options logo** (`logo_b.png`): Logo for options menu
-- **VU meter background** (`vumeter-new.png`): Authentic meter dial image
-- **Favicon** (`favicon.png`): Browser tab icon (192x192 and 512x512 for PWA)
-1. **Install Font Awesome** (if not included):
-- Download Font Awesome 7 or use CDN
-- Place in `fontawesome7/css/` directory
-1. **Open in browser**:
-- Simply open `index.html` in any modern web browser
-- For PWA features, serve via HTTPS or localhost
-- No server or build process required!
 
-### PWA Installation (Optional)
+#### PWA Installation
 
-1. Serve the application via HTTPS (required for service workers)
-2. Browser will prompt to "Install" or "Add to Home Screen"
-3. Once installed, app works offline with cached assets
-4. Icon will appear in app drawer/start menu
+For offline access and app-like experience:
 
-## 📖 User Guide
+1. **Serve via HTTPS** (required for service worker):
+   - Use a hosting service (GitHub Pages, Netlify, Vercel)
+   - Or use local HTTPS with tools like `mkcert`
 
-### Getting Started
+2. **Install the app**:
+   - Chrome: Click the install icon in the address bar
+   - Firefox: Look for "Install" in the page menu
+   - Safari: Share → Add to Home Screen
+   - Edge: Click the app icon in the address bar
 
-1. **Power On**: Click the red **STANDBY/ON** button
-   - Power LED will illuminate
-   - VFD will show "Push input to select your tracks"
-2. **Load Tracks**: Click the **INPUT** knob to select audio files
-   - Multiple file selection supported
-   - Supports FLAC, MP3, MP4, WAV formats
-3. **Play Music**: Use center control buttons for playback
-   - Play/Pause, Stop, Previous, Next
-4. **Access Options**: Click **OPTIONS** button for EQ and advanced features
-   - EQ controls, balance, loudness, mono mode
+3. **Enjoy offline access** to the interface (audio files loaded per session)
 
-### Main Controls
+### Desktop Version (Electron)
 
-#### Input Section
+#### Prerequisites
 
-- **INPUT Knob**:
-  - Click to open file selector
-  - Supports multiple file selection
-  - Displays "PUSH" indicator below knob
-  - Auto-powers on system if off
+- **Node.js** 16+ and npm
+- **Git** for cloning the repository
 
-#### Playback Controls
+#### Installation
 
-- **⏮ Previous**:
-  - Click: Skip to previous track (or restart if at beginning)
-  - Hold 500ms: Fast rewind within track (3s jumps)
-- **⏭ Next**:
-  - Click: Skip to next track (respects random/repeat modes)
-  - Hold 500ms: Fast forward within track (3s jumps)
-- **▶/⏸ Play/Pause**: 
-  - Toggle playback
-  - Initializes audio engine on first play
-  - Shows play/pause icon in VFD
-- **⏹ Stop**: 
-  - Stop playback and reset to start
-  - Updates VFD status icon
-- **MUTE**: 
-  - Toggle audio muting
-  - Shows "MUTE" in volume display
-  - Preserves volume setting
+1. **Clone** the repository:
+   
+   ```bash
+   git clone https://github.com/yourusername/mcintosh-msa5500.git
+   cd mcintosh-msa5500
+   ```
 
-#### Volume Section
+2. **Install** dependencies:
+   
+   ```bash
+   npm install
+   ```
 
-- **VOLUME Knob**:
-  - Click left side: Decrease volume (continuous when held)
-  - Click right side: Increase volume (continuous when held)
-  - Hold for continuous adjustment (0.01 steps at 50ms)
-  - Mouse wheel: Fine volume control (0.05 steps)
-  - Hover to display current level (shows for 2 seconds)
-  - Shows "ADJUST" indicator below knob
-  - Rotates visually from -135° to +135° (270° range)
-  - Triggers Power Guard LEDs when volume ≥ 90%
+3. **Run** the application:
+   
+   ```bash
+   npm start
+   ```
 
-#### System Controls
+#### Building Executables
 
-- **OPTIONS**: Open/close advanced controls menu
-  - Displays to the right of main panel
-  - Click outside to close
-- **DISPLAY**: Toggle stealth mode (blackout)
-  - Dims VFD display
-  - Reduces VU meter visibility
-  - Hides needles
-- **STANDBY/ON**: Power on/off with full system reset
-  - Power LED indicates state
-  - Complete system reset on power off
-  - Clears playlist and all modes
-  - Long press RESET (below button) for factory reset
+Create standalone executables for distribution:
 
-### OPTIONS Menu
+```bash
+# Build for current platform
+npm run dist
 
-Click **OPTIONS** to reveal advanced controls organized in sections:
+# Output will be in the 'dist' folder
+```
 
-#### Playback Modes
+**Build configuration** (in `package.json`):
+- Windows: Portable executable (.exe)
+- Icon assets required in `assets/windows/` folder:
+  - `prev.png` - Previous track button
+  - `play.png` - Play button
+  - `pause.png` - Pause button
+  - `next.png` - Next track button
+- Output directory: `dist/`
 
-- **RANDOM**: 
-  - Toggle shuffle playback order
-  - Avoids repeating same track twice in a row
-  - Status shown in VFD bottom left
-- **REPEAT**: 
-  - Cycle through modes (click to advance):
-    - Off → Repeat One → Repeat All → Off
-  - "REPEAT(1)" or "REPEAT(ALL)" shown in VFD
-- **A-B**: 
-  - Set loop points (three-state button):
-    - First click: Set point A (shows "POINT A SET")
-    - Second click: Set point B and start loop (shows "LOOP ACTIVE", auto-validates B > A)
-    - Third click: Disable loop (shows "LOOP OFF")
-  - Status shown as "A-" or "A-B" in VFD
-  - Automatic jump to point A when reaching point B
+#### Desktop Features
 
-#### Audio Processing
+The Electron version includes additional features:
 
-- **LOUDNESS**: 
-  - Toggle Fletcher-Munson loudness compensation
-  - Automatically boosts bass (+8dB max) and treble (+4dB max) at low volumes
-  - Effect decreases as volume increases
-  - "(LOUDNESS ON)" indicator appears in VFD tech corner
-  - Works in conjunction with manual EQ settings
-- **MONO**: 
-  - Toggle mono mode
-  - Combines stereo channels to mono
-  - Green LED indicator activates
-  - Automatically centers balance when enabled
-  - Restores previous balance when disabled
+- **Taskbar thumbnail buttons** (Windows only):
+  - Previous track
+  - Play/Pause with dynamic icon
+  - Next track
+- **Global media key support**:
+  - MediaPlayPause - Toggle play/pause
+  - MediaNextTrack - Skip to next
+  - MediaPreviousTrack - Go to previous
+- **Native window integration**:
+  - Auto-hiding menu bar for cleaner interface
+  - Proper window state management
+  - Native file dialogs
 
-#### Equalizer Controls
+## 🎮 Usage Guide
 
-- **BASS +**: Increase low frequencies (+2dB steps, max +12dB at 200Hz)
-- **BASS -**: Decrease low frequencies (-2dB steps, min -12dB at 200Hz)
-- **TREBLE +**: Increase high frequencies (+2dB steps, max +12dB at 3000Hz)
-- **TREBLE -**: Decrease high frequencies (-2dB steps, min -12dB at 3000Hz)
-- **TONE RESET**: Red button - Reset EQ to flat (0dB) and balance to center (0)
-  - Single click restores all tone controls to default
+### Quick Start
 
-#### Balance Controls
+1. **Power On**: Click the POWER button (red LED lights up)
+2. **Load Music**: 
+   - Click INPUT knob to select files, OR
+   - Click LIBRARY button to load a folder
+3. **Play**: Click the PLAY/PAUSE button
+4. **Adjust**: Use VOLUME knob and tone controls in OPTIONS menu
 
-- **BALANCE L**: Shift audio to left channel (-0.1 steps)
-- **BALANCE R**: Shift audio to right channel (+0.1 steps)
-- **Keyboard Alternative**: Use Left/Right arrow keys
-- **Note**: Balance is disabled when MONO mode is active
+### Interface Overview
 
-### Interactive Display Elements
+```
+┌─────────────────────────────────────────────────────────┐
+│  VU METER (L)    │   McIntosh Logo   │   VU METER (R)  │
+│                  │   [POWER GUARD]   │                  │
+│                  │      [MONO]       │                  │
+├─────────────────────────────────────────────────────────┤
+│                  VFD DISPLAY AREA                       │
+│  Track 1/10      Title - Artist - Album      --:--     │
+│  FLAC 1411 KBPS                                         │
+├─────────────────────────────────────────────────────────┤
+│ [INPUT] [◄◄] [►►] [▶/❚❚] [■] [MUTE] [OPTIONS] [VOL]  │
+└─────────────────────────────────────────────────────────┘
+```
 
-The VFD display has several clickable areas:
+### Control Functions
 
-- **Track Title** (VFD center): 
-  - Click to view album artwork in popup
-  - Shows embedded album art from ID3 tags
-  - Click overlay to close
-- **Track Counter** (top left): 
-  - Shows "current/total" format (e.g., "3/12")
-  - Click to open playlist browser
-  - Select track to play instantly
-  - Active track highlighted in green
-  - Click outside or on track to close
-- **Time Display** (top right): 
-  - Shows elapsed time by default (MM:SS)
-  - Click to toggle to remaining time (-MM:SS)
-  - Shows "ELAPSED TIME" or "REMAINING TIME" briefly when toggled
-- **Volume Display** (bottom center): 
-  - Auto-shows during volume changes
-  - Displays "VOL: XX%" or "MUTE"
-  - Auto-hides after 2 seconds
-- **Status Icons** (bottom right): 
-  - Shows PLAY ▶, PAUSE ⏸ (blinking), or STOP ⏹
-  - Auto-updates based on playback state
-- **Mode Indicators** (bottom left): 
-  - Shows RANDOM, REPEAT(1), REPEAT(ALL), A-B status
-  - Updates in real-time as modes change
-- **Technical Data** (top sections):
-  - Track counter (green, tabular numbers)
-  - File format (FLAC/MP3/WAV/MP4)
-  - Bitrate estimation
-  - Loudness indicator (when active)
+#### Basic Controls
+
+| Control | Function | Notes |
+|---------|----------|-------|
+| **POWER** | System on/off | Shows confirmation modal |
+| **INPUT** | Select audio files | Multiple selection supported |
+| **LIBRARY** | Load folder | Browse and select tracks |
+| **◄◄ (PREV)** | Previous track | Hold 500ms for seek backward |
+| **►► (NEXT)** | Next track | Hold 500ms for seek forward |
+| **▶/❚❚ (PLAY/PAUSE)** | Toggle playback | - |
+| **■ (STOP)** | Stop playback | Resets to track start |
+| **MUTE** | Toggle mute | Preserves volume level |
+| **VOLUME** | Adjust volume | Click/hold or mouse wheel |
+
+#### OPTIONS Menu Controls
+
+| Control | Function | Range/Steps |
+|---------|----------|-------------|
+| **BASS ↑/↓** | Adjust bass EQ | ±12dB in 2dB steps |
+| **TREBLE ↑/↓** | Adjust treble EQ | ±12dB in 2dB steps |
+| **BALANCE L/R** | Stereo balance | -100% to +100% in 10% steps |
+| **TONE RESET** | Reset EQ and balance | Flat 0dB, center balance |
+| **MONO** | Mono/stereo mode | Green LED when active |
+| **LOUDNESS** | Fletcher-Munson curve | Automatic at low volumes |
+| **STEALTH** | Display blackout | Dims all lights |
+| **REPEAT** | Repeat modes | Off → (1) → (ALL) |
+| **RANDOM** | Shuffle playback | Avoids immediate repeats |
+| **A-B LOOP** | Set loop points | A → A-B → Off |
 
 ### Keyboard Shortcuts
 
-- **Left Arrow**: Balance audio to left channel
-- **Right Arrow**: Balance audio to right channel
-- **Media Keys**: If browser supports MediaSession API:
-  - Play/Pause
-  - Stop
-  - Previous Track
-  - Next Track
+| Key | Action |
+|-----|--------|
+| **Space** | Play/Pause |
+| **← (Left Arrow)** | Balance left |
+| **→ (Right Arrow)** | Balance right |
+| **MediaPlayPause** | Play/Pause (desktop) |
+| **MediaNextTrack** | Next track (desktop) |
+| **MediaPreviousTrack** | Previous track (desktop) |
 
-### Visual Indicators
+### Interactive Elements
 
-#### LEDs
-- **Power LED** (red, above STANDBY/ON button): System power state
-- **MONO LED** (green, center under logo): Mono mode active
-- **POWER GUARD LEDs** (red, left and right under logo): Volume ≥ 90% (rapid blink)
+- **Click track count**: Opens playlist popup
+- **Click track title**: Opens album art viewer (if available)
+- **Click time display**: Toggle elapsed/remaining time
+- **Click VFD modes**: Displays current settings
+- **Hover volume knob**: Shows current volume level
+- **Hover EQ controls**: Shows current EQ values
 
-#### VU Meters
-- **Dual Stereo Meters**: Show real-time audio levels for left and right channels
-- **Smooth Animation**: Needles move with realistic physics and smoothing
-- **Custom Background**: Authentic McIntosh meter dial design
-- **Auto-Return**: Needles return to rest position when stopped
+### Tips & Tricks
 
-## 🔧 Technical Details
+1. **Accurate EQ**: Hover over BASS/TREBLE controls to see exact dB values
+2. **Quick Reset**: Use TONE RESET to return to neutral audio
+3. **Loudness**: Automatically enhances bass/treble at low volumes
+4. **Power Guard**: Red LEDs warn when volume ≥90%
+5. **Seek Mode**: Hold ◄◄ or ►► for 500ms to jump through track
+6. **A-B Practice**: Perfect for musicians - loop difficult sections
+7. **Mono Mode**: Useful for checking mixes and voice-over work
+8. **Stealth Mode**: Minimalist listening with display off
 
-### Technology Stack
+## 🛠️ Technical Details
 
-#### Core Technologies
+### Architecture
 
-- Pure JavaScript (ES6+)
-- HTML5 Audio API
-- Web Audio API (AudioContext, BiquadFilter, StereoPanner, ChannelSplitter, AnalyserNode)
-- CSS3 with animations and transforms
-- Service Workers for PWA functionality
+```
+McIntosh MSA5500
+│
+├── Frontend (HTML/CSS/JS)
+│   ├── index.html          - Main structure
+│   ├── style.css           - Visual styling
+│   ├── script.js           - Core logic and UI control
+│   └── main.js             - Electron main process (desktop only)
+│
+├── Audio Engine
+│   └── Web Audio API Graph:
+│       MediaElement → StereoPanner → BiquadFilter(Bass) 
+│       → BiquadFilter(Treble) → ChannelSplitter 
+│       → AnalyserNode(L/R) → Destination
+│
+├── Service Worker (PWA)
+│   └── sw.js               - Offline caching
+│
+└── Assets
+    ├── img/                - Logos, VU meter backgrounds
+    ├── fontawesome7/       - Icon library
+    └── windows/            - Electron taskbar icons (desktop)
+```
 
-#### External Libraries
+### Web Audio API Graph
 
-- **Font Awesome 7**: Icon library for control symbols (play, pause, stop, etc.)
-- **jsmediatags 3.9.5**: ID3 tag and metadata extraction
-- **Google Fonts**:
-  - Bitcount Single (VFD display - monospace bitmap style)
-  - Roboto (labels and UI elements)
+```
+┌──────────────┐
+│ MediaElement │ (HTML5 Audio)
+└──────┬───────┘
+       │
+┌──────▼────────┐
+│ StereoPanner  │ (Balance Control)
+└──────┬────────┘
+       │
+┌──────▼────────┐
+│ BiquadFilter  │ (Bass - Low Shelf)
+└──────┬────────┘
+       │
+┌──────▼────────┐
+│ BiquadFilter  │ (Treble - High Shelf)
+└──────┬────────┘
+       │
+┌──────▼───────────┐
+│ ChannelSplitter  │ (Stereo Separation)
+└──────┬───────────┘
+       │
+   ┌───┴───┐
+   │       │
+┌──▼──┐ ┌──▼──┐
+│ AL  │ │ AR  │ (AnalyserNodes)
+└─────┘ └─────┘
+   │       │
+   └───┬───┘
+       │
+┌──────▼────────┐
+│  Destination  │ (Output)
+└───────────────┘
+```
 
 ### Browser Compatibility
 
-|Browser|Version|Support|Notes|
-|-------|-------|-------|-----|
-|Chrome |90+    |✅ Full |Recommended browser|
-|Edge   |90+    |✅ Full |Chromium-based|
-|Firefox|88+    |✅ Full |Full Web Audio API support|
-|Safari |14+    |✅ Full*|*Requires user interaction before autoplay|
-|Opera  |76+    |✅ Full |Chromium-based|
+| Feature | Chrome | Firefox | Safari | Edge |
+|---------|--------|---------|--------|------|
+| **Web Audio API** | ✅ 57+ | ✅ 53+ | ✅ 14.1+ | ✅ 79+ |
+| **File API** | ✅ | ✅ | ✅ | ✅ |
+| **Service Worker** | ✅ | ✅ | ✅ | ✅ |
+| **Media Session** | ✅ | ✅ | ✅ | ✅ |
+| **FLAC Support** | ✅ | ✅ | ❌* | ✅ |
 
-*Safari requires user interaction before audio playback (browser security policy)
-*All browsers require HTTPS for service workers (PWA features)
+\* Safari requires QuickTime for FLAC
 
-### Web Audio API Architecture
+### File Format Support
 
-```
-Audio Element Source (MediaElementSourceNode)
-       ↓
-StereoPanner (Balance: -1.0 to +1.0)
-       ↓
-Biquad Filter (Bass - Low Shelf 200Hz, ±12dB)
-       ↓
-Biquad Filter (Treble - High Shelf 3000Hz, ±12dB)
-       ↓
-Channel Splitter (Stereo → L/R)
-       ↓          ↓
-  Analyser L  Analyser R  (FFT 1024, for VU meters)
-       ↓          ↓
-   Merger → Destination (AudioContext output)
-```
+| Format | Container | Codec | Bitrate | Notes |
+|--------|-----------|-------|---------|-------|
+| **FLAC** | FLAC | FLAC | Lossless | Preferred for audiophile |
+| **WAV** | WAV | PCM | Lossless | Universal support |
+| **MP3** | MP3 | MPEG-1/2 Layer 3 | 32-320 kbps | Most compatible |
+| **MP4/M4A** | MP4 | AAC | 64-320 kbps | Good quality/size ratio |
 
-### Supported File Formats
+### Performance Specifications
 
-|Format |Extension |Quality     |Notes                     |ID3 Tags|
-|-------|----------|------------|--------------------------|--------|
-|FLAC   |.flac     |Lossless    |Best quality, larger files|✅ Yes   |
-|WAV    |.wav      |Uncompressed|Studio quality            |❌ No    |
-|MP3    |.mp3      |Lossy       |Universal compatibility   |✅ Yes   |
-|MP4/M4A|.mp4, .m4a|Lossy (AAC) |Apple ecosystem           |✅ Yes   |
+- **Audio Processing Latency**: <10ms (typical)
+- **VU Meter Refresh Rate**: 60fps (requestAnimationFrame)
+- **Frequency Analysis**: 1024-point FFT
+- **Volume Steps**: 0.01 (1% increments)
+- **EQ Resolution**: 2dB steps
+- **Balance Resolution**: 0.1 (10% steps)
+- **Service Worker Cache**: ~5MB (static assets only)
 
-### Performance Characteristics
+### Security & Privacy
 
-- **VU Meter Update Rate**: 60 FPS (requestAnimationFrame)
-- **Audio Analysis**: 1024-point FFT, real-time stereo analysis
-- **Volume Steps**: 
-  - Click: 0.01 (1%) per step at 50ms intervals
-  - Wheel: 0.05 (5%) per scroll
-- **EQ/Balance Steps**:
-  - Bass/Treble: 2dB per click
-  - Balance: 0.1 per click
-- **Seek Speed**: 3 seconds per 100ms when holding prev/next
-- **Needle Smoothing**: 25% interpolation (smooth, realistic movement)
-- **Loudness Calculation**: Real-time based on current volume (0-70% range)
+- **No tracking**: Zero analytics or telemetry
+- **Local processing**: All audio processing happens in-browser
+- **No uploads**: Files never leave your device
+- **No server**: Pure client-side application
+- **No cookies**: No data storage beyond PWA cache
 
-### Audio Processing Details
-
-#### Equalizer
-```javascript
-// Bass filter (Low Shelf)
-bassFilter.type = "lowshelf";
-bassFilter.frequency.value = 200;  // Hz
-bassFilter.gain.value = bassGain;  // -12 to +12 dB (2dB steps)
-
-// Treble filter (High Shelf)
-trebleFilter.type = "highshelf";
-trebleFilter.frequency.value = 3000;  // Hz
-trebleFilter.gain.value = trebleGain; // -12 to +12 dB (2dB steps)
-```
-
-#### Loudness Compensation
-```javascript
-// Applied only when isLoudnessActive = true
-// Maximum effect at volume 0, linearly decreases to 0 at volume 70%
-intensity = max(0, (0.7 - currentVolume) / 0.7);
-actualBassGain = bassGain + (intensity * 8);  // Up to +8dB boost
-actualTrebleGain = trebleGain + (intensity * 4);  // Up to +4dB boost
-```
-
-#### Balance Control
-```javascript
-// StereoPanner API
-balanceNode.pan.value = currentBalance;  // -1.0 (full left) to +1.0 (full right)
-// Disabled (forced to 0) when mono mode is active
-```
-
-#### VU Meter Response
-```javascript
-// Power-law response for natural meter movement
-targetAngle = -55 + (min(255, level * 1.8) / 255) ^ 0.7 * 95;
-// Smoothing: 25% interpolation per frame
-currentAngle += (targetAngle - currentAngle) * 0.25;
-```
-
-## 🎨 Customization Guide
-
-### Colors
-
-Modify CSS custom properties in `style.css`:
-
-```css
-:root {
-    --background-color-app: #3f3f3f;  /* Page background */
-    --mc-blue: #00c3ff;                /* VFD text, primary accent */
-    --mc-green: #00ff41;               /* Labels, time, track counter */
-    --mc-vumeter: #00aef2;             /* VU meter background */
-    --panel-black: #080808;            /* Main panel background */
-    --mc-led-green: #00ff00;           /* Green LED glow */
-    --mc-led-red: #ff0000;             /* Red LED glow */
-    --mc-gold: #ffd700;                /* Gold accents (PUSH/ADJUST) */
-    --police-size-counter: 30px;       /* Track/time counter size */
-    --police-size-label-counter: 12px; /* Label text size */
-}
-```
-
-### VU Meter Sensitivity
-
-Adjust needle response in `script.js`:
-
-```javascript
-// Line ~345-346: Modify level multiplier and power curve
-targetAngleL = -55 + Math.pow(Math.min(255, lvlL * 1.8) / 255, 0.7) * 95;
-// 1.8 = sensitivity multiplier (increase for more sensitive meters)
-// 0.7 = power curve exponent (lower = more responsive to quiet sounds)
-// 95 = maximum angle range (degrees from rest position)
-
-// Line ~347: Modify smoothing factor
-currentAngleL += (targetAngleL - currentAngleL) * 0.25;
-// 0.25 = 25% interpolation (higher = faster response, lower = smoother)
-```
-
-### EQ Filter Frequencies
-
-Modify filter parameters in `script.js`:
-
-```javascript
-// Lines ~167-171: EQ filter setup
-bassFilter.frequency.value = 200;  // Hz (lower = deeper bass)
-bassFilter.gain.value = bassGain;  // -12 to +12 dB
-
-trebleFilter.frequency.value = 3000;  // Hz (higher = brighter treble)
-trebleFilter.gain.value = trebleGain; // -12 to +12 dB
-```
-
-### Font Sizes
-
-Adjust display text sizes in `style.css`:
-
-```css
-:root {
-    --police-size-counter: 30px;       /* Track/time counters */
-    --police-size-label-counter: 12px; /* Label text */
-}
-
-.vfd-large {
-    font-size: 30px;  /* Main track title */
-}
-
-.vfd-info {
-    font-size: 14px;  /* Artist/album info */
-}
-
-.small-label {
-    font-size: 10px;  /* Button labels */
-}
-```
-
-### Volume/EQ Step Sizes
-
-Adjust control increments in `script.js`:
-
-```javascript
-// Volume steps
-currentVolume += 0.01;  // Click/hold step (line ~376)
-currentVolume += 0.05;  // Mouse wheel step (line ~380)
-
-// Bass/Treble steps
-bassGain += 2;  // 2dB per click (can be modified)
-trebleGain += 2;  // 2dB per click (can be modified)
-
-// Balance steps
-currentBalance += 0.1;  // Per click (lines ~178-186)
-```
-
-## 🐛 Known Issues & Limitations
-
-### Current Limitations
-
-- Bitrate calculation is estimated for variable bitrate (VBR) files
-- Some browsers require user interaction before auto-playing audio (security policy)
-- Album artwork display depends on proper ID3v2 tag embedding
-- Playlist order is not persistent across page reloads
-- WAV files typically don't support ID3 tags (metadata won't display)
-- Service worker requires HTTPS (or localhost) to function
-- Power Guard LEDs trigger at fixed 90% threshold (not adjustable)
-
-### Browser-Specific Issues
-
-- **Safari**: 
-  - May show security warnings for local file access
-  - Requires user interaction before audio playback
-  - MediaSession API support may be limited
-- **Mobile browsers**: 
-  - Limited support for file input (use desktop for best experience)
-  - Touch events may not work perfectly with hold-to-seek
-  - PWA installation varies by platform
-- **Firefox**: 
-  - May require manual service worker enable in about:config
-
-### Workarounds
-
-- **Autoplay blocked**: Click any button after loading to initialize audio context
-- **Missing album art**: Ensure files have embedded artwork in ID3v2 tags (not ID3v1)
-- **Bitrate accuracy**: Use constant bitrate (CBR) encoding for accurate display
-- **Metadata not showing**: Check file tags with a tool like Mp3tag or MusicBrainz Picard
-- **PWA not installing**: Ensure serving via HTTPS (not HTTP)
-- **Service worker not caching**: Hard refresh (Ctrl+F5) and check browser console
-
-## 👨‍💻 Development
+## 🔧 Development
 
 ### Project Structure
 
 ```
-src/
-├── index.html          # Main HTML structure (~280 lines)
-├── script.js           # Application logic (~398 lines)
-├── style.css          # All styling and animations (~673 lines)
-├── manifest.json      # PWA manifest
-├── sw.js              # Service worker for offline caching
-├── img/               # Image assets
-│   ├── mc-logo.png      # Main McIntosh logo
-│   ├── logo_b.png       # Options menu logo
-│   ├── favicon.png      # App icon (192x192, 512x512)
-│   └── vumeter-new.png  # VU meter background dial
-└── fontawesome7/      # Icon library
-    └── css/
-        └── all.min.css
+mcintosh-msa5500/
+│
+├── index.html              # Main HTML structure
+├── style.css               # All styling and animations
+├── script.js               # Core application logic
+├── main.js                 # Electron main process
+├── package.json            # Node.js dependencies & build config
+├── manifest.json           # PWA manifest
+├── sw.js                   # Service Worker for offline functionality
+├── README.md               # This file
+├── LICENSE                 # MIT License
+│
+└── assets/
+    ├── img/
+    │   ├── mc-logo.png     # McIntosh logo (on state)
+    │   ├── mc-logo-off.png # McIntosh logo (off state)
+    │   ├── logo_b.png      # Brand logo variant
+    │   ├── favicon.png     # App icon
+    │   ├── favicon.ico     # Windows icon
+    │   └── vumeter-new.png # VU meter background image
+    │
+    ├── fontawesome7/       # Font Awesome 7 icon library
+    │   ├── css/
+    │   └── webfonts/
+    │
+    └── windows/            # Electron desktop icons
+        ├── prev.png        # Previous button icon
+        ├── play.png        # Play button icon
+        ├── pause.png       # Pause button icon
+        └── next.png        # Next button icon
 ```
 
-### Code Organization
+### Technology Stack
 
-**script.js sections** (in order):
+**Frontend:**
+- HTML5 (Audio API, File API)
+- CSS3 (Animations, Transforms, Gradients)
+- Vanilla JavaScript (ES6+)
+- Web Audio API
+- Service Worker API
+- Media Session API
 
-1. DOM selectors (lines 1-38)
-2. Variable initialization (lines 40-80)
-3. Power on/off logic (lines 139-154)
-4. Audio engine setup (lines 156-177)
-5. Balance controls (lines 178-194)
-6. EQ controls (lines 195-210)
-7. File loading & metadata (lines 211-236)
-8. Interactive VFD clicks (lines 237-248)
-9. Audio time update (lines 250-257)
-10. Mono mode toggle (lines 259-272)
-11. Seeking (hold prev/next) (lines 274-302)
-12. Playlist popup (lines 304-318)
-13. Main control buttons (lines 320-337)
-14. VU meter animation loop (lines 339-351)
-15. Volume control (lines 353-383)
-16. Media session integration (lines 385-394)
-17. Options menu toggle (lines 396-398)
+**Desktop:**
+- Electron 26.0.0
+- electron-builder 24.6.4
 
-### Building & Testing
+**Dependencies:**
+- [jsmediatags](https://github.com/aadsm/jsmediatags) 3.9.5 - ID3 tag extraction
+- [Font Awesome](https://fontawesome.com/) 7 - Icon library
 
-No build process required! Simply:
+**Fonts:**
+- [Bitcount Single](https://fonts.google.com/) - VFD display font
+- [Roboto](https://fonts.google.com/) - UI labels and controls
 
-1. Edit source files
-2. Refresh browser (Ctrl+F5 for hard reload to bypass service worker)
-3. Test in multiple browsers (Chrome, Firefox, Safari)
-4. Validate HTML/CSS/JS with online validators
-5. Test PWA features via lighthouse or browser DevTools
+### Code Style
 
-### Coding Standards
+- **JavaScript**: ES6+ features, 4-space indentation
+- **CSS**: BEM-inspired naming, CSS custom properties
+- **HTML**: Semantic markup, accessibility attributes
+- **Comments**: Inline for complex logic, JSDoc for functions
 
-- ES6+ JavaScript syntax (const/let, arrow functions, template literals)
-- Meaningful variable names (camelCase)
-- Comments for complex logic (especially audio processing)
-- Consistent indentation (4 spaces)
-- CSS organized by component (structure → visual → interactive)
-- Single-letter variables only for iterators (i, j) or well-known abbreviations (L/R for left/right)
+### Build Process
 
-### Testing Checklist
+#### Web Version
 
-- [ ] Power on/off functionality
-- [ ] File loading (single and multiple)
-- [ ] Play/pause/stop controls
-- [ ] Previous/next track navigation
-- [ ] Hold-to-seek functionality
-- [ ] Volume control (click, hold, wheel)
-- [ ] Mute function
-- [ ] EQ adjustments (bass, treble, reset)
-- [ ] Balance control (buttons and keyboard)
-- [ ] Random/repeat modes
-- [ ] A-B loop functionality
-- [ ] Loudness compensation
-- [ ] Mono mode toggle
-- [ ] Display toggle (stealth mode)
-- [ ] VU meter animation
-- [ ] VFD display updates
-- [ ] Album art viewer
-- [ ] Playlist browser
-- [ ] Time display toggle
-- [ ] Power Guard LEDs
-- [ ] Options menu open/close
-- [ ] Click-outside-to-close behavior
-- [ ] Service worker caching
-- [ ] PWA installation
-- [ ] MediaSession integration
-- [ ] Keyboard shortcuts
-- [ ] Mobile responsiveness (if applicable)
+No build process required - direct file serving:
+
+```bash
+# Development
+python -m http.server 8000
+
+# Production
+# Simply upload files to any static hosting service
+```
+
+#### Electron Desktop
+
+```bash
+# Install dependencies
+npm install
+
+# Development mode
+npm start
+
+# Build executable
+npm run dist
+```
+
+**electron-builder** configuration handles:
+- Packaging application with assets
+- Creating native installers/executables
+- Code signing (optional)
+- Multi-platform builds
+
+### Extending the Application
+
+#### Adding New Audio Formats
+
+1. Update `accept` attribute in `index.html`:
+```html
+<input type="file" id="audio-upload" accept=".flac,.mp3,.mp4,.wav,.ogg">
+```
+
+2. Add format detection in `script.js`:
+```javascript
+fileFormat.textContent = file.name.split('.').pop().toUpperCase();
+```
+
+#### Customizing VU Meters
+
+Modify the meter response in the audio engine:
+
+```javascript
+// Adjust smoothing (0-1, lower = more responsive)
+const SMOOTHING = 0.25;
+
+// Adjust power curve (higher = more dramatic movement)
+const POWER = 1.5;
+```
+
+#### Adding New Themes
+
+Create alternate color schemes in `style.css`:
+
+```css
+:root {
+  --mc-led-blue: #00c3ff;    /* Primary accent */
+  --mc-led-green: #00ff41;   /* Secondary accent */
+  --mc-gold: #ffd700;        /* Highlights */
+}
+```
+
+## 📋 Requirements
+
+### Web Version
+
+- **Browser**: Chrome 57+, Firefox 53+, Safari 14.1+, Edge 79+
+- **JavaScript**: Must be enabled
+- **Storage**: ~5MB for PWA cache (optional)
+- **Network**: Required for initial load (offline after PWA install)
+
+### Desktop Version
+
+- **Operating System**:
+  - Windows 10/11 (64-bit)
+  - macOS 10.13+ (High Sierra or later)
+  - Linux (Ubuntu 18.04+, Debian 10+, Fedora 32+)
+- **RAM**: 512MB minimum, 1GB recommended
+- **Disk Space**: 100MB for application
+- **Display**: 1280x800 minimum resolution
+
+### Audio Files
+
+- **Supported formats**: FLAC, MP3, MP4/M4A, WAV
+- **Embedded metadata**: ID3v2 tags recommended for full functionality
+- **Album art**: Embedded in file (JPEG/PNG)
+- **File size**: No theoretical limit (browser memory dependent)
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here's how to help:
+Contributions are welcome! Whether it's bug fixes, new features, or documentation improvements, your help makes this project better.
 
 ### How to Contribute
 
 1. **Fork** the repository
-1. **Create** a feature branch:
+
+2. **Create** a feature branch:
    
    ```bash
    git checkout -b feature/amazing-feature
    ```
 1. **Make** your changes
-1. **Test** thoroughly across browsers
+2. **Test** thoroughly across browsers
    - Chrome, Firefox, Safari minimum
    - Test on mobile if changing UI
 1. **Commit** with clear messages:
@@ -904,6 +800,7 @@ This project pays homage to **McIntosh Laboratory**, legendary American manufact
 - **[HTML5 Audio](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio)** - W3C specification
 - **[Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)** - PWA offline functionality
 - **[Media Session API](https://developer.mozilla.org/en-US/docs/Web/API/Media_Session_API)** - System media controls integration
+- **[Electron](https://www.electronjs.org/)** - Cross-platform desktop application framework
 
 ### Special Thanks
 
@@ -912,6 +809,7 @@ This project pays homage to **McIntosh Laboratory**, legendary American manufact
 - McIntosh Laboratory for decades of design excellence
 - All contributors, testers, and users
 - The Web Audio API community and documentation authors
+- Electron.js team for desktop integration capabilities
 
 ## 📞 Support & Contact
 
@@ -930,6 +828,7 @@ This project pays homage to **McIntosh Laboratory**, legendary American manufact
 - [PWA Guide](https://web.dev/progressive-web-apps/)
 - [BiquadFilter API](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode)
 - [StereoPanner API](https://developer.mozilla.org/en-US/docs/Web/API/StereoPannerNode)
+- [Electron Documentation](https://www.electronjs.org/docs/latest)
 
 ### FAQ
 
@@ -950,6 +849,12 @@ A: Ensure audio is playing and system is powered on. Check browser console for W
 
 **Q: Can I use this offline?**
 A: Yes, once installed as a PWA. However, audio files must be loaded each session (not cached).
+
+**Q: How do I build the desktop app?**
+A: Install Node.js, run `npm install`, then `npm run dist`. See the Desktop Version section for details.
+
+**Q: Do the taskbar buttons work on macOS/Linux?**
+A: Taskbar thumbnail buttons are Windows-only. However, global media key shortcuts work on all platforms.
 
 -----
 <img width="1802" height="801" alt="2" src="https://github.com/user-attachments/assets/ce179959-13f4-4ace-882e-d8877527082c" />
