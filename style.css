@@ -457,7 +457,7 @@ body {
 
 .btn-base {
     position: relative;
-    width: 70px;
+    width: 62px;
     height: 50px;
     /* Dégradé multicouche pour l'aspect verre/laque */
     background: linear-gradient(180deg, 
@@ -465,7 +465,7 @@ body {
         #1a1a1a 40%, 
         #0a0a0a 50%, 
         #000000 100%);
-    border-radius: 70% / 20px; 
+    border-radius: 90% / 20px; 
     display: flex;
     align-items: center;
     justify-content: center;
