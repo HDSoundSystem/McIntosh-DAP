@@ -1165,14 +1165,14 @@ body {
 .chassis-btn-yes {
     position: relative;
     /* On force les dimensions */
-    width: 70px !important; 
+    width: 60px !important; 
     height: 50px !important;
-    min-width: 70px;
+    min-width: 60px;
     min-height: 50px;
     
     /* On applique le look laqué McIntosh */
     background: linear-gradient(180deg, #353535 0%, #1a1a1a 40%, #0a0a0a 50%, #000000 100%);
-    border-radius: 70% / 20px; 
+    border-radius: 90% / 20px; 
     display: flex;
     align-items: center;
     justify-content: center;
