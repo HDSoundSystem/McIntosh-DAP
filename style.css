@@ -1187,3 +1187,90 @@ body {
     font-weight: normal;
     font-size: 10px;
 }
+
+.mc-popup-eq {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    background: rgba(0, 0, 0, 0.95);
+    border: 5px solid var(--mc-gold, #b29671);
+    border-radius: 15px;
+    padding: 20px;
+    z-index: 1000;
+    box-shadow: 0 0 30px rgba(0,0,0,0.8);
+    color: white;
+    font-family: sans-serif;
+}
+
+.eq-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+    color: var(--mc-gold, #b29671);
+    font-size: 14px;
+    letter-spacing: 1px;
+}
+
+.eq-sliders-container {
+    display: flex;
+    justify-content: space-between;
+    height: 200px;
+}
+
+.eq-band {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 35px;
+}
+
+.eq-band input[type="range"] {
+    appearance: none;
+    width: 150px;
+    height: 4px;
+    background: #222;
+    transform: rotate(-90deg);
+    margin-top: 70px;
+    margin-bottom: 70px;
+    cursor: pointer;
+}
+
+.eq-band input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 12px;
+    height: 25px;
+    background: var(--mc-led-green, #00ff66);
+    border-radius: 2px;
+    box-shadow: 0 0 5px #00ff66;
+}
+
+.eq-band span {
+    font-size: 15px;
+    color: #888;
+margin-top: 10px;
+}
+
+.close-eq {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.eq-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #222;
+}
+
+/* On s'assure que le bouton garde les styles globaux de ton application */
+.eq-footer .button-option {
+    margin: 0;
+}
