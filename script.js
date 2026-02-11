@@ -606,7 +606,7 @@ function drawEQCurve() {
 
     // Dessin de la courbe "Glow" McIntosh
     eqCtx.beginPath();
-    eqCtx.strokeStyle = "#00ff66";
+    eqCtx.strokeStyle = "#00c3ff";
     eqCtx.lineWidth = 3;
     eqCtx.lineCap = "round";
     eqCtx.shadowBlur = 10;
