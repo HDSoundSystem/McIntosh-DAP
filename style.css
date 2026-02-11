@@ -159,44 +159,38 @@ body {
 .amplifier-panel::after {
     content: "";
     position: absolute;
-    bottom: -8px;
+    bottom: -5px;
     /* Épaisseur de ta bordure */
     left: 0;
     width: 100%;
-    height: 8px;
+    height: 15px;
     /* Dégradé qui simule l'angle du métal */
-    background: linear-gradient(to bottom,
-            #444 0%,
-            /* Reflet sur l'arête supérieure */
-            #222 20%,
-            /* Face avant du rebord */
-            #111 80%,
-            /* Ombre propre */
-            #000 100%
-            /* Jonction avec le châssis */
-        );
-    border-top: 3px solid rgba(255, 255, 255, 0.15);
+    background: linear-gradient(to top, 
+        #181818 0%, 
+        #181818 20%, 
+        #181818 80%, 
+        #181818 100%);
+    
     /* Micro-reflet de finition */
-    border-radius: 0 0 4px 4px;
+    border-radius: 0 0 0px 0px;
 }
 
 /* Bordure métallique du HAUT (Bezel Top) */
 .amplifier-panel::before {
     content: "";
     position: absolute;
-    top: -8px; /* Positionné au-dessus du panneau */
+    top: -10px; /* Positionné au-dessus du panneau */
     left: 0;
     width: 100%;
-    height: 8px;
+    height: 15px;
     /* Dégradé inversé pour simuler l'angle vers le haut */
     background: linear-gradient(to top, 
-        #444 0%, 
-        #222 20%, 
-        #111 80%, 
-        #000 100%);
+        #181818 0%, 
+        #181818 20%, 
+        #181818 80%, 
+        #181818 100%);
     /* Reflet sur l'arête supérieure */
-    border-bottom: 3px solid rgba(255, 255, 255, 0.15);
-    border-radius: 4px 4px 0 0;
+    border-radius: 0px 0px 0 0;
 }
 
 .meter-container {
@@ -837,7 +831,7 @@ body {
     text-transform: uppercase;
     letter-spacing: 1.5px;
     position: absolute;
-    bottom: 8px;
+    bottom: 15px;
     left: 50%;
     transform: translateX(-2235%);
     z-index: 20;
@@ -853,7 +847,7 @@ body {
     text-transform: uppercase;
     letter-spacing: 1.5px;
     position: absolute;
-    bottom: 8px;
+    bottom: 15px;
     left: 50%;
     transform: translateX(1465%);
     z-index: 20;
