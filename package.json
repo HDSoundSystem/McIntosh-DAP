@@ -1,6 +1,6 @@
 {
   "name": "mcintosh-msa-5500",
-  "version": "1.6.0",
+  "version": "2.1.0",
   "description": "McIntosh MSA 5500",
   "main": "main.js",
   "scripts": {

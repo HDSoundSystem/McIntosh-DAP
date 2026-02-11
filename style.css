@@ -7,7 +7,7 @@
     --panel-black: #080808;
     --mc-led-green: #00ff00;
     --mc-led-red: #ff0000;
-    --mc-red-button: #a10202;
+    --mc-red-button: #912624;
     --mc-gold: #786b46;
     --chassis-shadow: rgba(46, 46, 46, 0.8);
     --border-bottom: #2e2e2e;
@@ -159,25 +159,38 @@ body {
 .amplifier-panel::after {
     content: "";
     position: absolute;
-    bottom: -8px;
+    bottom: -5px;
     /* Épaisseur de ta bordure */
     left: 0;
     width: 100%;
-    height: 8px;
+    height: 15px;
     /* Dégradé qui simule l'angle du métal */
-    background: linear-gradient(to bottom,
-            #444 0%,
-            /* Reflet sur l'arête supérieure */
-            #222 20%,
-            /* Face avant du rebord */
-            #111 80%,
-            /* Ombre propre */
-            #000 100%
-            /* Jonction avec le châssis */
-        );
-    border-top: 3px solid rgba(255, 255, 255, 0.15);
+    background: linear-gradient(to top, 
+        #181818 0%, 
+        #181818 20%, 
+        #181818 80%, 
+        #181818 100%);
+    
     /* Micro-reflet de finition */
-    border-radius: 0 0 4px 4px;
+    border-radius: 0 0 0px 0px;
+}
+
+/* Bordure métallique du HAUT (Bezel Top) */
+.amplifier-panel::before {
+    content: "";
+    position: absolute;
+    top: -10px; /* Positionné au-dessus du panneau */
+    left: 0;
+    width: 100%;
+    height: 15px;
+    /* Dégradé inversé pour simuler l'angle vers le haut */
+    background: linear-gradient(to top, 
+        #181818 0%, 
+        #181818 20%, 
+        #181818 80%, 
+        #181818 100%);
+    /* Reflet sur l'arête supérieure */
+    border-radius: 0px 0px 0 0;
 }
 
 .meter-container {
@@ -456,33 +469,115 @@ body {
 }
 
 .btn-base {
-    background: linear-gradient(180deg, #1d1d1d, #050505);
-    border: 5px solid #2c2c2c;
-    width: 65px;
-    height: 45px;
-    border-radius: 15px;
-    cursor: pointer;
+    position: relative;
+    width: 62px;
+    height: 50px;
+    /* Dégradé multicouche pour l'aspect verre/laque */
+    background: linear-gradient(180deg, 
+        #353535 0%, 
+        #1a1a1a 40%, 
+        #0a0a0a 50%, 
+        #000000 100%);
+    border-radius: 90% / 20px; 
     display: flex;
-    justify-content: center;
     align-items: center;
-    transition: all 0.2s ease;
-    box-sizing: border-box;
-    box-shadow:
-        0 4px 0 #000000,
-        inset 0 0 0 4px #000000,
-        inset 0 3px 5px rgba(12, 12, 12, 0.5);
+    justify-content: center;
+    /* Bordure plus claire pour définir l'arête brillante */
+    border: 1px solid #3a3a3a;
+    box-shadow: 
+        0 4px 10px rgba(0, 0, 0, 0.9),
+        /* Reflet blanc vif sur le rebord supérieur */
+        inset 0 2px 3px rgba(255, 255, 255, 0.3),
+        /* Ombre de profondeur sur le bas du bouton */
+        inset 0 -2px 5px rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    overflow: hidden;
+    z-index: 1;
 }
+
+.btn-base::after {
+    content: "";
+    width: 75%;
+    height: 60%;
+    background: #0d0d0d;
+    border-radius: 100% / 15px;
+    transform: translateY(1px); 
+    box-shadow: 
+        0 4px 6px rgba(0, 0, 0, 0.8),    
+        0 -1px 2px rgba(255, 255, 255, 0.15); 
+    border: 1px solid #222;
+    transition: all 0.1s ease;
+    /* Empêche l'effet visuel de bloquer le clic sur les inputs cachés */
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* --- ÉTAT ACTIF (CLIC) --- */
 
 .btn-base:active {
     transform: translateY(2px);
-    box-shadow:
-        0 2px 0 #111,
-        inset 0 0 0 2px #000000;
+    /* Réduction du reflet au clic pour simuler l'enfoncement */
+    box-shadow: 
+        0 2px 5px rgba(0, 0, 0, 0.9),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.btn-base:active::after {
+    transform: translateY(1px) scale(0.96);
+    box-shadow: 
+        0 1px 2px rgba(0, 0, 0, 0.9),
+        inset 0 2px 5px rgba(0, 0, 0, 0.6);
+    background: #050505;
+}
+
+/* SÉCURITÉ POUR TON SÉLECTEUR DE COULEUR */
+.btn-base input[type="color"] {
+    z-index: 10;
+    position: absolute;
+    cursor: pointer;
 }
 
 .power-btn {
-    background: var(--mc-red-button);
+    background: #1a1a1a;
 }
+
+.power-btn::after {
+  content: "";
+  width: 75%;
+  height: 60%;
+  
+  /* Dégradé rouge pour le volume */
+  background: radial-gradient(circle, #912624 0%, #912624 100%);
+  
+  border-radius: 100% / 15px;
+  
+  /* Décalage vers le bas pour l'effet "physique" */
+  transform: translateY(1px); 
+  
+  /* Effet sorti : ombre portée noire + bordure noire nette */
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.8),
+    0 -1px 2px rgba(255, 255, 255, 0.2);
+  
+  border: 2px solid #000;
+  transition: all 0.1s ease;
+}
+
+.power-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.9);
+}
+
+.power-btn:active::after {
+  /* L'insert s'enfonce et s'assombrit */
+  transform: translateY(1px) scale(0.98);
+  background: radial-gradient(circle, #912624 0%, #912624 100%);
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.9),
+    inset 0 2px 5px rgba(0, 0, 0, 0.6);
+}
+
 
 .power-led {
     width: 8px;
@@ -736,7 +831,7 @@ body {
     text-transform: uppercase;
     letter-spacing: 1.5px;
     position: absolute;
-    bottom: 8px;
+    bottom: 15px;
     left: 50%;
     transform: translateX(-2235%);
     z-index: 20;
@@ -752,7 +847,7 @@ body {
     text-transform: uppercase;
     letter-spacing: 1.5px;
     position: absolute;
-    bottom: 8px;
+    bottom: 15px;
     left: 50%;
     transform: translateX(1465%);
     z-index: 20;
@@ -1078,45 +1173,80 @@ body {
     font-size: 14px;
 }
 
-.chassis-btn {
-    background: linear-gradient(180deg, #1d1d1d, #050505);
-    border: 5px solid #2c2c2c;
-    width: 65px;
-    height: 45px;
-    border-radius: 15px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: all 0.2s ease;
-    box-sizing: border-box;
-    box-shadow:
-        0 4px 0 #000000,
-        inset 0 0 0 4px #000000,
-        inset 0 3px 5px rgba(12, 12, 12, 0.5);
-}
-
+/* --- STYLE COMMUN BRILLANT (YES & NO) --- */
+.chassis-btn, 
 .chassis-btn-yes {
-    background: linear-gradient(180deg, var(--mc-red-button));
-    border: 5px solid #2c2c2c;
-    width: 65px;
-    height: 45px;
-    border-radius: 15px;
-    cursor: pointer;
+    position: relative;
+    /* On force les dimensions */
+    width: 60px !important; 
+    height: 50px !important;
+    min-width: 60px;
+    min-height: 50px;
+    
+    /* On applique le look laqué McIntosh */
+    background: linear-gradient(180deg, #353535 0%, #1a1a1a 40%, #0a0a0a 50%, #000000 100%);
+    border-radius: 90% / 20px; 
     display: flex;
-    justify-content: center;
     align-items: center;
-    transition: all 0.2s ease;
-    box-sizing: border-box;
-    box-shadow:
-        0 4px 0 #000000,
-        inset 0 0 0 4px #000000,
-        inset 0 3px 5px rgba(12, 12, 12, 0.5);
+    justify-content: center;
+    border: 1px solid #3a3a3a;
+    box-shadow: 
+        0 4px 10px rgba(0, 0, 0, 0.9),
+        inset 0 2px 3px rgba(255, 255, 255, 0.3),
+        inset 0 -2px 5px rgba(0, 0, 0, 0.7);
+    
+    cursor: pointer;
+    transition: all 0.15s ease;
+    overflow: hidden;
+    box-sizing: border-box; /* Important pour que la bordure ne change pas la taille */
+    padding: 0;
+    margin: 0;
 }
 
-.chassis-btn:active {
-    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.8);
-    transform: translateY(1px);
+/* --- L'INSERT COMMUN --- */
+.chassis-btn::after, 
+.chassis-btn-yes::after {
+    content: "";
+    width: 75%; /* Légèrement agrandi pour l'équilibre visuel */
+    height: 60%;
+    border-radius: 100% / 15px;
+    transform: translateY(1px); 
+    transition: all 0.1s ease;
+    z-index: 1;
+}
+
+/* --- SPÉCIFICITÉS : NOIR (NO) --- */
+.chassis-btn::after {
+    background: #0d0d0d;
+    border: 1px solid #222;
+    box-shadow: 
+        0 4px 6px rgba(0, 0, 0, 0.8),    
+        0 -1px 2px rgba(255, 255, 255, 0.15); 
+}
+
+/* --- SPÉCIFICITÉS : ROUGE (YES) --- */
+.chassis-btn-yes::after {
+    background: radial-gradient(circle, #912624 0%, #912624 100%);
+    border: 1.5px solid #000;
+    box-shadow: 
+        0 4px 6px rgba(0, 0, 0, 0.8),
+        0 -1px 2px rgba(255, 255, 255, 0.3);
+}
+
+/* --- ÉTATS ACTIFS (CLIC) --- */
+.chassis-btn:active, 
+.chassis-btn-yes:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.9), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.chassis-btn:active::after, 
+.chassis-btn-yes:active::after {
+    transform: translateY(1px) scale(0.96);
+}
+
+.chassis-btn-yes:active::after {
+    background: radial-gradient(circle, #912624 0%, #912624 100%);
 }
 
 /* Overlay de la pop-up Info */
@@ -1245,15 +1375,19 @@ body {
     appearance: none;
     width: 12px;
     height: 25px;
-    background: var(--mc-led-green, #00ff66);
+    background: var(--mc-blue);
     border-radius: 2px;
     box-shadow: 0 0 5px #00ff66;
 }
 
-.eq-band span {
-    font-size: 15px;
-    color: #888;
-margin-top: 10px;
+.eq-band span{
+	color: var(--mc-gold);
+    font-size: 10px;
+    font-weight: bold;
+ 	margin-top: 10px;
+    text-transform: uppercase;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
 }
 
 .close-eq {
@@ -1288,4 +1422,23 @@ margin-top: 10px;
 #eq-curve {
     width: 100%;
     height: 100%;
+}
+
+
+/* On s'assure que l'input color passe par-dessus l'effet visuel ::after */
+.btn-base input[type="color"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    opacity: 0; /* Garde l'input invisible mais cliquable */
+    z-index: 10; /* Force l'input à être au-dessus de l'effet ::after */
+}
+
+/* On s'assure que l'effet visuel ne bloque pas les clics */
+.btn-base::after {
+    pointer-events: none; /* Les clics passent à travers l'effet pour atteindre l'input */
+    z-index: 1;
 }
