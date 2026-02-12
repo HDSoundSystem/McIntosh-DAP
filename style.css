@@ -282,7 +282,7 @@ body {
 }
 
 #track-count {
-    color: var(--mc-led-green);
+    color: var(--mc-blue);
     font-size: var(--police-size-counter);
     font-weight: 700;
     font-family: 'bitcount single', sans-serif;
@@ -592,7 +592,7 @@ body {
 }
 
 #time-display {
-    color: var(--mc-led-green);
+    color: var(--mc-blue);
     font-family: 'bitcount single', sans-serif;
     font-size: var(--police-size-counter);
     font-weight: 700;
@@ -603,7 +603,7 @@ body {
 }
 
 #vfd-status-icon {
-    color: var(--mc-led-green);
+    color: var(--mc-blue);
     font-size: 30px;
     position: absolute;
     right: 20px;
@@ -625,7 +625,7 @@ body {
 }
 
 #volume-display {
-    color: var(--mc-led-green);
+    color: var(--mc-blue);
     font-family: 'bitcount single', sans-serif;
     font-size: 20px;
     font-weight: 700;
