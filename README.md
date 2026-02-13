@@ -8,7 +8,7 @@ A premium web-based audio player inspired by the legendary McIntosh amplifier de
 ![License](https://img.shields.io/badge/license-MIT-green)
 
 ![McIntosh_Logo](https://github.com/user-attachments/assets/9f65f1d2-5f77-458b-b0fc-5ec35e992042)
-<img width="1820" height="819" alt="1" src="https://github.com/user-attachments/assets/eb020d68-068b-41ec-95a4-c54b15cfc1d4" />
+<img width="1805" height="802" alt="1" src="https://github.com/user-attachments/assets/24c1c6bd-37bd-4065-8a0f-c8c1a053f7f9" />
 
 ## ✨ Features
 
@@ -969,15 +969,15 @@ A: Yes! Use the BACK COLOR and SHADOW COLOR pickers in the options menu. The DIS
 A: Yes! The interface is optimized for tablets with responsive scaling and touch-friendly controls.
 
 -----
-<img width="1802" height="834" alt="3" src="https://github.com/user-attachments/assets/051d8e51-095d-4744-8215-b81dbdce3987" />
-<img width="1817" height="846" alt="4" src="https://github.com/user-attachments/assets/bcdfa958-d939-455c-8b29-2b90c4ed9ab0" />
-<img width="1816" height="839" alt="5" src="https://github.com/user-attachments/assets/fbe8e2bf-213e-4ccc-8873-e1abd337719e" />
-<img width="1797" height="921" alt="6" src="https://github.com/user-attachments/assets/788185d2-cb92-4f22-92be-bacb34523776" />
-<img width="1804" height="821" alt="7" src="https://github.com/user-attachments/assets/0b5a41f4-96ba-489c-a4fa-b0774b818d35" />
-<img width="1805" height="805" alt="8" src="https://github.com/user-attachments/assets/41eba24d-5876-47da-aef7-0403661302e0" />
-<img width="1806" height="888" alt="9" src="https://github.com/user-attachments/assets/2087c738-5dc8-4959-b2f6-957eb6706373" />
-<img width="1828" height="902" alt="2" src="https://github.com/user-attachments/assets/c3491534-3d01-4904-a78c-7428fc1fe291" />
-
+<img width="1821" height="816" alt="2" src="https://github.com/user-attachments/assets/ff14d187-c485-4b16-b144-2dbfda1af5e2" />
+<img width="1805" height="825" alt="3" src="https://github.com/user-attachments/assets/8184a898-e182-45cc-bd76-591561e1cbea" />
+<img width="1805" height="815" alt="4" src="https://github.com/user-attachments/assets/28580fec-e485-47f1-a376-0328581088ab" />
+<img width="1808" height="813" alt="5" src="https://github.com/user-attachments/assets/6837c92a-befc-4e5c-8910-93cc285a0cde" />
+<img width="1804" height="898" alt="6" src="https://github.com/user-attachments/assets/a474c1d9-e970-42c5-9a30-7b9ccad3bb03" />
+<img width="1809" height="897" alt="7" src="https://github.com/user-attachments/assets/49012948-2246-436f-975b-fd4f38d32890" />
+<img width="1795" height="815" alt="8" src="https://github.com/user-attachments/assets/bc0a74fc-df2f-4b98-a62f-d2a32e9deecb" />
+<img width="1819" height="882" alt="9" src="https://github.com/user-attachments/assets/89cbd8e7-326e-4c31-804b-990d3a02378c" />
+<img width="1797" height="807" alt="10" src="https://github.com/user-attachments/assets/1862cd22-f6c8-457f-8ac8-7ecf8422b09d" />
 
 **Enjoy your premium web audio experience! 🎵🎛️**
 
