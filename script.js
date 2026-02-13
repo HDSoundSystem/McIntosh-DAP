@@ -345,8 +345,38 @@ trackCount.addEventListener('click', (e) => {
 // --- AUTRES CONTROLES ---
 inputBtn.addEventListener('click', () => fileUpload.click());
 fileUpload.addEventListener('change', (e) => { if (e.target.files.length > 0) { if (!isPoweredOn) { isPoweredOn = true; } playlist = Array.from(e.target.files); loadTrack(0); } });
-playPauseBtn.addEventListener('click', () => { if (!isPoweredOn || playlist.length === 0) return; engine.init(); audio.paused ? (engine.play(), updateStatusIcon('play')) : (engine.pause(), updateStatusIcon('pause')); });
-stopBtn.addEventListener('click', () => { if (isPoweredOn) { engine.stop(); updateStatusIcon('stop'); } });
+playPauseBtn.addEventListener('click', () => { 
+    if (!isPoweredOn || playlist.length === 0) return; 
+    engine.init(); 
+    if (audio.paused) {
+        engine.play();
+        updateStatusIcon('play');
+        // Notifier Electron pour mettre à jour la thumbar
+        if (typeof require !== 'undefined') {
+            const { ipcRenderer } = require('electron');
+            ipcRenderer.send('update-thumbar', true);
+        }
+    } else {
+        engine.pause();
+        updateStatusIcon('pause');
+        // Notifier Electron pour mettre à jour la thumbar
+        if (typeof require !== 'undefined') {
+            const { ipcRenderer } = require('electron');
+            ipcRenderer.send('update-thumbar', false);
+        }
+    }
+});
+stopBtn.addEventListener('click', () => { 
+    if (isPoweredOn) { 
+        engine.stop(); 
+        updateStatusIcon('stop');
+        // Notifier Electron que c'est arrêté
+        if (typeof require !== 'undefined') {
+            const { ipcRenderer } = require('electron');
+            ipcRenderer.send('update-thumbar', false);
+        }
+    } 
+});
 muteBtn.addEventListener('click', () => { if (isPoweredOn) { isMuted = !isMuted; audio.muted = isMuted; showVolumeBriefly(); } });
 document.getElementById('loudness-btn')?.addEventListener('click', () => { if (isPoweredOn) { isLoudnessActive = !isLoudnessActive; document.getElementById('vfd-loudness-text')?.classList.toggle('loudness-visible', isLoudnessActive); applyLoudnessEffect(); } });
 
@@ -451,8 +481,22 @@ function updateMediaMetadata() {
             ]
         }); 
         
-        navigator.mediaSession.setActionHandler('play', () => { engine.play(); updateStatusIcon('play'); });
-        navigator.mediaSession.setActionHandler('pause', () => { engine.pause(); updateStatusIcon('pause'); });
+        navigator.mediaSession.setActionHandler('play', () => { 
+            engine.play(); 
+            updateStatusIcon('play');
+            if (typeof require !== 'undefined') {
+                const { ipcRenderer } = require('electron');
+                ipcRenderer.send('update-thumbar', true);
+            }
+        });
+        navigator.mediaSession.setActionHandler('pause', () => { 
+            engine.pause(); 
+            updateStatusIcon('pause');
+            if (typeof require !== 'undefined') {
+                const { ipcRenderer } = require('electron');
+                ipcRenderer.send('update-thumbar', false);
+            }
+        });
         
         // --- NAVIGATION CHROME CORRIGÉE ---
         navigator.mediaSession.setActionHandler('previoustrack', () => {
@@ -514,9 +558,11 @@ if (typeof require !== 'undefined') {
                 if (audio.paused) {
                     engine.play();
                     updateStatusIcon('play');
+                    ipcRenderer.send('update-thumbar', true);
                 } else {
                     engine.pause();
                     updateStatusIcon('pause');
+                    ipcRenderer.send('update-thumbar', false);
                 }
             }
         }

@@ -102,17 +102,3 @@ self.addEventListener('fetch', (event) => {
             })
     );
 });
-
-// Gestion des messages depuis l'application
-self.addEventListener('message', (event) => {
-    if (event.data && event.data.type === 'SKIP_WAITING') {
-        self.skipWaiting();
-    }
-    
-    // Force la mise à jour du cache
-    if (event.data && event.data.type === 'FORCE_UPDATE') {
-        caches.open(CACHE_NAME).then((cache) => {
-            cache.addAll(ASSETS_TO_CACHE);
-        });
-    }
-});

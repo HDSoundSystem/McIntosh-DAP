@@ -1,4 +1,4 @@
-const { app, BrowserWindow, globalShortcut, nativeImage } = require('electron');
+const { app, BrowserWindow, globalShortcut, nativeImage, ipcMain } = require('electron');
 const path = require('path');
 
 let win;
@@ -17,9 +17,13 @@ function createWindow() {
   win.loadFile('index.html');
 
   // --- Boutons de la barre des tâches (Windows) ---
-  // On attend que la fenêtre soit prête pour afficher les boutons
   win.once('ready-to-show', () => {
     setThumbar(false); // Initialise en mode "Play"
+  });
+
+  // Écouter les mises à jour de statut depuis le renderer
+  ipcMain.on('update-thumbar', (event, isPlaying) => {
+    setThumbar(isPlaying);
   });
 
   // --- Contrôles multimédias du clavier ---
@@ -36,15 +40,13 @@ function createWindow() {
   });
 }
 
-// Fonction pour mettre à jour les boutons Thumbar
-// On utilise des boutons vides ou textes si on n'a pas de PNG
+// Fonction pour mettre à jour les boutons Thumbar (Windows)
 function setThumbar(isPlaying) {
   if (!win) return;
   
   win.setThumbarButtons([
     {
       tooltip: 'Précédent',
-      // IL FAUT UN CHEMIN VERS UNE IMAGE PNG ICI
       icon: path.join(__dirname, 'assets/windows/prev.png'), 
       click() { win.webContents.send('media-control', 'prev'); }
     },
