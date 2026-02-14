@@ -1460,3 +1460,28 @@ body {
     margin-top: 4px;
     white-space: nowrap;
 }
+
+#info-overlay-fix {
+    display: none; /* Masqué par défaut */
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    flex-direction: column; /* Pour empiler l'image et le texte */
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* Style spécifique pour le texte de version */
+.release-version {
+    margin-top: 20px;
+    color: var(--mc-gold); /* Utilisation de ton doré McIntosh */
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    font-weight: 300;
+    text-transform: uppercase;
+    opacity: 0.8;
+    text-shadow: 0 0 10px rgba(120, 107, 70, 0.5); /* Lueur dorée subtile */
+}
