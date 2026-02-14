@@ -1,0 +1,111 @@
+/* ================================
+   CHÂSSIS ET BORDURES LATÉRALES
+   ================================ */
+
+.chassis-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Style de base commun : Simple, vertical et massif */
+.side-trim {
+    width: 55px;
+    /* Largeur plus fine et fidèle au C55 */
+    height: 765px;
+    z-index: 2;
+    position: absolute;
+    top: -10px;
+}
+
+/* CÔTÉ GAUCHE */
+.side-left {
+    left: -55px;
+    /* Dégradé simulant l'aluminium brossé avec un éclat sur l'arête gauche */
+    background: linear-gradient(to right,
+            #e0e0e0 0%,
+            /* Éclat extérieur */
+            #ffffff 15%,
+            /* Point de lumière vive */
+            #bdbdbd 40%,
+            /* Teinte moyenne */
+            #9e9e9e 90%,
+            /* Ombre vers le verre */
+            #444444 100%
+            /* Jointure noire avec la façade */
+        );
+    box-shadow: -5px 15px 30px rgba(0, 0, 0, 0.4);
+    border-radius: 2px 0 0 2px;
+}
+
+/* CÔTÉ DROIT */
+.side-right {
+    right: -55px;
+    /* Inversion du dégradé pour la lumière */
+    background: linear-gradient(to left,
+            #e0e0e0 0%,
+            #ffffff 15%,
+            #bdbdbd 40%,
+            #9e9e9e 90%,
+            #444444 100%);
+    box-shadow: 5px 15px 30px rgba(0, 0, 0, 0.4);
+    border-radius: 0 2px 2px 0;
+}
+
+/* L'effet de brossage métallique (Texture) */
+.side-trim::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(transparent,
+            transparent 1px,
+            rgba(255, 255, 255, 0.1) 1px,
+            rgba(255, 255, 255, 0.1) 2px);
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+/* PANNEAU PRINCIPAL DE L'AMPLIFICATEUR */
+.amplifier-panel {
+    width: 1650px;
+    height: 750px;
+    background: var(--panel-black);
+    position: relative;
+    /* On retire la bordure simple pour la gérer en relief */
+    border-bottom: none;
+    box-shadow: 0 60px 120px var(--chassis-shadow);
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    box-sizing: border-box;
+    z-index: 1;
+}
+
+/* L'effet de rebord métallique (Bezel) */
+.amplifier-panel::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    /* Épaisseur de ta bordure */
+    left: 0;
+    width: 100%;
+    height: 15px;
+    /* Dégradé qui simule l'angle du métal */
+    background-color: #181818;
+}
+
+/* Bordure métallique du HAUT (Bezel Top) */
+.amplifier-panel::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    /* Positionné au-dessus du panneau */
+    left: 0;
+    width: 100%;
+    height: 15px;
+    /* Dégradé inversé pour simuler l'angle vers le haut */
+    background-color: #181818;
+}

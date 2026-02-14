@@ -1,0 +1,112 @@
+/* ================================
+   VU-MÈTRES ET LOGO CENTRAL
+   ================================ */
+
+.meter-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 320px;
+    margin-bottom: 20px;
+}
+
+.meter {
+    /* Propriétés finales après cascade des 3 définitions */
+    width: 550px;
+    height: 300px;
+    position: relative;
+    /* De la 1ère définition - gardées */
+    border: 3px solid black;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    /* De la 2ème définition - gardées */
+    background-image: url(../assets/img/vumeter-new.png);
+    background-size: 80% auto;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    /* De la 3ème définition - écrase background-position */
+    background-position: center;
+    transition: background-image 0.8s ease;
+}
+
+.needle {
+    position: absolute;
+    bottom: 5px;
+    left: 50%;
+    width: 2px;
+    height: 245px;
+    background: black;
+    transform-origin: bottom center;
+    transform: rotate(-55deg);
+    z-index: 10;
+    transition: transform 0.1s ease-out;
+}
+
+/* MODIFICATION ICI POUR PLACER LES LEDS SOUS LE LOGO */
+.brand-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.brand-logo-img {
+    height: 110px;
+}
+
+/* Indicateurs de statut sous le logo */
+.status-indicators-row {
+    display: flex;
+    justify-content: center;
+    gap: 35px;
+    margin-top: 30px;
+}
+
+.indicator-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.indicator-group-power-guard {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.indicator-label {
+    font-family: 'Roboto', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--mc-gold);
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.indicator-label.power-guard-label {
+    margin: 0;
+}
+
+.led-small {
+    width: 12px;
+    height: 6px;
+    border-radius: 1px;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+    transition: all 0.2s ease-in-out;
+}
+
+.led-red.active {
+    background-color: var(--mc-led-red);
+    box-shadow: 0 0 10px var(--mc-led-red), inset 0 0 2px #fff;
+}
+
+.led-green.active {
+    background-color: var(--mc-led-green);
+    box-shadow: 0 0 10px var(--mc-green), inset 0 0 2px #fff;
+}

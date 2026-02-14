@@ -1,0 +1,409 @@
+/* ================================
+   MODALES ET POPUPS
+   ================================ */
+
+/* MENU OPTIONS */
+.options-menu {
+    display: none;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    background: var(--background-option-menu);
+    border: 8px solid var(--mc-gold);
+    border-radius: 15px;
+    padding: 5px;
+    z-index: 100;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    transform: translate(90%, calc(-50% + 100px));
+}
+
+.options-row {
+    display: flex;
+    margin-top: 2px;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 2px;
+}
+
+.gold-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--mc-gold);
+    margin-top: 10px;
+}
+
+.options-logo-container {
+    text-align: center;
+    margin-top: 100px;
+    padding: 10px 0;
+    width: 100%;
+}
+
+.options-logo {
+    max-width: 120px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
+}
+
+/* PLAYLIST POPUP */
+#playlist-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    z-index: 10000;
+    background-color: black;
+    border: 8px solid var(--mc-gold);
+    border-radius: 15px;
+    padding: 20px;
+    width: 400px;
+    max-height: 700px;
+    overflow-y: auto;
+}
+
+#playlist-popup::-webkit-scrollbar {
+    width: 5px;
+}
+
+#playlist-popup::-webkit-scrollbar-thumb {
+    background: var(--mc-blue);
+}
+
+.playlist-center-text {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+#playlist-items {
+    color: var(--mc-blue);
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+}
+
+.playlist-item {
+    padding: 10px;
+    border-bottom: 1px solid var(--mc-gold);
+    cursor: pointer;
+    transition: background 0.2s;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+}
+
+.playlist-item:hover {
+    background: #1a1a1a;
+    color: var(--mc-green);
+}
+
+.playlist-item.active-track {
+    color: var(--mc-green);
+    font-weight: bold;
+}
+
+.playlist-logo-container {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+/* ALBUM POPUP */
+#album-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    background: #222;
+    padding: 10px;
+    border: 5px solid var(--mc-gold);
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+}
+
+#album-popup img {
+    max-width: 600px;
+    max-height: 600px;
+    display: block;
+}
+
+.no-cover-placeholder {
+    display: none;
+    max-width: 600px;
+    max-height: 600px;
+    min-width: 400px;
+    min-height: 400px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+    font-weight: bold;
+    color: var(--mc-blue);
+    text-shadow: 0 0 20px rgba(0, 195, 255, 0.5);
+    letter-spacing: 8px;
+    border: 2px solid #333;
+}
+
+#album-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 999;
+}
+
+.logo-mc-cover {
+    text-align: center;
+    margin-top: 10px;
+    width: 100%;
+}
+
+/* REBOOT MODAL */
+.reboot-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.reboot-content {
+    border: 5px solid var(--mc-gold);
+    border-radius: 15px;
+    background: #1a1a1a;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.reboot-title {
+    color: var(--mc-green);
+    font-family: 'roboto', sans-serif;
+    font-size: 20px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.reboot-buttons {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+}
+
+.reboot-btn-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.reboot-label {
+    color: var(--mc-blue);
+    font-family: 'roboto', sans-serif;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Boutons châssis pour reboot */
+.chassis-btn,
+.chassis-btn-yes {
+    position: relative;
+    width: 60px !important;
+    height: 50px !important;
+    min-width: 60px;
+    min-height: 50px;
+    background: linear-gradient(180deg, #353535 0%, #1a1a1a 40%, #0a0a0a 50%, #000000 100%);
+    border-radius: 90% / 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #3a3a3a;
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.9),
+        inset 0 2px 3px rgba(255, 255, 255, 0.3),
+        inset 0 -2px 5px rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+.chassis-btn::after,
+.chassis-btn-yes::after {
+    content: "";
+    width: 75%;
+    height: 60%;
+    border-radius: 100% / 15px;
+    transform: translateY(1px);
+    transition: all 0.1s ease;
+    z-index: 1;
+}
+
+.chassis-btn::after {
+    background: #0d0d0d;
+    border: 1px solid #222;
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.8),
+        0 -1px 2px rgba(255, 255, 255, 0.15);
+}
+
+.chassis-btn-yes::after {
+    background: radial-gradient(circle, #912624 0%, #912624 100%);
+    border: 1.5px solid #000;
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.8),
+        0 -1px 2px rgba(255, 255, 255, 0.3);
+}
+
+.chassis-btn:active,
+.chassis-btn-yes:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.9), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.chassis-btn:active::after,
+.chassis-btn-yes:active::after {
+    transform: translateY(1px) scale(0.96);
+}
+
+.chassis-btn-yes:active::after {
+    background: radial-gradient(circle, #912624 0%, #912624 100%);
+}
+
+/* LIBRARY MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    background: #0a0a0a;
+    margin: 5% auto;
+    padding: 20px;
+    border: 8px solid var(--mc-gold);
+    border-radius: 15px;
+    width: 70%;
+    height: 70%;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+    font-family: 'roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.scan-label {
+    background: var(--mc-green);
+    color: black;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+.file-browser {
+    flex-grow: 1;
+    overflow-y: auto;
+    background: rgba(0, 255, 0, 0.05);
+    border: 1px inset #333;
+}
+
+#file-list li {
+    padding: 12px;
+    color: #e4e4e4;
+    border-bottom: 1px solid #1a1a1a;
+    list-style: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#file-list li:hover {
+    background: rgba(0, 255, 0, 0.2);
+    padding-left: 20px;
+}
+
+.close-btn {
+    color: #fff;
+    cursor: pointer;
+    font-size: 24px;
+}
+
+/* INFO OVERLAY */
+#info-overlay-fix {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 99999;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#info-overlay-fix img {
+    max-width: 90%;
+    max-height: 90%;
+    border: 5px solid var(--mc-gold);
+    border-radius: 15px;
+    background: #000;
+    pointer-events: none;
+}
+
+.release-version {
+    margin-top: 20px;
+    color: var(--mc-gold);
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    font-weight: 300;
+    text-transform: uppercase;
+    opacity: 0.8;
+    text-shadow: 0 0 10px rgba(120, 107, 70, 0.5);
+}
+
+.release-version::after {
+    content: var(--release-number);
+    display: block;
+    margin-top: 20px;
+    color: var(--mc-gold);
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.8;
+    text-shadow: 0 0 10px rgba(120, 107, 70, 0.5);
+}

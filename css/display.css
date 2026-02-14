@@ -1,0 +1,177 @@
+/* ================================
+   ÉCRAN MATRICIEL VFD
+   ================================ */
+
+.display-area {
+    position: absolute;
+    top: 360px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5;
+}
+
+.matrix-display {
+    width: 950px;
+    height: 280px;
+    background: var(--background-matrix-display);
+    border: 2px solid #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--mc-blue);
+    font-family: 'bitcount single', sans-serif;
+    text-shadow: 0 0 15px var(--mc-blue);
+    letter-spacing: 4px;
+    position: relative;
+    opacity: 1;
+    transform: translateY(-35px);
+}
+
+/* Volume display en bas du VFD */
+#volume-display {
+    color: var(--mc-blue);
+    font-family: 'bitcount single', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    position: absolute;
+    left: 50%;
+    bottom: 10px;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Coins techniques du VFD */
+.vfd-tech-corner {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: 'bitcount single', sans-serif;
+    color: var(--mc-blue);
+}
+
+.vfd-tech-corner.left-corner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.vfd-tech-corner.right-corner {
+    left: auto;
+    right: 20px;
+    align-items: flex-end;
+}
+
+.tech-label {
+    font-size: var(--police-size-label-counter);
+    font-weight: bold;
+    letter-spacing: 1px;
+    opacity: 0.7;
+}
+
+.tech-label.track-label {
+    margin-bottom: 2px;
+}
+
+.tech-data {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-top: 2px;
+}
+
+.tech-data.track-data {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#track-count {
+    color: var(--mc-blue);
+    font-size: var(--police-size-counter);
+    font-weight: 300;
+    font-family: 'bitcount single', sans-serif;
+    line-height: 1;
+}
+
+#file-format, #bitrate {
+    font-size: 18px;
+    opacity: 0.8;
+}
+
+#file-format {
+    border: 0px solid var(--mc-blue);
+    padding: 0 4px;
+    border-radius: 3px;
+}
+
+.sub-tech-row {
+    display: flex;
+    gap: 4px;
+    font-size: 1em;
+    margin-top: 4px;
+    white-space: nowrap;
+}
+
+.loudness-indicator {
+    color: var(--mc-blue);
+    font-size: 16px;
+    opacity: 0.8;
+}
+
+#time-display {
+    font-size: var(--police-size-counter);
+    font-weight: 300;
+}
+
+.vfd-small {
+    font-size: 18px;
+    margin-bottom: 5px;
+    font-family: 'bitcount single', sans-serif;
+}
+
+.vfd-large {
+    font-family: 'Bitcount Single', sans-serif;
+    font-size: 30px;
+    font-weight: 300;
+    text-transform: uppercase;
+    margin-top: 50px;
+    letter-spacing: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    text-align: center;
+    cursor: pointer;
+    text-shadow: 0 0 15px var(--mc-blue);
+}
+
+.vfd-info {
+    font-family: 'bitcount single', sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--mc-blue);
+    text-align: center;
+    opacity: 0.9;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+#vfd-status-icon {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-size: 30px;
+    color: var(--mc-blue);
+}

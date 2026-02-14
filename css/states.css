@@ -1,0 +1,165 @@
+/* ================================
+   ÉTATS ET MODES SPÉCIAUX
+   ================================ */
+
+/* STEALTH MODE */
+.meter-container.stealth-mode {
+    filter: brightness(0);
+    opacity: 0.1;
+    transition: all 0.4s ease;
+}
+
+.meter-container.stealth-mode .needle {
+    display: none;
+}
+
+/* VU-MÈTRES - Images alternatives */
+
+.meter.meter-alt-bg {
+    background-image: url('../assets/img/vumeter-new-off.png') !important;
+}
+
+/* FORCE OFF STATE */
+.force-off {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: opacity 0.4s ease !important;
+}
+
+.meter.force-off .needle {
+    display: none !important;
+}
+
+/* LOGO ALTERNATIF */
+.brand-center {
+    position: relative;
+}
+
+.alternate-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease;
+}
+
+#logo-main.force-off {
+    opacity: 0;
+    visibility: hidden;
+}
+
+#logo-alt.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* LABELS OFF STATE */
+.label-green,
+.small-label,
+.small-label i {
+    transition: color 0.8s ease, opacity 0.8s ease !important;
+}
+
+.label-off {
+    color: #c0c0c0 !important;
+    opacity: 1;
+    text-shadow: none !important;
+    transition: color 0.5s ease;
+}
+
+.small-label i {
+    color: inherit;
+}
+
+/* VFD OFF */
+.matrix-display.vfd-off {
+    opacity: 0 !important;
+    transition: opacity 0.4s ease;
+}
+
+/* LOUDNESS INDICATOR */
+.loudness-indicator {
+    display: none;
+    margin-left: 12px;
+    font-size: 18px;
+    opacity: 0.8;
+    color: var(--mc-blue);
+    font-family: 'bitcount single', sans-serif;
+    text-shadow: 0 0 15px var(--mc-blue);
+    text-transform: uppercase;
+}
+
+.loudness-visible {
+    display: inline-block !important;
+}
+
+/* PUSH LABELS */
+.push-label-input {
+    color: var(--mc-gold);
+    font-family: 'Roboto', sans-serif;
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-2235%);
+    z-index: 20;
+    pointer-events: none;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+}
+
+.push-label-volume {
+    color: var(--mc-gold);
+    font-family: 'Roboto', sans-serif;
+    font-size: 10px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(1465%);
+    z-index: 20;
+    pointer-events: none;
+    text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
+}
+
+/* TRACK COUNT STYLING */
+#track-count {
+    font-variant-numeric: tabular-nums;
+    display: inline-block;
+    min-width: 3ch;
+    text-align: left;
+    width: 60px;
+    margin-right: 38px;
+}
+
+/* CURSEURS INTERACTIFS */
+#track-count,
+#time-display,
+.vfd-large {
+    cursor: pointer;
+}
+
+/* LED BLINK ANIMATION */
+.blink-fast {
+    animation: blink-red 0.2s infinite;
+    background-color: var(--mc-led-red) !important;
+    box-shadow: 0 0 10px var(--mc-led-red) !important;
+}
+
+@keyframes blink-red {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        opacity: 1;
+    }
+}

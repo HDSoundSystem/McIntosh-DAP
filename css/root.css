@@ -4,7 +4,7 @@
     --mc-blue: #00c3ff;
     --mc-green: #00ff41;
     --panel-black: #080808;
-    --mc-led-green: #00ff00;
+    --mc-led-green: #00ff41;
     --mc-led-red: #ff0000;
     --mc-red-button: #912624;
     --mc-gold: #786b46;
@@ -12,6 +12,6 @@
     --border-bottom: #2e2e2e;
     --background-matrix-display: #020202;
     --background-option-menu: #000000;
-    --police-size-counter: 35px;
-    --police-size-label-counter: 15px;
+    --police-size-counter: 30px;
+    --police-size-label-counter: 12px;
 }

@@ -1,0 +1,345 @@
+/* ================================
+   CONTRÔLES (BOUTONS ET POTENTIOMÈTRES)
+   ================================ */
+
+.knob-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 180px;
+    padding-bottom: -10px;
+    margin-top: auto;
+}
+
+.controls-center-group {
+    display: flex;
+    align-items: flex-end;
+    gap: 25px;
+    transform: translateY(10px);
+}
+
+/* POTENTIOMÈTRES */
+.knob-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 180px;
+}
+
+.knob-outer {
+    width: 160px;
+    height: 160px;
+    background: linear-gradient(145deg,
+            #ffffff 0%,
+            #e0e0e0 20%,
+            #464646 45%,
+            #999999 50%,
+            #464646 55%,
+            #e0e0e0 80%,
+            #ffffff 100%);
+    border: 2px solid #b0b0b0;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow:
+        0 10px 20px rgba(0, 0, 0, 0.5),
+        inset 0 2px 5px rgba(255, 255, 255, 0.8);
+    flex-shrink: 0;
+}
+
+.knob-inner {
+    width: 130px;
+    height: 130px;
+    background: conic-gradient(#1a1a1a, #333, #1a1a1a, #444, #1a1a1a);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+#input-knob {
+    transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+    cursor: pointer;
+}
+
+#input-knob:active {
+    transform: scale(0.95);
+    filter: brightness(1.2);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5), 0 0 15px rgba(0, 255, 102, 0.3);
+}
+
+.push-label-input {
+    color: var(--mc-gold);
+    font-weight: bold;
+    font-size: 10px;
+    margin-top: 10px;
+}
+
+/* LABELS */
+.label-green {
+    color: var(--mc-green);
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+.small-label {
+    color: var(--mc-green);
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+.small-label i {
+    font-size: 14px;
+    color: var(--mc-green);
+}
+
+.bottom-label-reset {
+    position: absolute;
+    top: 100%;
+    padding-top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--mc-gold);
+    font-weight: bold;
+}
+
+/* BOUTONS - Structure */
+.button-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    position: relative;
+}
+
+.button-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80px;
+    position: relative;
+    gap: -10px;
+}
+
+.label-zone {
+    height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.label-zone-option {
+    height: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+/* BOUTONS - Style de base */
+.btn-base {
+    position: relative;
+    width: 62px;
+    height: 50px;
+    /* Dégradé multicouche pour l'aspect verre/laque */
+    background: linear-gradient(180deg,
+            #353535 0%,
+            #1a1a1a 40%,
+            #0a0a0a 50%,
+            #000000 100%);
+    border-radius: 90% / 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Bordure plus claire pour définir l'arête brillante */
+    border: 1px solid #3a3a3a;
+    box-shadow:
+        0 4px 10px rgba(0, 0, 0, 0.9),
+        /* Reflet blanc vif sur le rebord supérieur */
+        inset 0 2px 3px rgba(255, 255, 255, 0.3),
+        /* Ombre de profondeur sur le bas du bouton */
+        inset 0 -2px 5px rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.btn-base::after {
+    content: "";
+    width: 75%;
+    height: 60%;
+    background: #0d0d0d;
+    border-radius: 100% / 15px;
+    transform: translateY(1px);
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.8),
+        0 -1px 2px rgba(255, 255, 255, 0.15);
+    border: 1px solid #222;
+    transition: all 0.1s ease;
+    /* Empêche l'effet visuel de bloquer le clic sur les inputs cachés */
+    pointer-events: none;
+    z-index: 2;
+}
+
+.btn-base:active {
+    transform: translateY(2px);
+    box-shadow:
+        0 2px 5px rgba(0, 0, 0, 0.9),
+        inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.btn-base:active::after {
+    transform: translateY(1px) scale(0.96);
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.9),
+        inset 0 2px 5px rgba(0, 0, 0, 0.6);
+    background: #050505;
+}
+
+.black-btn {
+    background: linear-gradient(180deg, #1d1d1d, #050505);
+}
+
+/* BOUTON POWER */
+.power-btn {
+    background: #1a1a1a;
+}
+
+.power-btn::after {
+    content: "";
+    width: 75%;
+    height: 60%;
+    background: radial-gradient(circle, #912624 0%, #912624 100%);
+    border-radius: 100% / 15px;
+    transform: translateY(1px);
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.8),
+        0 -1px 2px rgba(255, 255, 255, 0.2);
+    border: 2px solid #000;
+    transition: all 0.1s ease;
+}
+
+.power-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.9);
+}
+
+.power-btn:active::after {
+    transform: translateY(1px) scale(0.98);
+    background: radial-gradient(circle, #912624 0%, #912624 100%);
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.9),
+        inset 0 2px 5px rgba(0, 0, 0, 0.6);
+}
+
+.power-led {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--mc-led-red);
+    box-shadow: 0 0 8px var(--mc-led-red);
+    margin-bottom: 5px;
+    transition: none;
+}
+
+/* COLOR PICKERS DANS LES BOUTONS */
+.btn-base.black-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-base.black-btn input[type="color"] {
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    cursor: pointer;
+    opacity: 0;
+    border: none;
+}
+
+.btn-base input[type="color"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    opacity: 0;
+    z-index: 10;
+}
+
+.btn-base::after {
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* LABEL STREAMING CONTROLS */
+.streaming-label-container {
+    position: absolute;
+    width: 48%;
+    bottom: -17px;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    pointer-events: none;
+}
+
+.gold-line {
+    flex-grow: 1;
+    height: 1px;
+    background: var(--mc-gold);
+}
+
+.streaming-txt {
+    color: var(--mc-gold);
+    text-transform: uppercase;
+    font-weight: normal;
+    font-size: 10px;
+}
+
+/* ANIMATIONS */
+.blink-soft {
+    animation: blinker 1.5s linear infinite;
+}
+
+@keyframes blinker {
+    50% {
+        opacity: 0.3;
+    }
+}
+
+/* MODES VFD */
+#vfd-mode-indicator {
+    position: absolute;
+    bottom: 8px;
+    left: 20px;
+    font-size: 12px !important;
+    font-weight: bold;
+    font-family: 'bitcount single', sans-serif;
+    display: flex;
+    gap: 15px;
+    pointer-events: none;
+    text-transform: uppercase;
+}
+
+.matrix-display.vfd-off {
+    opacity: 0 !important;
+    transition: opacity 0.4s ease;
+}
+
+.mute-active {
+    opacity: 1 !important;
+    color: var(--mc-green);
+}
