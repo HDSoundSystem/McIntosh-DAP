@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Simple - McIntosh</title>
+    <style>
+        body { 
+            background: #1b1b1b; 
+            color: white; 
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .test-box {
+            border: 2px solid gold;
+            padding: 20px;
+            margin: 10px 0;
+        }
+        #meter-section { background: rgba(255,0,0,0.1); }
+        #display-area { background: rgba(0,255,0,0.1); }
+        #controls-section { background: rgba(0,0,255,0.1); }
+        #options-section { background: rgba(255,255,0,0.1); }
+        #modals-section { background: rgba(255,0,255,0.1); }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test de chargement des composants</h1>
+    <p>Si vous voyez du contenu dans les boîtes colorées ci-dessous, les composants se chargent correctement.</p>
+
+    <div class="test-box">
+        <h2>Meter Section (Rouge)</h2>
+        <div id="meter-section">Chargement...</div>
+    </div>
+
+    <div class="test-box">
+        <h2>Display Area (Vert)</h2>
+        <div id="display-area">Chargement...</div>
+    </div>
+
+    <div class="test-box">
+        <h2>Controls (Bleu)</h2>
+        <div id="controls-section">Chargement...</div>
+    </div>
+
+    <div class="test-box">
+        <h2>Options (Jaune)</h2>
+        <div id="options-section">Chargement...</div>
+    </div>
+
+    <div class="test-box">
+        <h2>Modals (Magenta)</h2>
+        <div id="modals-section">Chargement...</div>
+    </div>
+
+    <script src="js/component-loader.js"></script>
+</body>
+</html>
