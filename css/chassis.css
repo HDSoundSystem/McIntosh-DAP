@@ -1,5 +1,5 @@
 /* ================================
-   CHÂSSIS ET BORDURES LATÉRALES
+   CHASSIS AND SIDE EDGES
    ================================ */
 
 .chassis-wrapper {
@@ -8,7 +8,7 @@
     align-items: center;
 }
 
-/* Style de base commun : Simple, vertical et massif */
+/* Common basic style: Simple, vertical and solid */
 .side-trim {
     width: 55px;
     /* Largeur plus fine et fidèle au C55 */
@@ -18,10 +18,10 @@
     top: -10px;
 }
 
-/* CÔTÉ GAUCHE */
+/* LEFT SIDE */
 .side-left {
     left: -55px;
-    /* Dégradé simulant l'aluminium brossé avec un éclat sur l'arête gauche */
+    /* Gradient simulating brushed aluminum with a shine on the left edge */
     background: linear-gradient(to right,
             #e0e0e0 0%,
             /* Éclat extérieur */
@@ -38,7 +38,7 @@
     border-radius: 2px 0 0 2px;
 }
 
-/* CÔTÉ DROIT */
+/* RIGHT SIDE */
 .side-right {
     right: -55px;
     /* Inversion du dégradé pour la lumière */

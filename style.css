@@ -1,28 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@300&family=Roboto:wght@300;400&display=swap');
 
-/* Variables CSS */
+/* CSS variables */
 @import url('css/root.css');
 
-/* Structure principale */
+/* Main structure */
 @import url('css/chassis.css');
 
-/* Composants visuels */
+/* Visual components */
 @import url('css/meters.css');
 @import url('css/display.css');
 
-/* Contrôles et boutons */
+/* Controls and buttons */
 @import url('css/controls.css');
 
-/* États et modes */
+/* States and modes */
 @import url('css/states.css');
 
-/* Modales et popups */
+/* Modals and popups */
 @import url('css/modals.css');
 
-/* Égaliseur */
+/* Equalizer */
 @import url('css/eq.css');
 
-/* Mobile responsif */
+/* Mobile responsive */
 @import url('css/mobile.css');
 
 body {
@@ -36,7 +36,6 @@ body {
     overflow: hidden;
 }
 
-/* Éléments cachés par défaut */
 #audio-upload {
     display: none;
 }

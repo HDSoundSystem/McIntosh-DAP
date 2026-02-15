@@ -32,29 +32,29 @@
             <div class="side-trim side-right"></div>
         </div>
 
-        <!-- MODALS ET POPUPS -->
+        <!-- MODALS AND POPUPS -->
         <div id="modals-section"></div>
 
         <audio id="main-audio" crossorigin="anonymous"></audio>
 
-        <!-- Charger d'abord la bibliothèque jsmediatags -->
+        <!-- First, load the jsmediatags library. -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js"></script>
         
-        <!-- Charger le component loader et attendre qu'il finisse -->
+        <!-- Load the component loader and wait for it to finish. -->
         <script src="js/component-loader.js"></script>
         
-        <!-- Wrapper pour attendre que les composants soient chargés avant d'initialiser le reste -->
+        <!-- Wrapper to wait for the components to be loaded before initializing the rest -->
         <script>
-            // Attendre que les composants soient chargés avant de charger les autres scripts
+            // Wait for the components to load before loading other scripts.
             document.addEventListener('componentsLoaded', function() {
                 console.log('🎵 Composants chargés, initialisation du lecteur audio...');
                 
-                // Charger le moteur audio
+                // Load the audio engine
                 const audioEngine = document.createElement('script');
                 audioEngine.src = 'js/mcintosh-audio-engine.js';
                 document.body.appendChild(audioEngine);
                 
-                // Charger le script principal après le moteur
+                // Load the main script after the engine
                 audioEngine.onload = function() {
                     const mainScript = document.createElement('script');
                     mainScript.src = 'script.js';

@@ -1,4 +1,4 @@
-// Component Loader - Charge tous les composants HTML
+// Component Loader - Loads all HTML components
 class ComponentLoader {
     constructor() {
         this.components = [
@@ -12,24 +12,24 @@ class ComponentLoader {
 
     async loadComponent(file) {
         try {
-            console.log(`📥 Chargement de ${file}...`);
+            console.log(`📥 Loading ${file}...`);
             const response = await fetch(file);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             const content = await response.text();
-            console.log(`✅ ${file} chargé (${content.length} caractères)`);
+            console.log(`✅ ${file} loaded (${content.length} characters)`);
             return content;
         } catch (error) {
-            console.error(`❌ Erreur de chargement du composant ${file}:`, error);
+            console.error(`❌ Error loading component ${file}:`, error);
             return '';
         }
     }
 
     async loadAll() {
-        console.log('🚀 Début du chargement des composants...');
-        
-        // Charger les composants principaux dans amplifier-panel
+        console.log('🚀 Starting component loading...');
+
+        // Load the main components into the amplifier panel
         const panel = document.getElementById('amplifier-panel');
         if (panel) {
             let allContent = '';
@@ -37,33 +37,33 @@ class ComponentLoader {
                 const content = await this.loadComponent(component.file);
                 if (content) {
                     allContent += content;
-                    console.log(`✅ ${component.file} ajouté`);
+                    console.log(`✅ ${component.file} added`);
                 }
             }
-            panel.innerHTML = allContent; // Injecter tout d'un coup sans wrappers
-            console.log(`✅ Tous les composants injectés dans amplifier-panel`);
+            panel.innerHTML = allContent; // Inject all at once without wrappers
+            console.log(`✅ All components injected into amplifier-panel`);
         } else {
-            console.error(`❌ Element #amplifier-panel introuvable dans le DOM`);
+            console.error(`❌ Element #amplifier-panel not found in DOM`);
         }
-        
-        // Charger les modals séparément
+
+        // Load the modals separately
         const modalsSection = document.getElementById('modals-section');
         if (modalsSection) {
             const modalsContent = await this.loadComponent(this.modalsComponent.file);
             modalsSection.innerHTML = modalsContent;
-            console.log(`✅ ${this.modalsComponent.file} injecté dans modals-section`);
+            console.log(`✅ ${this.modalsComponent.file} injected into modals-section`);
         }
-        
-        console.log('✅ Tous les composants sont chargés');
-        
-        // Déclencher un événement personnalisé pour indiquer que les composants sont prêts
+
+        console.log('✅ All components loaded');
+
+        // Trigger a custom event to indicate that the components are ready
         document.dispatchEvent(new Event('componentsLoaded'));
     }
 }
 
-// Charger les composants au chargement de la page
+// Load components when the page loads
 document.addEventListener('DOMContentLoaded', async () => {
-    console.log('📄 DOM chargé, initialisation des composants...');
+    console.log('📄 DOM loaded, initializing components...');
     const loader = new ComponentLoader();
     await loader.loadAll();
 });

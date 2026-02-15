@@ -1,6 +1,6 @@
 /**
- * Moteur Audio McIntosh MSA5500 - Mise à jour EQ 10 Bandes
- * Gère la lecture, l'EQ graphique 10 bandes, le Loudness et les VU-mètres.
+ * McIntosh MSA5500 Audio Engine - 10-Band EQ Update
+ * Controls playback, 10-band graphic EQ, loudness, and VU meters..
  */
 
 if (typeof window.McIntoshAudioEngine === 'undefined' && typeof McIntoshAudioEngine === 'undefined') {
@@ -15,11 +15,11 @@ if (typeof window.McIntoshAudioEngine === 'undefined' && typeof McIntoshAudioEng
             this.trebleFilter = null;
             this.balanceNode = null;
             this.source = null;
-            
-            // --- AJOUT EQ 10 BANDES ---
+
+            // --- ADD 10-BAND EQ ---
             this.eqBands = [32, 64, 125, 250, 500, 1000, 2000, 4000, 8000, 16000];
-            this.filters = {}; // Stocke les BiquadFilterNodes par fréquence
-            
+            this.filters = {}; // Stores the BiquadFilterNodes by frequency
+
             this.bassGain = 0;
             this.trebleGain = 0;
             this.currentBalance = 0;
@@ -39,7 +39,7 @@ if (typeof window.McIntoshAudioEngine === 'undefined' && typeof McIntoshAudioEng
 
                 this.source = this.audioCtx.createMediaElementSource(this.audio);
                 this.balanceNode = this.audioCtx.createStereoPanner();
-                
+
                 // Filtres de tonalité classiques
                 this.bassFilter = this.audioCtx.createBiquadFilter();
                 this.bassFilter.type = "lowshelf";
@@ -49,23 +49,23 @@ if (typeof window.McIntoshAudioEngine === 'undefined' && typeof McIntoshAudioEng
                 this.trebleFilter.type = "highshelf";
                 this.trebleFilter.frequency.value = 3000;
 
-                // --- CRÉATION DE LA CHAÎNE EQ 10 BANDES ---
+                // --- CREATION OF THE 10-BAND EQ CHAIN ---
                 let lastNode = this.source;
-                
-                // Connexion Source -> Balance -> Bass -> Treble
+
+                // Connection Source -> Balance -> Bass -> Treble
                 lastNode.connect(this.balanceNode);
                 this.balanceNode.connect(this.bassFilter);
                 this.bassFilter.connect(this.trebleFilter);
                 lastNode = this.trebleFilter;
 
-                // Création et insertion des 10 filtres Peaking
+                // Creation and insertion of the 10 Peaking filters
                 this.eqBands.forEach(freq => {
                     const filter = this.audioCtx.createBiquadFilter();
                     filter.type = "peaking";
                     filter.frequency.value = freq;
-                    filter.Q.value = 1.4; // Largeur de bande musicale
+                    filter.Q.value = 1.4; // Music bandwidth
                     filter.gain.value = 0;
-                    
+
                     this.filters[freq] = filter;
                     lastNode.connect(filter);
                     lastNode = filter;
@@ -75,7 +75,7 @@ if (typeof window.McIntoshAudioEngine === 'undefined' && typeof McIntoshAudioEng
                 lastNode.connect(splitter);
                 splitter.connect(this.analyserL, 0);
                 splitter.connect(this.analyserR, 1);
-                
+
                 lastNode.connect(this.audioCtx.destination);
 
                 this.isInitialized = true;
@@ -85,7 +85,7 @@ if (typeof window.McIntoshAudioEngine === 'undefined' && typeof McIntoshAudioEng
             }
         }
 
-        // --- NOUVELLE MÉTHODE POUR L'EQ 10 BANDES ---
+        // --- NEW METHOD FOR THE 10-BAND EQ ---
         setCustomFilter(freq, gain) {
             const filter = this.filters[freq];
             if (filter && this.audioCtx) {
