@@ -40,7 +40,7 @@ const rebootModal = document.getElementById('reboot-modal');
 const btnYes = document.getElementById('reboot-yes');
 const btnNo = document.getElementById('reboot-no');
 
-// --- SELECTEURS EQ ---
+// --- SELECTEURS EQ (BASS/TREBLE) ---
 const bassDown = document.getElementById('bass-down');
 const bassUp = document.getElementById('bass-up');
 const trebleDown = document.getElementById('treble-down');
@@ -57,7 +57,7 @@ const albumPopup = document.getElementById('album-popup');
 const popupImg = document.getElementById('popup-img');
 const noCoverText = document.getElementById('no-cover-text');
 
-// --- SELECTEURS LIBRARY (AJOUTÉS) ---
+// --- SELECTEURS LIBRARY ---
 const libBtn = document.getElementById('library-btn');
 const modal = document.getElementById('library-modal');
 const closeBtn = document.querySelector('.close-btn');
@@ -151,16 +151,14 @@ function updateVFDStatusDisplay() {
     modeIndicator.innerHTML = `<span>${isRandom ? "RANDOM" : ""}</span><span>${repeatText}</span><span style="color: #00c3ff">${abText}</span>`;
 }
 
-// --- POWER (MODIFIÉ AVEC POPUP REBOOT) ---
-pwr.addEventListener('click', () => {
+// --- POWER (avec popup reboot) ---
+pwr?.addEventListener('click', () => {
     rebootModal.style.display = 'flex';
 });
-
-btnYes.addEventListener('click', () => {
+btnYes?.addEventListener('click', () => {
     location.reload();
 });
-
-btnNo.addEventListener('click', () => {
+btnNo?.addEventListener('click', () => {
     rebootModal.style.display = 'none';
 });
 
@@ -169,7 +167,7 @@ function initEngine() {
     engine.init();
 }
 
-// --- BALANCE & EQ ---
+// --- BALANCE & EQ (BASS/TREBLE) ---
 function showBalanceStatus() {
     let balText = "BAL: CENTER";
     if (currentBalance < -0.05) balText = `BAL: ${Math.round(Math.abs(currentBalance) * 100)}% L`;
@@ -208,13 +206,20 @@ function loadTrack(index) {
     currentIndex = index; abMode = 0; updateVFDStatusDisplay();
     const file = playlist[currentIndex];
     trackCount.textContent = `${currentIndex + 1}/${playlist.length}`;
-    
-    // --- MODIFICATION POUR AAC/ALAC/OGG ---
-    const ext = file.name.split('.').pop().toLowerCase();
+
+    // Format affiché
+    const ext = (file.name.split('.').pop() || '').toLowerCase();
     fileFormat.textContent = (ext === 'm4a') ? "AAC/ALAC" : ext.toUpperCase();
-    
+
     audio.src = URL.createObjectURL(file);
-    audio.onloadedmetadata = () => bitrateDisplay.textContent = Math.round(((file.size * 8) / audio.duration) / 1000) + " KBPS";
+    audio.onloadedmetadata = () => {
+        if (!isNaN(audio.duration) && audio.duration > 0) {
+            const kbps = Math.round(((file.size * 8) / audio.duration) / 1000);
+            bitrateDisplay.textContent = kbps + " KBPS";
+        } else {
+            bitrateDisplay.textContent = "—";
+        }
+    };
 
     if (window.jsmediatags) {
         window.jsmediatags.read(file, {
@@ -228,22 +233,22 @@ function loadTrack(index) {
                     let s = ""; for (let i = 0; i < img.data.length; i++) s += String.fromCharCode(img.data[i]);
                     popupImg.src = `data:${img.format};base64,${window.btoa(s)}`;
                     popupImg.style.display = 'block';
-                    if (noCoverText) noCoverText.style.display = 'none';
-                } else { 
-                    popupImg.src = ""; 
+                    noCoverText && (noCoverText.style.display = 'none');
+                } else {
+                    popupImg.src = "";
                     popupImg.style.display = 'none';
-                    if (noCoverText) noCoverText.style.display = 'flex';
+                    noCoverText && (noCoverText.style.display = 'flex');
                 }
-                updateMediaMetadata(); // <-- APPEL MEDIA SESSION ICI
+                updateMediaMetadata();
             },
-            onError: () => { 
-                vfdLarge.textContent = file.name.toUpperCase(); 
-                vfdInfo.textContent = "ARTIST – ALBUM"; 
-                setTimeout(() => fitText(vfdLarge, 30), 10); 
-                popupImg.src = ""; 
+            onError: () => {
+                vfdLarge.textContent = file.name.toUpperCase();
+                vfdInfo.textContent = "ARTIST – ALBUM";
+                setTimeout(() => fitText(vfdLarge, 30), 10);
+                popupImg.src = "";
                 popupImg.style.display = 'none';
-                if (noCoverText) noCoverText.style.display = 'flex';
-                updateMediaMetadata(); 
+                noCoverText && (noCoverText.style.display = 'flex');
+                updateMediaMetadata();
             }
         });
     }
@@ -252,13 +257,13 @@ function loadTrack(index) {
 }
 
 // --- CLICS INTERACTIFS ---
-vfdLarge.addEventListener('click', (e) => {
+vfdLarge?.addEventListener('click', (e) => {
     if (!isPoweredOn) return;
     e.stopPropagation(); albumOverlay.style.display = 'block'; albumPopup.style.display = 'block';
 });
-albumOverlay.addEventListener('click', () => { albumOverlay.style.display = 'none'; albumPopup.style.display = 'none'; });
+albumOverlay?.addEventListener('click', () => { albumOverlay.style.display = 'none'; albumPopup.style.display = 'none'; });
 
-timeDisplay.addEventListener('click', (e) => {
+timeDisplay?.addEventListener('click', (e) => {
     if (!isPoweredOn) return;
     e.stopPropagation(); isShowingRemaining = !isShowingRemaining;
     showStatusBriefly(isShowingRemaining ? "REMAINING TIME" : "ELAPSED TIME");
@@ -268,8 +273,8 @@ timeDisplay.addEventListener('click', (e) => {
 audio.addEventListener('timeupdate', () => {
     if (!isPoweredOn || isNaN(audio.currentTime)) return;
     if (abMode === 2 && audio.currentTime >= pointB) audio.currentTime = pointA;
-    
-    // --- POSITION STATE POUR CHROME ---
+
+    // Position state (Chrome)
     if ('mediaSession' in navigator && !isNaN(audio.duration)) {
         navigator.mediaSession.setPositionState({
             duration: audio.duration,
@@ -279,6 +284,7 @@ audio.addEventListener('timeupdate', () => {
     }
 
     let s = isShowingRemaining ? audio.duration - audio.currentTime : audio.currentTime;
+    s = Math.max(0, s);
     const m = Math.floor(s / 60).toString().padStart(2, '0'), sec = Math.floor(s % 60).toString().padStart(2, '0');
     timeDisplay.textContent = `${isShowingRemaining ? '-' : ''}${m}:${sec}`;
 });
@@ -336,37 +342,40 @@ function stopSeeking(dir) {
     isMouseDown = false;
 }
 
-nextBtn.addEventListener('mousedown', () => startSeeking('next'));
-nextBtn.addEventListener('mouseup', () => stopSeeking('next'));
-prevBtn.addEventListener('mousedown', () => startSeeking('prev'));
-prevBtn.addEventListener('mouseup', () => stopSeeking('prev'));
+nextBtn?.addEventListener('mousedown', () => startSeeking('next'));
+nextBtn?.addEventListener('mouseup', () => stopSeeking('next'));
+nextBtn?.addEventListener('mouseleave', () => stopSeeking('next'));
+prevBtn?.addEventListener('mousedown', () => startSeeking('prev'));
+prevBtn?.addEventListener('mouseup', () => stopSeeking('prev'));
+prevBtn?.addEventListener('mouseleave', () => stopSeeking('prev'));
 
 // --- PLAYLIST POPUP ---
-trackCount.addEventListener('click', (e) => {
+trackCount?.addEventListener('click', (e) => {
     if (!isPoweredOn || playlist.length === 0) return;
     e.stopPropagation();
     const container = document.getElementById('playlist-items');
+    if (!container) return;
     container.innerHTML = "";
     playlist.forEach((f, i) => {
         const item = document.createElement('div');
         item.className = `playlist-item ${i === currentIndex ? 'active-track' : ''}`;
         item.innerHTML = `<span>${i + 1}. ${f.name.toUpperCase()}</span>`;
-        item.onclick = () => { loadTrack(i); document.getElementById('playlist-popup').style.display = 'none'; };
+        item.onclick = () => { loadTrack(i); const pp = document.getElementById('playlist-popup'); if (pp) pp.style.display = 'none'; };
         container.appendChild(item);
     });
-    document.getElementById('playlist-popup').style.display = 'block';
+    const pp = document.getElementById('playlist-popup');
+    if (pp) pp.style.display = 'block';
 });
 
 // --- AUTRES CONTROLES ---
-inputBtn.addEventListener('click', () => fileUpload.click());
-fileUpload.addEventListener('change', (e) => { if (e.target.files.length > 0) { if (!isPoweredOn) { isPoweredOn = true; } playlist = Array.from(e.target.files); loadTrack(0); } });
-playPauseBtn.addEventListener('click', () => { 
+inputBtn?.addEventListener('click', () => fileUpload?.click());
+fileUpload?.addEventListener('change', (e) => { if (e.target.files.length > 0) { if (!isPoweredOn) { isPoweredOn = true; } playlist = Array.from(e.target.files); loadTrack(0); } });
+playPauseBtn?.addEventListener('click', () => { 
     if (!isPoweredOn || playlist.length === 0) return; 
     engine.init(); 
     if (audio.paused) {
         engine.play();
         updateStatusIcon('play');
-        // Notifier Electron pour mettre à jour la thumbar
         if (typeof require !== 'undefined') {
             const { ipcRenderer } = require('electron');
             ipcRenderer.send('update-thumbar', true);
@@ -374,46 +383,43 @@ playPauseBtn.addEventListener('click', () => {
     } else {
         engine.pause();
         updateStatusIcon('pause');
-        // Notifier Electron pour mettre à jour la thumbar
         if (typeof require !== 'undefined') {
             const { ipcRenderer } = require('electron');
             ipcRenderer.send('update-thumbar', false);
         }
     }
 });
-stopBtn.addEventListener('click', () => { 
+stopBtn?.addEventListener('click', () => { 
     if (isPoweredOn) { 
         engine.stop(); 
         updateStatusIcon('stop');
-        // Notifier Electron que c'est arrêté
         if (typeof require !== 'undefined') {
             const { ipcRenderer } = require('electron');
             ipcRenderer.send('update-thumbar', false);
         }
     } 
 });
-muteBtn.addEventListener('click', () => { if (isPoweredOn) { isMuted = !isMuted; audio.muted = isMuted; showVolumeBriefly(); } });
+muteBtn?.addEventListener('click', () => { if (isPoweredOn) { isMuted = !isMuted; audio.muted = isMuted; showVolumeBriefly(); } });
 document.getElementById('loudness-btn')?.addEventListener('click', () => { if (isPoweredOn) { isLoudnessActive = !isLoudnessActive; document.getElementById('vfd-loudness-text')?.classList.toggle('loudness-visible', isLoudnessActive); applyLoudnessEffect(); } });
 
 // --- FONCTION LIBRARY ---
-libBtn.onclick = () => { if (isPoweredOn) modal.style.display = "block"; else showStatusBriefly("POWER ON FIRST"); };
-closeBtn.onclick = () => modal.style.display = "none";
+libBtn && (libBtn.onclick = () => { if (isPoweredOn) modal.style.display = "block"; else showStatusBriefly("POWER ON FIRST"); });
+closeBtn && (closeBtn.onclick = () => modal.style.display = "none");
 
-folderInput.onchange = (e) => {
-    // MODIFIÉ POUR ACCEPTER AAC/ALAC/OGG
+folderInput && (folderInput.onchange = (e) => {
     const files = Array.from(e.target.files).filter(f => f.type.startsWith('audio/') || f.name.endsWith('.m4a') || f.name.endsWith('.aac') || f.name.endsWith('.ogg'));
     if (files.length > 0) {
         playlist = files;
-        fileList.innerHTML = "";
+        if (fileList) fileList.innerHTML = "";
         playlist.forEach((file, index) => {
             const li = document.createElement('li');
             li.innerHTML = `<span style="color:var(--mc-led-green)">▶</span> ${file.name.toUpperCase()}`;
             li.onclick = () => { loadTrack(index); modal.style.display = "none"; };
-            fileList.appendChild(li);
+            fileList?.appendChild(li);
         });
         showStatusBriefly(`${playlist.length} TRACKS LOADED`);
     }
-};
+});
 
 // --- DISPLAY BUTTON ---
 document.getElementById('display-btn')?.addEventListener('click', () => {
@@ -455,15 +461,15 @@ function animate() {
         currentAngleL += (-55 - currentAngleL) * 0.1;
         currentAngleR += (-55 - currentAngleR) * 0.1;
     }
-    nl.style.transform = `rotate(${currentAngleL}deg)`;
-    nr.style.transform = `rotate(${currentAngleR}deg)`;
+    nl && (nl.style.transform = `rotate(${currentAngleL}deg)`);
+    nr && (nr.style.transform = `rotate(${currentAngleR}deg)`);
 }
 animate();
 
 // --- VOLUME ---
 function updateVolumeDisplay() {
     engine.setVolume(currentVolume);
-    volumeKnob.style.transform = `rotate(${currentVolume * 270 - 135}deg)`;
+    if (volumeKnob) volumeKnob.style.transform = `rotate(${currentVolume * 270 - 135}deg)`;
     applyLoudnessEffect();
     showVolumeBriefly();
     const pgL = document.getElementById('led-pg-l');
@@ -474,25 +480,27 @@ function updateVolumeDisplay() {
         pgL?.classList.remove('blink-fast'); pgR?.classList.remove('blink-fast');
     }
 }
-volumeKnob.addEventListener('mousedown', (e) => {
+volumeKnob?.addEventListener('mousedown', (e) => {
     if (!isPoweredOn) return;
     const rect = volumeKnob.getBoundingClientRect();
     const isRight = (e.clientX - rect.left) > rect.width / 2;
+    clearInterval(volHoldInterval);
     const change = () => { currentVolume = isRight ? Math.min(1, currentVolume + 0.01) : Math.max(0, currentVolume - 0.01); updateVolumeDisplay(); };
     change(); volHoldInterval = setInterval(change, 50);
 });
 window.addEventListener('mouseup', () => clearInterval(volHoldInterval));
-volumeKnob.addEventListener('wheel', (e) => { if (isPoweredOn) { e.preventDefault(); currentVolume = e.deltaY < 0 ? Math.min(1, currentVolume + 0.05) : Math.max(0, currentVolume - 0.05); updateVolumeDisplay(); } });
-volumeKnob.addEventListener('mouseenter', () => { if (isPoweredOn) showVolumeBriefly(); });
+volumeKnob?.addEventListener('mouseleave', () => clearInterval(volHoldInterval));
+volumeKnob?.addEventListener('wheel', (e) => { if (isPoweredOn) { e.preventDefault(); currentVolume = e.deltaY < 0 ? Math.min(1, currentVolume + 0.05) : Math.max(0, currentVolume - 0.05); updateVolumeDisplay(); } });
+volumeKnob?.addEventListener('mouseenter', () => { if (isPoweredOn) showVolumeBriefly(); });
 
-// --- MEDIA SESSION (ACTION HANDLERS CORRIGÉS) ---
+// --- MEDIA SESSION ---
 function updateMediaMetadata() { 
     if ('mediaSession' in navigator && playlist.length > 0) { 
         navigator.mediaSession.metadata = new MediaMetadata({ 
             title: vfdLarge.textContent, 
-            artist: vfdInfo.textContent.split('–')[0].trim(),
+            artist: (vfdInfo.textContent.split('–')[0] || '').trim(),
             artwork: [
-                { src: popupImg.src.includes('data:') ? popupImg.src : 'assets/img/default.png', sizes: '512x512', type: 'image/png' }
+                { src: popupImg.src && popupImg.src.startsWith('data:') ? popupImg.src : 'assets/img/default.png', sizes: '512x512', type: 'image/png' }
             ]
         }); 
         
@@ -513,7 +521,6 @@ function updateMediaMetadata() {
             }
         });
         
-        // --- NAVIGATION CHROME CORRIGÉE ---
         navigator.mediaSession.setActionHandler('previoustrack', () => {
             if (audio.currentTime > 3) {
                 audio.currentTime = 0;
@@ -555,8 +562,9 @@ document.getElementById('options-btn')?.addEventListener('click', (e) => {
 });
 
 document.addEventListener('click', (e) => {
-    if (!optionsPopup?.contains(e.target)) optionsPopup.style.display = 'none';
-    if (!document.getElementById('playlist-popup')?.contains(e.target)) document.getElementById('playlist-popup').style.display = 'none';
+    if (optionsPopup && !optionsPopup.contains(e.target)) optionsPopup.style.display = 'none';
+    const pp = document.getElementById('playlist-popup');
+    if (pp && !pp.contains(e.target)) pp.style.display = 'none';
     if (e.target == modal) modal.style.display = "none";
 });
 
@@ -616,7 +624,8 @@ const bgPicker = document.getElementById('bg-picker');
 bgPicker?.addEventListener('input', (e) => {
     const color = e.target.value;
     document.body.style.backgroundColor = color;
-    document.getElementById('background-color-btn').style.background = color;
+    const bgBtn = document.getElementById('background-color-btn');
+    if (bgBtn) bgBtn.style.background = color;
 });
 
 // Changement de la couleur de l'ombre du châssis
@@ -627,28 +636,50 @@ shadowPicker?.addEventListener('input', (e) => {
     if (chassis) {
         chassis.style.boxShadow = `0 60px 120px ${color}`;
     }
-    document.getElementById('shadow-color-btn').style.background = color;
+    const shBtn = document.getElementById('shadow-color-btn');
+    if (shBtn) shBtn.style.background = color;
 });
 
-// --- GESTION DE L'ÉGALISEUR 10 BANDES ---
+/* ------------------------------------------------------------------
+   GESTION DE L'ÉGALISEUR 10 BANDES  (FUSION DES DEUX BLOCS)
+------------------------------------------------------------------- */
+
+// Sélecteurs uniques (pas de redéclarations)
 const eqBtn = document.getElementById('eq-btn');
 const eqPopup = document.getElementById('eq-popup');
 const closeEq = document.getElementById('close-eq');
 const eqResetBtn = document.getElementById('eq-reset-btn');
-const eqSliders = document.querySelectorAll('.eq-band input');
+const eqSliders = document.querySelectorAll('.eq-band input'); // cible uniquement les sliders EQ
 const eqCanvas = document.getElementById('eq-curve');
 const eqCtx = eqCanvas?.getContext('2d');
+const displayElement = document.getElementById('eq-preset-name-display');
 
-// Fonction pour dessiner la courbe lissée
+// Labels de presets (manquait auparavant)
+const presetLabels = {
+    'eq-pop-btn': 'POP',
+    'eq-rock-btn': 'ROCK',
+    'eq-jazz-btn': 'JAZZ',
+    'eq-classic-btn': 'CLASSIC',
+    'eq-reset-btn': 'FLAT'
+};
+
+// Gains par preset (fusion OK)
+const eqPresets = {
+    'eq-pop-btn':     [-2, -1,  2,  4,  5,  5,  4,  2, -1, -2],
+    'eq-rock-btn':    [ 7,  5,  3, -1, -3, -3,  1,  4,  6,  8],
+    'eq-jazz-btn':    [ 4,  2,  0,  2,  4,  4,  2,  0,  2,  4],
+    'eq-classic-btn': [ 5,  4,  2,  0,  0,  0,  0,  2,  4,  5],
+    'eq-reset-btn':   [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0]
+};
+
+// Dessin de la courbe lissée (unique)
 function drawEQCurve() {
     if (!eqCanvas || !eqCtx) return;
-    
     const width = eqCanvas.width = eqCanvas.offsetWidth;
     const height = eqCanvas.height = eqCanvas.offsetHeight;
-    
     eqCtx.clearRect(0, 0, width, height);
-    
-    // Dessin de la grille de fond
+
+    // Grille
     eqCtx.strokeStyle = "#1a1a1a";
     eqCtx.lineWidth = 1;
     eqCtx.beginPath();
@@ -658,69 +689,81 @@ function drawEQCurve() {
     }
     eqCtx.stroke();
 
-    // Récupération des points (X = slider, Y = gain)
+    // Points
     const points = Array.from(eqSliders).map((slider, index) => {
         const x = (width / (eqSliders.length - 1)) * index;
-        const y = (height / 2) - (slider.value * (height / 26)); 
+        const y = (height / 2) - (slider.value * (height / 26));
         return {x, y};
     });
 
-    // Dessin de la courbe "Glow" McIntosh
+    // Courbe "McIntosh"
     eqCtx.beginPath();
     eqCtx.strokeStyle = "#00c3ff";
     eqCtx.lineWidth = 3;
     eqCtx.lineCap = "round";
     eqCtx.shadowBlur = 10;
     eqCtx.shadowColor = "#00ff66";
-    
     eqCtx.moveTo(points[0].x, points[0].y);
-
     for (let i = 0; i < points.length - 1; i++) {
         const xc = (points[i].x + points[i + 1].x) / 2;
         const yc = (points[i].y + points[i + 1].y) / 2;
         eqCtx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
     }
-
     eqCtx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
     eqCtx.stroke();
     eqCtx.shadowBlur = 0;
 }
 
-// Ouvrir la pop-up
+// Appliquer un preset (unique, fusion des comportements)
+function applyPreset(btnId) {
+    if (!isPoweredOn) return;
+    const gains = eqPresets[btnId];
+    if (!gains) return;
+
+    eqSliders.forEach((slider, index) => {
+        if (gains[index] !== undefined) {
+            slider.value = gains[index];
+            const freq = slider.getAttribute('data-freq');
+            if (engine && engine.setCustomFilter) {
+                engine.setCustomFilter(freq, gains[index]);
+            }
+        }
+    });
+
+    // Mise à jour du nom affiché
+    let presetName = btnId.replace('eq-', '').replace('-btn', '').toUpperCase();
+    if (presetName === 'RESET') presetName = 'FLAT';
+    if (displayElement) displayElement.innerText = presetName;
+
+    showStatusBriefly("PRESET: " + presetName);
+    drawEQCurve();
+}
+
+// Ouvrir la pop-up EQ
 eqBtn?.addEventListener('click', (e) => {
     if (isPoweredOn) {
         e.stopPropagation();
         eqPopup.style.display = 'block';
-        setTimeout(drawEQCurve, 50); // Petit délai pour s'assurer que le canvas est visible
+        setTimeout(drawEQCurve, 50); // s'assurer que canvas est visible
     } else {
         showStatusBriefly("POWER ON FIRST");
     }
 });
 
-// Fermer la pop-up
+// Fermer la pop-up EQ
 closeEq?.addEventListener('click', () => {
     eqPopup.style.display = 'none';
 });
+eqPopup?.addEventListener('click', (e) => e.stopPropagation());
 
-// Empêcher la fermeture quand on clique à l'intérieur de la pop-up
-eqPopup?.addEventListener('click', (e) => {
-    e.stopPropagation();
-});
-
-// Gestion des curseurs (Sliders)
+// Sliders (manuel)
 eqSliders.forEach(slider => {
     slider.addEventListener('input', (e) => {
         const freq = e.target.getAttribute('data-freq');
         const gain = e.target.value;
-        
-        if (engine.setCustomFilter) {
-            engine.setCustomFilter(freq, gain);
-        }
-        
-        // Mise à jour de la courbe en temps réel
+        if (engine.setCustomFilter) engine.setCustomFilter(freq, gain);
         drawEQCurve();
-        
-        // Affiche la fréquence modifiée sur le VFD
+        if (displayElement) displayElement.innerText = "CUSTOM";
         showStatusBriefly(`${freq}Hz: ${gain > 0 ? '+' : ''}${gain}dB`);
     });
 });
@@ -736,24 +779,23 @@ eqResetBtn?.addEventListener('click', () => {
             engine.setCustomFilter(freq, 0);
         }
     });
-
-    // Remet la courbe à plat
     drawEQCurve();
+    if (displayElement) displayElement.innerText = 'FLAT';
     showStatusBriefly("EQ FLAT (0dB)");
 });
 
+// Boutons de presets
+Object.keys(eqPresets).forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            applyPreset(id);
+        });
+    }
+});
 
-const eqPresets = {
-    'eq-pop-btn':     [-2, -1, 2, 4, 5, 5, 4, 2, -1, -2],
-    'eq-rock-btn':    [7, 5, 3, -1, -3, -3, 1, 4, 6, 8],
-    'eq-jazz-btn':    [4, 2, 0, 2, 4, 4, 2, 0, 2, 4],
-    'eq-classic-btn': [5, 4, 2, 0, 0, 0, 0, 2, 4, 5],
-    'eq-reset-btn':   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-};
-
-const displayElement = document.getElementById('eq-preset-name-display');
-
-// 1. Mise à jour via les boutons
+// (Optionnel) Mise à jour du label si clic sur bouton (sans appliquer, au cas où)
 Object.keys(presetLabels).forEach(id => {
     const btn = document.getElementById(id);
     if (btn) {
@@ -765,180 +807,5 @@ Object.keys(presetLabels).forEach(id => {
     }
 });
 
-function applyPreset(btnId) {
-    const gains = eqPresets[btnId];
-    if (!gains) return;
-
-    const sliders = document.querySelectorAll('input[type="range"]');
-
-    // 1. On applique les gains aux sliders
-    sliders.forEach((slider, index) => {
-        if (gains[index] !== undefined) {
-            slider.value = gains[index];
-            
-            // On déclenche l'événement pour le SON 
-            // (mais cela va envoyer "16000" au VFD par erreur)
-            slider.dispatchEvent(new Event('input', { bubbles: true }));
-        }
-    });
-
-    // 2. LA CORRECTION : On force l'affichage du nom du preset APRÈS la boucle
-    // On extrait le nom (ex: "ROCK") de l'ID du bouton
-    let presetName = btnId.replace('eq-', '').replace('-btn', '').toUpperCase();
-    if (presetName === 'RESET') presetName = 'FLAT';
-
-    // On utilise ta fonction d'affichage VFD
-    if (typeof showStatusBriefly === 'function') {
-        showStatusBriefly("PRESET: " + presetName);
-    } else {
-        // Si tu n'as pas de fonction "briefly", on écrit directement dans ton élément VFD
-        const vfdDisplay = document.getElementById('vfd-display'); // remplace par ton ID
-        if (vfdDisplay) vfdDisplay.innerText = "PRESET: " + presetName;
-    }
-
-    if (typeof drawEQCurve === 'function') drawEQCurve();
-}
-
-// Initialisation des boutons
-Object.keys(eqPresets).forEach(id => {
-    const btn = document.getElementById(id);
-    if (btn) {
-        btn.onclick = () => applyPreset(id);
-    }
-});
-
-// 2. Mise à jour si on touche aux sliders manuellement
-document.querySelectorAll('input[type="range"]').forEach(slider => {
-    slider.addEventListener('input', () => {
-        if (displayElement) {
-            displayElement.innerText = "CUSTOM";
-        }
-    });
-});
-
-// --- GESTION DE L'ÉGALISEUR 10 BANDES ---
-const eqBtn = document.getElementById('eq-btn');
-const eqPopup = document.getElementById('eq-popup');
-const closeEq = document.getElementById('close-eq');
-const eqResetBtn = document.getElementById('eq-reset-btn');
-const eqSliders = document.querySelectorAll('.eq-band input'); // Cible uniquement les sliders EQ
-const eqCanvas = document.getElementById('eq-curve');
-const eqCtx = eqCanvas?.getContext('2d');
-const displayElement = document.getElementById('eq-preset-name-display');
-
-// Définition des gains pour chaque bouton
-const eqPresets = {
-    'eq-pop-btn':     [-2, -1, 2, 4, 5, 5, 4, 2, -1, -2],
-    'eq-rock-btn':    [7, 5, 3, -1, -3, -3, 1, 4, 6, 8],
-    'eq-jazz-btn':    [4, 2, 0, 2, 4, 4, 2, 0, 2, 4],
-    'eq-classic-btn': [5, 4, 2, 0, 0, 0, 0, 2, 4, 5],
-    'eq-reset-btn':   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-};
-
-// Fonction pour dessiner la courbe lissée
-function drawEQCurve() {
-    if (!eqCanvas || !eqCtx) return;
-    const width = eqCanvas.width = eqCanvas.offsetWidth;
-    const height = eqCanvas.height = eqCanvas.offsetHeight;
-    eqCtx.clearRect(0, 0, width, height);
-
-    // Grille de fond
-    eqCtx.strokeStyle = "#1a1a1a";
-    eqCtx.lineWidth = 1;
-    eqCtx.beginPath();
-    for(let i = 1; i < 4; i++) {
-        let y = (height / 4) * i;
-        eqCtx.moveTo(0, y); eqCtx.lineTo(width, y);
-    }
-    eqCtx.stroke();
-
-    // Points de la courbe
-    const points = Array.from(eqSliders).map((slider, index) => {
-        const x = (width / (eqSliders.length - 1)) * index;
-        const y = (height / 2) - (slider.value * (height / 26)); 
-        return {x, y};
-    });
-
-    // Dessin de la courbe bleue "McIntosh"
-    eqCtx.beginPath();
-    eqCtx.strokeStyle = "#00c3ff";
-    eqCtx.lineWidth = 3;
-    eqCtx.lineCap = "round";
-    eqCtx.shadowBlur = 10;
-    eqCtx.shadowColor = "#00ff66";
-    eqCtx.moveTo(points[0].x, points[0].y);
-    for (let i = 0; i < points.length - 1; i++) {
-        const xc = (points[i].x + points[i + 1].x) / 2;
-        const yc = (points[i].y + points[i + 1].y) / 2;
-        eqCtx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
-    }
-    eqCtx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
-    eqCtx.stroke();
-    eqCtx.shadowBlur = 0;
-}
-
-// FONCTION CLÉ : Appliquer un preset
-function applyPreset(btnId) {
-    if (!isPoweredOn) return;
-    const gains = eqPresets[btnId];
-    if (!gains) return;
-
-    eqSliders.forEach((slider, index) => {
-        if (gains[index] !== undefined) {
-            slider.value = gains[index];
-            // On envoie la valeur au moteur audio pour chaque bande
-            const freq = slider.getAttribute('data-freq');
-            if (engine && engine.setCustomFilter) {
-                engine.setCustomFilter(freq, gains[index]);
-            }
-        }
-    });
-
-    // Mise à jour du nom du preset affiché
-    let presetName = btnId.replace('eq-', '').replace('-btn', '').toUpperCase();
-    if (presetName === 'RESET') presetName = 'FLAT';
-    if (displayElement) displayElement.innerText = presetName;
-
-    showStatusBriefly("PRESET: " + presetName);
-    drawEQCurve();
-}
-
-// Événements pour les sliders (manuel)
-eqSliders.forEach(slider => {
-    slider.addEventListener('input', (e) => {
-        const freq = e.target.getAttribute('data-freq');
-        const gain = e.target.value;
-        if (engine.setCustomFilter) engine.setCustomFilter(freq, gain);
-        drawEQCurve();
-        if (displayElement) displayElement.innerText = "CUSTOM";
-        showStatusBriefly(`${freq}Hz: ${gain > 0 ? '+' : ''}${gain}dB`);
-    });
-});
-
-// Événements pour les boutons de presets
-Object.keys(eqPresets).forEach(id => {
-    const btn = document.getElementById(id);
-    if (btn) {
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            applyPreset(id);
-        });
-    }
-});
-
-// Contrôles de la popup
-eqBtn?.addEventListener('click', (e) => {
-    if (isPoweredOn) {
-        e.stopPropagation();
-        eqPopup.style.display = 'block';
-        setTimeout(drawEQCurve, 50);
-    } else {
-        showStatusBriefly("POWER ON FIRST");
-    }
-});
-
-closeEq?.addEventListener('click', () => eqPopup.style.display = 'none');
-eqPopup?.addEventListener('click', (e) => e.stopPropagation());
-
-// Initialisation au démarrage
+// Init EQ
 if (displayElement) displayElement.innerText = "FLAT";
