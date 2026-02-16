@@ -663,13 +663,21 @@ const presetLabels = {
     'eq-reset-btn': 'FLAT'
 };
 
-// Gains par preset (fusion OK)
 const eqPresets = {
-    'eq-pop-btn':     [-2, -1,  2,  4,  5,  5,  4,  2, -1, -2],
-    'eq-rock-btn':    [ 7,  5,  3, -1, -3, -3,  1,  4,  6,  8],
-    'eq-jazz-btn':    [ 4,  2,  0,  2,  4,  4,  2,  0,  2,  4],
-    'eq-classic-btn': [ 5,  4,  2,  0,  0,  0,  0,  2,  4,  5],
-    'eq-reset-btn':   [ 0,  0,  0,  0,  0,  0,  0,  0,  0,  0]
+    // POP : Accentue légèrement les voix et les extrêmes sans étouffer les médiums
+    'eq-pop-btn':     [3, 2, 1, 0, -1, -1, 0, 1, 2, 3],
+    
+    // ROCK : La célèbre courbe en "V" mais plus douce pour garder le corps des guitares
+    'eq-rock-btn':    [5, 4, 2, 0, -1, 0, 1, 2, 4, 5],
+    
+    // JAZZ : Apporte de la chaleur aux instruments acoustiques et réduit les cymbales trop perçantes
+    'eq-jazz-btn':    [4, 3, 1, 1, -1, -1, 0, 1, 2, 2],
+    
+    // CLASSIC : Optimisé pour la dynamique des orchestres (basses profondes et clarté des violons)
+    'eq-classic-btn': [4, 3, 2, 0, 0, 0, 0, 2, 3, 4],
+    
+    // FLAT : Le son original de l'enregistrement, sans aucune modification
+    'eq-reset-btn':   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 };
 
 // Dessin de la courbe lissée (unique)
