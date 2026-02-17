@@ -1003,6 +1003,7 @@ A: Yes! Use the BACK COLOR and SHADOW COLOR pickers in the options menu. The DIS
 <img width="1788" height="791" alt="6" src="https://github.com/user-attachments/assets/733c2d92-a92b-4f34-9b46-0f8e2743bb48" />
 <img width="1796" height="865" alt="7" src="https://github.com/user-attachments/assets/cf5ca0bf-ca0b-4117-9397-fcb53f2880e5" />
 <img width="1781" height="792" alt="8" src="https://github.com/user-attachments/assets/a129b238-2181-453b-95b8-f87453ff9dad" />
+<img width="1784" height="791" alt="9" src="https://github.com/user-attachments/assets/41cd333e-cce3-4f56-b6e0-133fa93e9f1d" />
 ---
 
 **Enjoy your premium web audio experience! 🎵🎛️**
