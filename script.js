@@ -739,7 +739,7 @@ function applyPreset(btnId) {
         if (presetName === 'RESET' || presetName === 'FLAT') {
             vfdPresetElement.innerText = ""; // On cache si c'est FLAT
         } else {
-            vfdPresetElement.innerText = " | " + presetName; // On affiche avec un séparateur
+            vfdPresetElement.innerText = " | EQ " + presetName; // On affiche avec un séparateur
         }
     }
 
