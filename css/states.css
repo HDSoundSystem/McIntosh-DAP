@@ -84,7 +84,6 @@
     display: none;
     margin-left: 12px;
     font-size: 18px;
-    opacity: 0.8;
     color: var(--mc-blue);
     font-family: 'bitcount single', sans-serif;
     text-shadow: 0 0 15px var(--mc-blue);
