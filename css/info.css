@@ -1,3 +1,51 @@
+/* INFO OVERLAY */
+#info-overlay-fix {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 99999;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#info-overlay-fix img {
+    max-width: 90%;
+    max-height: 90%;
+    border: 5px solid var(--mc-gold);
+    border-radius: 15px;
+    background: #000;
+    pointer-events: none;
+}
+
+.release-version {
+    margin-top: 20px;
+    color: var(--mc-gold);
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    font-weight: 300;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(120, 107, 70, 0.5);
+}
+
+.release-version::after {
+    content: var(--release-number);
+    display: block;
+    margin-top: 20px;
+    color: var(--mc-gold);
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(120, 107, 70, 0.5);
+}
+
 .github-link {
     color: var(--mc-gold); /* Utilise ton doré McIntosh */
     text-decoration: none;
