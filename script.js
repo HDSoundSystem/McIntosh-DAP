@@ -715,7 +715,7 @@ function drawEQCurve() {
     eqCtx.shadowBlur = 0;
 }
 
-// --- FONCTION APPLIQUER PRESET CORRIGÉE ---
+// Appliquer un preset (unique, fusion des comportements)
 function applyPreset(btnId) {
     if (!isPoweredOn) return;
     
@@ -726,34 +726,33 @@ function applyPreset(btnId) {
     eqSliders.forEach((slider, index) => {
         slider.value = gains[index];
         const freq = slider.getAttribute('data-freq');
-        if (engine && engine.setCustomFilter) {
-            engine.setCustomFilter(freq, gains[index]);
-        }
+        if (engine?.setCustomFilter) engine.setCustomFilter(freq, gains[index]);
     });
 
     // 2. Préparer le nom du preset pour l'affichage
+    // On transforme "eq-rock-btn" en "ROCK"
     let presetName = btnId.replace('eq-', '').replace('-btn', '').toUpperCase();
-    if (presetName === 'RESET') presetName = 'FLAT';
-
+    
     // 3. Logique d'affichage sur le VFD (à côté du bitrate)
     const vfdPresetElement = document.getElementById('vfd-preset-display');
     if (vfdPresetElement) {
-        if (presetName === 'FLAT') {
-            vfdPresetElement.innerText = ""; 
+        if (presetName === 'RESET' || presetName === 'FLAT') {
+            vfdPresetElement.innerText = ""; // On cache si c'est FLAT
         } else {
-            vfdPresetElement.innerText = " | " + presetName;
+            vfdPresetElement.innerText = " | " + presetName; // On affiche avec un séparateur
         }
     }
 
-    // 4. Mise à jour de ton grand affichage central
+    // 4. Mise à jour de ton grand affichage central (optionnel)
     if (displayElement) {
-        displayElement.innerText = presetName;
+        displayElement.innerText = (presetName === 'RESET') ? 'FLAT' : presetName;
     }
 
-    // Feedback visuel et courbe
-    showStatusBriefly("PRESET: " + presetName);
-    drawEQCurve();
+    // Feedback visuel
+    showStatusBriefly("PRESET: " + (presetName === 'RESET' ? 'FLAT' : presetName));
+    if (typeof drawEQCurve === 'function') drawEQCurve();
 }
+
 // Ouvrir la pop-up EQ
 eqBtn?.addEventListener('click', (e) => {
     if (isPoweredOn) {
