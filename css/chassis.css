@@ -12,7 +12,7 @@
 .side-trim {
     width: 55px;
     /* Largeur plus fine et fidèle au C55 */
-    height: 775px;
+    height: 765px;
     z-index: 2;
     position: absolute;
     top: -10px;
@@ -71,7 +71,7 @@
 /* PANNEAU PRINCIPAL DE L'AMPLIFICATEUR */
 .amplifier-panel {
     width: 1650px;
-    height: 760px;
+    height: 750px;
     background: var(--panel-black);
     position: relative;
     /* On retire la bordure simple pour la gérer en relief */
