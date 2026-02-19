@@ -94,38 +94,7 @@
     display: inline-block !important;
 }
 
-/* PUSH LABELS */
-.push-label-input {
-    color: var(--mc-gold);
-    font-family: 'Roboto', sans-serif;
-    font-size: 10px;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    position: absolute;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-2235%);
-    z-index: 20;
-    pointer-events: none;
-    text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
-}
-
-.push-label-volume {
-    color: var(--mc-gold);
-    font-family: 'Roboto', sans-serif;
-    font-size: 10px;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    position: absolute;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(1465%);
-    z-index: 20;
-    pointer-events: none;
-    text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
-}
+/* PUSH LABELS - remplacés par .knob-sub-label dans controls.css */
 
 /* TRACK COUNT STYLING */
 #track-count {

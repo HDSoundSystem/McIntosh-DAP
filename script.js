@@ -182,10 +182,7 @@ function setBalance(val) {
     }
 }
 
-balL?.addEventListener('click', () => setBalance(currentBalance - 0.1));
-balR?.addEventListener('click', () => setBalance(currentBalance + 0.1));
-balL?.addEventListener('mouseenter', () => isPoweredOn && showBalanceStatus());
-balR?.addEventListener('mouseenter', () => isPoweredOn && showBalanceStatus());
+// balance listeners définis plus bas avec le knob
 
 const eqBtns = [
     { b: bassUp, f: () => bassGain = Math.min(12, bassGain + 2), t: 'BASS' },
@@ -778,6 +775,8 @@ eqSliders.forEach(slider => {
         if (engine.setCustomFilter) engine.setCustomFilter(freq, gain);
         drawEQCurve();
         if (displayElement) displayElement.innerText = "CUSTOM";
+        const vfdPresetElement = document.getElementById('vfd-preset-display');
+        if (vfdPresetElement) vfdPresetElement.innerText = " | EQ CUSTOM";
         showStatusBriefly(`${freq}Hz: ${gain > 0 ? '+' : ''}${gain}dB`);
     });
 });
@@ -823,3 +822,75 @@ Object.keys(presetLabels).forEach(id => {
 
 // Init EQ
 if (displayElement) displayElement.innerText = "FLAT";
+
+// ================================
+// EQUALIZER & BALANCE — même logique que VOLUME
+// mousedown gauche/droite + wheel
+// ================================
+const eqPresetKeys = ['eq-reset-btn', 'eq-pop-btn', 'eq-rock-btn', 'eq-jazz-btn', 'eq-classic-btn', 'eq-live-btn'];
+let currentPresetIndex = 0;
+let eqKnobAngle = 0;
+let eqHoldInterval = null;
+const equalizerKnob = document.getElementById('equalizer-knob');
+
+equalizerKnob?.addEventListener('mousedown', (e) => {
+    if (!isPoweredOn) return;
+    const rect = equalizerKnob.getBoundingClientRect();
+    const isRight = (e.clientX - rect.left) > rect.width / 2;
+    clearInterval(eqHoldInterval);
+    const change = () => {
+        eqKnobAngle += isRight ? 60 : -60;
+        equalizerKnob.style.transform = `rotate(${eqKnobAngle}deg)`;
+        currentPresetIndex = (currentPresetIndex + (isRight ? 1 : -1) + eqPresetKeys.length) % eqPresetKeys.length;
+        applyPreset(eqPresetKeys[currentPresetIndex]);
+    };
+    change();
+    eqHoldInterval = setInterval(change, 300);
+});
+window.addEventListener('mouseup', () => clearInterval(eqHoldInterval));
+equalizerKnob?.addEventListener('mouseleave', () => clearInterval(eqHoldInterval));
+equalizerKnob?.addEventListener('wheel', (e) => {
+    if (!isPoweredOn) return;
+    e.preventDefault();
+    eqKnobAngle += e.deltaY < 0 ? 60 : -60;
+    equalizerKnob.style.transform = `rotate(${eqKnobAngle}deg)`;
+    currentPresetIndex = (currentPresetIndex + (e.deltaY < 0 ? 1 : -1) + eqPresetKeys.length) % eqPresetKeys.length;
+    applyPreset(eqPresetKeys[currentPresetIndex]);
+});
+
+let balKnobAngle = 0;
+let balHoldInterval = null;
+const balanceKnob = document.getElementById('balance-knob');
+
+function applyBalance(isRight) {
+    const step = 0.02;
+    const prev = currentBalance;
+    const next = currentBalance + (isRight ? step : -step);
+    // Snap au centre si on croise 0
+    if ((prev < 0 && next > 0) || (prev > 0 && next < 0)) {
+        setBalance(0);
+        balKnobAngle = 0;
+    } else {
+        setBalance(next);
+        balKnobAngle += isRight ? 4 : -4;
+    }
+    balanceKnob.style.transform = `rotate(${balKnobAngle}deg)`;
+}
+
+balanceKnob?.addEventListener('mousedown', (e) => {
+    if (!isPoweredOn) return;
+    const rect = balanceKnob.getBoundingClientRect();
+    const isRight = (e.clientX - rect.left) > rect.width / 2;
+    clearInterval(balHoldInterval);
+    const change = () => applyBalance(isRight);
+    change();
+    balHoldInterval = setInterval(change, 50);
+});
+window.addEventListener('mouseup', () => clearInterval(balHoldInterval));
+balanceKnob?.addEventListener('mouseleave', () => clearInterval(balHoldInterval));
+balanceKnob?.addEventListener('wheel', (e) => {
+    if (!isPoweredOn) return;
+    e.preventDefault();
+    applyBalance(e.deltaY < 0);
+});
+balanceKnob?.addEventListener('mouseenter', () => isPoweredOn && showBalanceStatus());

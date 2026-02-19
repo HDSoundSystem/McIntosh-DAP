@@ -1,14 +1,17 @@
+<img width="1494" height="242" alt="12" src="https://github.com/user-attachments/assets/564c8f77-dc5a-476a-85d6-43ced526b60b" />
+
 # McIntosh Digital Audio Player
 ## Inspired by the high-end McIntosh MSA5500 2-Channel Streaming Integrated Amplifier and DS200 STREAMING DAC
 
-A premium web-based audio player inspired by the legendary McIntosh amplifier design, featuring authentic VU meters, professional 10-band equalizer, stereo balance, A-B loop functionality, mono mode, loudness compensation, power guard protection, customizable visual themes, and a stunning interface that captures the essence of high-end audio equipment.
+A premium web-based audio player inspired by the legendary McIntosh amplifier design, featuring authentic VU meters, professional 10-band equalizer with dedicated rotary knob, stereo balance with precision control and mandatory center snap, A-B loop functionality, mono mode, loudness compensation, power guard protection, customizable visual themes, and a stunning interface that captures the essence of high-end audio equipment.
 
 ![Status](https://img.shields.io/badge/status-active-success)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-2.5.1-blue)
+![Version](https://img.shields.io/badge/version-2.6.0-blue)
+
 
 ![543375630-9f65f1d2-5f77-458b-b0fc-5ec35e992042](https://github.com/user-attachments/assets/7bc36eb4-3abf-4167-862a-a5e87df7afc9)
-<img width="1792" height="792" alt="2" src="https://github.com/user-attachments/assets/d551dceb-63b5-4e1b-91a4-8639ee60aa43" />
+<img width="1792" height="808" alt="1" src="https://github.com/user-attachments/assets/9898310a-5166-4970-8872-cb47436dbb11" />
 
 ---
 
@@ -40,7 +43,7 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 
 ### Key Highlights
 - **Authentic Interface**: Faithful design to McIntosh amplifiers with animated VU meters and VFD display
-- **Professional Audio Processing**: 10-band equalizer, tone controls, stereo balance
+- **Professional Audio Processing**: 10-band equalizer with rotary knob, tone controls, precision stereo balance
 - **Multi-platform**: Web app (PWA) and desktop application (Electron)
 - **Multiple Audio Formats**: FLAC, MP3, WAV, MP4/M4A, AAC, ALAC, OGG support
 - **Real-time Visualization**: VU meters with realistic physics and spectrum analyzer
@@ -114,6 +117,7 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
   - Mode indicators (RANDOM, REPEAT, REPEAT(1), REPEAT(ALL), A-B LOOP) in bottom left
   - Loudness indicator when active
   - Volume display overlay (auto-hides after 2 seconds)
+  - EQ preset indicator: `| EQ ROCK`, `| EQ JAZZ`, `| EQ CUSTOM`, etc. — displayed when any non-flat EQ is active
 
 #### Display Modes
 - **Normal Mode**: Full illumination
@@ -148,6 +152,7 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 - **Temporary Display**: Overlay auto-hides after 2 seconds
 - **Hover Info**: Shows current volume level
 - **Loudness Integration**: Automatic compensation
+- **Layout**: ADJUST label displayed directly below the knob
 
 #### Mute Function
 - **Instant Muting**: Audio mute with status display
@@ -164,6 +169,13 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 - **Visual Labels**: Frequency and gain indicators
 - **FLAT Button**: Restore all bands to 0dB
 - **Independence**: Separate from bass/treble tone controls
+- **EQUALIZER Rotary Knob**: Dedicated chrome rotary knob below INPUT button
+  - Same interaction model as VOLUME knob
+  - Click left half to cycle to previous preset, right half for next preset
+  - Mouse wheel support
+  - Visual rotation animation (60° per preset step)
+  - Presets in order: FLAT → POP → ROCK → JAZZ → CLASSIC → LIVE
+- **EQ CUSTOM Mode**: When sliders are adjusted manually, VFD displays `| EQ CUSTOM` status — identical behavior to named presets
 
 #### 2-Band Tone Controls (Classic McIntosh Style)
 - **Bass**: ±12dB at 200Hz (low shelf filter)
@@ -178,7 +190,13 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 #### Stereo Balance
 - **Left/Right Adjustment**: -1 to +1
 - **Web Audio StereoPanner**: Precise control
-- **Step-based Adjustment**: 0.1 increments
+- **BALANCE Rotary Knob**: Dedicated chrome rotary knob below VOLUME button
+  - Same interaction model as VOLUME knob
+  - Click left half to move balance left, right half to move right
+  - Mouse wheel support for fine control
+  - Visual rotation animation (4° per step)
+- **Precision Step**: 2% increments (0.02) for fine-grained control
+- **Mandatory Center Snap**: When crossing 0, balance locks exactly to center before continuing — knob resets to 0° rotation
 - **Smart Disable**: Disabled when Mono mode is active
 
 #### Mono Mode
@@ -715,7 +733,9 @@ dist/McIntosh-dap.exe
 - **PLAY/PAUSE**: Play/Pause
 - **PREV/NEXT**: Previous/next track (hold for fast seek)
 - **STOP**: Stop playback
-- **VOLUME**: Click left/right or use mouse wheel
+- **VOLUME**: Click left/right or use mouse wheel — PUSH label above, ADJUST label below
+- **EQUALIZER**: Rotary knob below INPUT — click left/right or mouse wheel to cycle EQ presets
+- **BALANCE**: Rotary knob below VOLUME — click left/right or mouse wheel to adjust in 2% steps
 - **MUTE**: Mute audio
 - **OPTIONS**: Open options menu (EQ, balance, etc.)
 - **DISPLAY**: Change display mode
@@ -733,6 +753,10 @@ dist/McIntosh-dap.exe
 - **A-B LOOP**: Cycle OFF → A set → A-B active
 - **BACK COLOR**: Customize background color
 - **SHADOW COLOR**: Customize shadow color
+
+#### Direct Rotary Controls (no menu required)
+- **EQUALIZER knob** (below INPUT): Cycle through EQ presets directly — FLAT, POP, ROCK, JAZZ, CLASSIC, LIVE
+- **BALANCE knob** (below VOLUME): Adjust stereo balance in 2% steps with mandatory center snap
 
 ---
 
@@ -989,21 +1013,26 @@ A: Taskbar thumbnail buttons are Windows-only. However, global media key shortcu
 A: BASS/TREBLE are classic tone controls (shelf filters) for quick adjustments. The 10-band EQ provides precise frequency control across the entire audio spectrum. They work together.
 
 **Q: How do I reset all EQ settings?**
-A: Use TONE RESET in the options menu to reset BASS/TREBLE and balance. Use FLAT in the EQ popup to reset all 10 bands to 0dB.
+A: Use TONE RESET in the options menu to reset BASS/TREBLE and balance. Use FLAT in the EQ popup to reset all 10 bands to 0dB. The EQUALIZER knob will also select the FLAT preset when cycled to position 0.
 
 **Q: Can I customize the visual appearance?**
 A: Yes! Use the BACK COLOR and SHADOW COLOR pickers in the options menu. The DISPLAY button also cycles through different visual states.
 
+**Q: How do I set the balance exactly to center?**
+A: The BALANCE knob features a mandatory center snap — when turning from left to right (or right to left), it automatically locks to 0 (center) before continuing. This ensures you never miss the center position.
+
 
 ---
-<img width="1792" height="792" alt="2" src="https://github.com/user-attachments/assets/cdc73759-1ab8-43a5-a2c6-819994940f8d" />
-<img width="1788" height="788" alt="3" src="https://github.com/user-attachments/assets/019ee542-5c03-4f16-832c-a756e1cedbc3" />
-<img width="1788" height="872" alt="4" src="https://github.com/user-attachments/assets/9091346a-d9d5-468a-846a-5737f91417a3" />
-<img width="1789" height="798" alt="5" src="https://github.com/user-attachments/assets/1ee79fcf-6367-431e-a237-e6f2ebfe120b" />
-<img width="1788" height="791" alt="6" src="https://github.com/user-attachments/assets/733c2d92-a92b-4f34-9b46-0f8e2743bb48" />
-<img width="1796" height="865" alt="7" src="https://github.com/user-attachments/assets/cf5ca0bf-ca0b-4117-9397-fcb53f2880e5" />
-<img width="1781" height="792" alt="8" src="https://github.com/user-attachments/assets/a129b238-2181-453b-95b8-f87453ff9dad" />
-<img width="1784" height="791" alt="9" src="https://github.com/user-attachments/assets/41cd333e-cce3-4f56-b6e0-133fa93e9f1d" />
+<img width="1803" height="834" alt="2" src="https://github.com/user-attachments/assets/a130d215-2d24-4ea1-96f0-d44cc9b4afd8" />
+<img width="1807" height="831" alt="3" src="https://github.com/user-attachments/assets/30af6be4-ef6b-435b-93b6-d70ea4edeb15" />
+<img width="1797" height="826" alt="4" src="https://github.com/user-attachments/assets/56d0c643-1a89-4ef9-bcaa-bbc0542c2023" />
+<img width="1807" height="840" alt="5" src="https://github.com/user-attachments/assets/830a9b4f-64fe-4f6a-b1e5-5f04ffae8491" />
+<img width="1796" height="831" alt="6" src="https://github.com/user-attachments/assets/9441912f-24a2-4f74-b4bd-c20f3a8f4e0a" />
+<img width="1791" height="820" alt="7" src="https://github.com/user-attachments/assets/7fcd8bb5-fc39-4ce2-aa6f-291988130ee3" />
+<img width="1780" height="877" alt="8" src="https://github.com/user-attachments/assets/ae88b2ab-c54b-415a-888b-0aa4cddcddbc" />
+<img width="1793" height="833" alt="9" src="https://github.com/user-attachments/assets/0d2fedd1-9f84-4150-b5e0-e42c1e7ce49c" />
+<img width="1807" height="840" alt="10" src="https://github.com/user-attachments/assets/9b2009c8-4aeb-48c9-b25d-a4e7c85e8ab4" />
+<img width="1796" height="831" alt="11" src="https://github.com/user-attachments/assets/bf2fbe72-a51e-43b3-921e-05b337901f37" />
 ---
 
 **Enjoy your premium web audio experience! 🎵🎛️**
