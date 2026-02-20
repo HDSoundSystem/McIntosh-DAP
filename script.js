@@ -76,6 +76,8 @@ let trebleGain = 0;
 let currentBalance = 0;
 let isLoudnessActive = false;
 let isMonoActive = false;
+let isBypassActive = false;
+let bypassSnapshot = null;
 
 let seekInterval = null;
 let isSeeking = false;
@@ -191,7 +193,7 @@ const eqBtns = [
     { b: trebleDown, f: () => trebleGain = Math.max(-12, trebleGain - 2), t: 'TREBLE' }
 ];
 eqBtns.forEach(item => {
-    item.b?.addEventListener('click', () => { if (isPoweredOn) { item.f(); applyLoudnessEffect(); showStatusBriefly(`${item.t}: ${(item.t === 'BASS' ? bassGain : trebleGain) > 0 ? '+' : ''}${item.t === 'BASS' ? bassGain : trebleGain}dB`); } });
+    item.b?.addEventListener('click', () => { if (isPoweredOn && !isBypassActive) { item.f(); applyLoudnessEffect(); showStatusBriefly(`${item.t}: ${(item.t === 'BASS' ? bassGain : trebleGain) > 0 ? '+' : ''}${item.t === 'BASS' ? bassGain : trebleGain}dB`); } });
     item.b?.addEventListener('mouseenter', () => { if (isPoweredOn) { showStatusBriefly(`${item.t}: ${(item.t === 'BASS' ? bassGain : trebleGain) > 0 ? '+' : ''}${item.t === 'BASS' ? bassGain : trebleGain}dB`); } });
 });
 toneReset?.addEventListener('click', () => { if (isPoweredOn) { bassGain = 0; trebleGain = 0; currentBalance = 0; if (!isMonoActive) engine.setBalance(0); applyLoudnessEffect(); showStatusBriefly("TONE FLAT"); } });
@@ -397,7 +399,51 @@ stopBtn?.addEventListener('click', () => {
     } 
 });
 muteBtn?.addEventListener('click', () => { if (isPoweredOn) { isMuted = !isMuted; audio.muted = isMuted; showVolumeBriefly(); } });
-document.getElementById('loudness-btn')?.addEventListener('click', () => { if (isPoweredOn) { isLoudnessActive = !isLoudnessActive; document.getElementById('vfd-loudness-text')?.classList.toggle('loudness-visible', isLoudnessActive); applyLoudnessEffect(); } });
+document.getElementById('loudness-btn')?.addEventListener('click', () => { if (isPoweredOn && !isBypassActive) { isLoudnessActive = !isLoudnessActive; document.getElementById('vfd-loudness-text')?.classList.toggle('loudness-visible', isLoudnessActive); applyLoudnessEffect(); } });
+
+document.getElementById('bypass-btn')?.addEventListener('click', () => {
+    if (!isPoweredOn) return;
+    isBypassActive = !isBypassActive;
+    const vfdPreset = document.getElementById('vfd-preset-display');
+    const eqSliders = document.querySelectorAll('.eq-band input');
+
+    if (isBypassActive) {
+        // Sauvegarder l'état complet
+        bypassSnapshot = {
+            bassGain,
+            trebleGain,
+            isLoudnessActive,
+            eqBands: Array.from(eqSliders).map(s => ({ freq: s.getAttribute('data-freq'), value: parseFloat(s.value) })),
+            vfdPresetText: vfdPreset?.innerText || ''
+        };
+        // Tout couper
+        engine.updateEQ(0, 0, false);
+        eqSliders.forEach(s => {
+            s.value = 0;
+            if (engine.setCustomFilter) engine.setCustomFilter(s.getAttribute('data-freq'), 0);
+        });
+        // VFD
+        if (vfdPreset) vfdPreset.innerText = ' | BYPASS';
+        document.getElementById('vfd-loudness-text')?.classList.remove('loudness-visible');
+        showStatusBriefly('BYPASS ON');
+    } else {
+        // Restaurer l'état sauvegardé
+        if (bypassSnapshot) {
+            bassGain = bypassSnapshot.bassGain;
+            trebleGain = bypassSnapshot.trebleGain;
+            isLoudnessActive = bypassSnapshot.isLoudnessActive;
+            bypassSnapshot.eqBands.forEach(b => {
+                const slider = document.querySelector(`.eq-band input[data-freq="${b.freq}"]`);
+                if (slider) slider.value = b.value;
+                if (engine.setCustomFilter) engine.setCustomFilter(b.freq, b.value);
+            });
+            engine.updateEQ(bassGain, trebleGain, isLoudnessActive);
+            if (vfdPreset) vfdPreset.innerText = bypassSnapshot.vfdPresetText;
+            document.getElementById('vfd-loudness-text')?.classList.toggle('loudness-visible', isLoudnessActive);
+        }
+        showStatusBriefly('BYPASS OFF');
+    }
+});
 
 // --- FONCTION LIBRARY ---
 libBtn && (libBtn.onclick = () => { if (isPoweredOn) modal.style.display = "block"; else showStatusBriefly("POWER ON FIRST"); });
@@ -770,6 +816,7 @@ eqPopup?.addEventListener('click', (e) => e.stopPropagation());
 // Sliders (manuel)
 eqSliders.forEach(slider => {
     slider.addEventListener('input', (e) => {
+        if (isBypassActive) return;
         const freq = e.target.getAttribute('data-freq');
         const gain = e.target.value;
         if (engine.setCustomFilter) engine.setCustomFilter(freq, gain);

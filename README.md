@@ -7,7 +7,7 @@ A premium web-based audio player inspired by the legendary McIntosh amplifier de
 
 ![Status](https://img.shields.io/badge/status-active-success)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-2.6.0-blue)
+![Version](https://img.shields.io/badge/version-2.6.1-blue)
 
 
 ![543375630-9f65f1d2-5f77-458b-b0fc-5ec35e992042](https://github.com/user-attachments/assets/7bc36eb4-3abf-4167-862a-a5e87df7afc9)
@@ -220,6 +220,18 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
   - Visual warning when volume > 90%
   - Rapid blinking red LEDs (left and right)
   - Prevents speaker/hearing damage
+
+#### Signal Bypass
+- **BYPASS Button**: Instantly cuts all audio processing in one click
+  - Disables: 10-band EQ, Bass/Treble tone controls, Loudness compensation
+  - All audio processing set to 0dB — pure signal path
+  - VFD displays `| BYPASS` status (same style as EQ presets)
+  - All processing controls (EQ sliders, Bass/Treble buttons, Loudness) are locked while active
+- **Full State Restore**: Deactivating BYPASS restores the exact previous state
+  - Bass and treble gains
+  - All 10 EQ band values
+  - Loudness on/off status
+  - Previous VFD preset display text
 
 ### ⚙️ Advanced Features
 
@@ -558,6 +570,8 @@ isPoweredOn: boolean        // System on/off
 isMuted: boolean            // Audio muted
 isLoudnessActive: boolean   // Loudness compensation active
 isMonoActive: boolean       // Mono mode active
+isBypassActive: boolean     // Bypass mode active (all processing cut)
+bypassSnapshot: Object|null // Saved state before bypass activation
 
 // Playback state
 currentIndex: number        // Current track index
@@ -737,6 +751,7 @@ dist/McIntosh-dap.exe
 - **EQUALIZER**: Rotary knob below INPUT — click left/right or mouse wheel to cycle EQ presets
 - **BALANCE**: Rotary knob below VOLUME — click left/right or mouse wheel to adjust in 2% steps
 - **MUTE**: Mute audio
+- **BYPASS**: Cut all audio processing instantly (EQ, Bass/Treble, Loudness) — click again to restore
 - **OPTIONS**: Open options menu (EQ, balance, etc.)
 - **DISPLAY**: Change display mode
 - **RESET**: Restart application (with confirmation)
@@ -1014,6 +1029,12 @@ A: BASS/TREBLE are classic tone controls (shelf filters) for quick adjustments. 
 
 **Q: How do I reset all EQ settings?**
 A: Use TONE RESET in the options menu to reset BASS/TREBLE and balance. Use FLAT in the EQ popup to reset all 10 bands to 0dB. The EQUALIZER knob will also select the FLAT preset when cycled to position 0.
+
+**Q: What does BYPASS do exactly?**
+A: BYPASS cuts all audio processing in one click — EQ, Bass/Treble tone controls, and Loudness are all set to 0dB. The signal passes through completely unprocessed. When you deactivate BYPASS, every setting is restored exactly as it was before: all EQ bands, tone controls, and loudness state. It's useful for quickly comparing your processed sound with the original signal.
+
+**Q: Can I change EQ settings while BYPASS is active?**
+A: No — all processing controls (EQ sliders, Bass/Treble buttons, Loudness) are locked while BYPASS is active, to preserve the state that will be restored on deactivation.
 
 **Q: Can I customize the visual appearance?**
 A: Yes! Use the BACK COLOR and SHADOW COLOR pickers in the options menu. The DISPLAY button also cycles through different visual states.
