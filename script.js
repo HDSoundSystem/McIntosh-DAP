@@ -359,7 +359,11 @@ trackCount?.addEventListener('click', (e) => {
         const item = document.createElement('div');
         item.className = `playlist-item ${i === currentIndex ? 'active-track' : ''}`;
         item.innerHTML = `<span>${i + 1}. ${f.name.toUpperCase()}</span>`;
-        item.onclick = () => { loadTrack(i); const pp = document.getElementById('playlist-popup'); if (pp) pp.style.display = 'none'; };
+        item.onclick = () => {
+            loadTrack(i);
+            document.querySelectorAll('#playlist-items .playlist-item').forEach(el => el.classList.remove('active-track'));
+            item.classList.add('active-track');
+        };
         container.appendChild(item);
     });
     const pp = document.getElementById('playlist-popup');
@@ -606,9 +610,12 @@ document.getElementById('options-btn')?.addEventListener('click', (e) => {
 
 document.addEventListener('click', (e) => {
     if (optionsPopup && !optionsPopup.contains(e.target)) optionsPopup.style.display = 'none';
-    const pp = document.getElementById('playlist-popup');
-    if (pp && !pp.contains(e.target)) pp.style.display = 'none';
     if (e.target == modal) modal.style.display = "none";
+});
+
+document.getElementById('playlist-close-btn')?.addEventListener('click', () => {
+    const pp = document.getElementById('playlist-popup');
+    if (pp) pp.style.display = 'none';
 });
 
 // --- ELECTRON SPECIFIC ---
