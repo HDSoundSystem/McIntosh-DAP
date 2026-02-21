@@ -15,7 +15,7 @@
     "electron-builder": "^24.6.4"
   },
   "build": {
-    "appId": "com.HDSoundSystem.mcintoshDAP",
+    "appId": "com.HDSoundSystem.McIntoshDAP",
     "productName": "McIntosh-DAP",
     "win": {
       "icon": "assets/img/favicon.ico",
