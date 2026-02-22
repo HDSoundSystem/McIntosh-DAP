@@ -1,6 +1,6 @@
 <img width="1494" height="242" alt="12" src="https://github.com/user-attachments/assets/564c8f77-dc5a-476a-85d6-43ced526b60b" />
 
-# McIntosh Digital Audio Player
+# McIntosh Premium Digital Audio Player
 ## Inspired by the high-end McIntosh MSA5500 2-Channel Streaming Integrated Amplifier and DS200 STREAMING DAC
 
 A premium web-based audio player inspired by the legendary McIntosh amplifier design, featuring authentic VU meters, professional 10-band equalizer with dedicated rotary knob, stereo balance with precision control and mandatory center snap, A-B loop functionality, mono mode, loudness compensation, power guard protection, customizable visual themes, and a stunning interface that captures the essence of high-end audio equipment.
@@ -63,6 +63,12 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 - **Multiple Loading Methods**:
   - **INPUT knob**: Individual file selection (multiple selection supported)
   - **LIBRARY button**: Complete folder loading with organized navigation
+  - **Drag & Drop**: Drag audio files directly onto the interface
+    - Works in browser and Electron desktop version
+    - Files are **added** to the existing playlist (not replaced)
+    - If playlist is empty, playback starts automatically
+    - VFD displays `+N FILE(S) ADDED` confirmation
+    - Supported formats: FLAC, MP3, MP4, WAV, M4A, AAC, OGG
 - **Playlist Interface**:
   - Interactive popup - click track counter to browse
   - Visual indicator for currently playing track
@@ -739,11 +745,13 @@ dist/McIntosh-dap.exe
 2. **Load audio files**:
    - Click INPUT knob to select individual files
    - OR click LIBRARY to load a folder
+   - OR drag & drop audio files anywhere on the interface
 3. **Start playback**: Click PLAY/PAUSE
 
 #### Main Controls
 - **INPUT**: Load individual files
 - **LIBRARY**: Load complete folder
+- **Drag & Drop**: Drop audio files anywhere on the interface to add them to the playlist
 - **PLAY/PAUSE**: Play/Pause
 - **PREV/NEXT**: Previous/next track (hold for fast seek)
 - **STOP**: Stop playback
@@ -999,6 +1007,9 @@ This project pays homage to **McIntosh Laboratory**, legendary American manufact
 - [Electron Documentation](https://www.electronjs.org/docs/latest)
 
 ### FAQ
+
+**Q: Can I add files by dragging and dropping them?**
+A: Yes! Drag any audio files (FLAC, MP3, WAV, M4A, AAC, OGG, MP4) directly onto the interface. They will be added to the existing playlist. If the playlist was empty, playback starts automatically. The VFD briefly displays `+N FILE(S) ADDED` as confirmation.
 
 **Q: Why won't my audio files play?**
 A: Check that they're in a supported format (FLAC/MP3/WAV/MP4/AAC/OGG). Some browsers require user interaction before playing audio.
