@@ -2,7 +2,7 @@ const { app, BrowserWindow, globalShortcut, nativeImage, ipcMain } = require('el
 const path = require('path');
 
 let win;
-let pendingFiles = []; // Fichiers reçus avant que la fenêtre soit prête
+let pendingFiles = []; // Files received before the window was ready
 
 function sendFilesToRenderer(filePaths) {
     if (win && win.webContents) {
@@ -12,7 +12,7 @@ function sendFilesToRenderer(filePaths) {
     }
 }
 
-// "Ouvrir avec" — fichiers passés en argument au lancement
+// "Open with" — files passed as arguments at startup
 const openWithFiles = process.argv.slice(2).filter(f => !f.startsWith('--'));
 if (openWithFiles.length) pendingFiles = openWithFiles;
 
@@ -22,7 +22,7 @@ app.on('open-file', (event, filePath) => {
     sendFilesToRenderer([filePath]);
 });
 
-// Deuxième instance (Windows : "Ouvrir avec" depuis l'explorateur)
+// Second instance (Windows: "Open with" from Explorer)
 app.on('second-instance', (event, argv) => {
     const files = argv.slice(2).filter(f => !f.startsWith('--'));
     if (files.length) sendFilesToRenderer(files);
@@ -52,7 +52,7 @@ function createWindow() {
       }
   });
 
-  // --- Boutons de la barre des tâches (Windows) ---
+  // --- Taskbar buttons (Windows) ---
   win.once('ready-to-show', () => {
     setThumbar(false);
   });
