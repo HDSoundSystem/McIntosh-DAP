@@ -21,6 +21,15 @@
       "icon": "assets/img/favicon.ico",
       "target": "portable"
     },
+    "fileAssociations": [
+      { "ext": "mp3",  "name": "MP3 Audio",  "description": "MP3 Audio File"  },
+      { "ext": "flac", "name": "FLAC Audio", "description": "FLAC Audio File" },
+      { "ext": "wav",  "name": "WAV Audio",  "description": "WAV Audio File"  },
+      { "ext": "m4a",  "name": "M4A Audio",  "description": "M4A Audio File"  },
+      { "ext": "aac",  "name": "AAC Audio",  "description": "AAC Audio File"  },
+      { "ext": "ogg",  "name": "OGG Audio",  "description": "OGG Audio File"  },
+      { "ext": "mp4",  "name": "MP4 Audio",  "description": "MP4 Audio File"  }
+    ],
     "directories": {
       "output": "dist"
     }
