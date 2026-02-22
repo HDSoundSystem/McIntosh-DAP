@@ -1,6 +1,6 @@
 <img width="1494" height="242" alt="12" src="https://github.com/user-attachments/assets/564c8f77-dc5a-476a-85d6-43ced526b60b" />
 
-# McIntosh Digital Audio Player
+# McIntosh Premium Digital Audio Player
 ## Inspired by the high-end McIntosh MSA5500 2-Channel Streaming Integrated Amplifier and DS200 STREAMING DAC
 
 A premium web-based audio player inspired by the legendary McIntosh amplifier design, featuring authentic VU meters, professional 10-band equalizer with dedicated rotary knob, stereo balance with precision control and mandatory center snap, A-B loop functionality, mono mode, loudness compensation, power guard protection, customizable visual themes, and a stunning interface that captures the essence of high-end audio equipment.
