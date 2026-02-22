@@ -6,7 +6,7 @@ const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
     '/style.css',
-    // Nouveaux fichiers CSS modulaires
+    // New modular CSS files
     '/css/root.css',
     '/css/chassis.css',
     '/css/meters.css',
@@ -33,7 +33,7 @@ const ASSETS_TO_CACHE = [
     '/assets/fontawesome7/webfonts/fa-solid-900.ttf'
 ];
 
-// Installation du Service Worker
+// Installing the Service Worker
 self.addEventListener('install', (event) => {
     console.log('[Service Worker] Installation…');
     
@@ -53,7 +53,7 @@ self.addEventListener('install', (event) => {
     );
 });
 
-// Activation du Service Worker
+// Activating the Worker Service
 self.addEventListener('activate', (event) => {
     console.log('[Service Worker] Activation…');
     
@@ -61,7 +61,7 @@ self.addEventListener('activate', (event) => {
         caches.keys().then((cacheNames) => {
             return Promise.all(
                 cacheNames.map((cacheName) => {
-                    // Supprime les anciens caches
+                    // Delete old caches
                     if (cacheName !== CACHE_NAME) {
                         console.log('[Service Worker] Suppression ancien cache:', cacheName);
                         return caches.delete(cacheName);
@@ -75,9 +75,9 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// Interception des requêtes réseau
+// Interception of network requests
 self.addEventListener('fetch', (event) => {
-    // Ne pas mettre en cache les fichiers audio uploadés par l'utilisateur
+    // Do not cache user-uploaded audio files
     if (event.request.url.startsWith('blob:') ||
         event.request.url.includes('audio-upload')) {
         return;
@@ -86,22 +86,22 @@ self.addEventListener('fetch', (event) => {
     event.respondWith(
         caches.match(event.request)
             .then((cachedResponse) => {
-                // Retourne la version en cache si disponible
+                // Returns the cached version if available
                 if (cachedResponse) {
                     console.log('[Service Worker] Réponse du cache:', event.request.url);
                     return cachedResponse;
                 }
 
-                // Sinon, fait une requête réseau
+                // Otherwise, make a network request
                 console.log('[Service Worker] Requête réseau:', event.request.url);
                 return fetch(event.request)
                     .then((response) => {
-                        // Vérifie que la réponse est valide
+                        // Check that the answer is valid
                         if (!response || response.status !== 200 || response.type !== 'basic') {
                             return response;
                         }
 
-                        // Clone la réponse car elle ne peut être consommée qu'une fois
+                        // Clone the response because it can only be consumed once.
                         const responseToCache = response.clone();
 
                         caches.open(CACHE_NAME)
@@ -113,7 +113,7 @@ self.addEventListener('fetch', (event) => {
                     })
                     .catch((error) => {
                         console.error('[Service Worker] Erreur de fetch:', error);
-                        // Tu peux retourner une page d'erreur personnalisée ici
+                        // You can return a custom error page here.
                     });
             })
     );

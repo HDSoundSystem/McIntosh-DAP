@@ -61,7 +61,7 @@ function createWindow() {
     setThumbar(isPlaying);
   });
 
-  // --- Contrôles multimédias du clavier ---
+  // --- Keyboard multimedia controls ---
   globalShortcut.register('MediaPlayPause', () => {
     win.webContents.send('media-control', 'play-pause');
   });

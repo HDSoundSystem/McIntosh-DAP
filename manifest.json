@@ -1,7 +1,7 @@
 {
-  "name": "McIntosh DAP",
+  "name": "McIntosh Reference DAP",
   "short_name": "McIntosh DAP",
-  "description": "McIntosh Digital Audio Player",
+  "description": "McIntosh Reference Digital Audio Player",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#080808",
