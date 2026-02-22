@@ -1,7 +1,7 @@
 {
   "name": "McIntosh-DAP",
   "version": "2.6.3",
-  "description": "McIntosh-Digital-Audio-Player",
+  "description": "McIntosh-Reference-Digital-Audio-Player",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
