@@ -394,7 +394,7 @@ function addFilesToPlaylist(files) {
         loadTrack(0);
     } else {
         trackCount.textContent = `${currentIndex + 1}/${playlist.length}`;
-        showStatusBriefly(`+${audioFiles.length} FICHIER${audioFiles.length > 1 ? 'S' : ''} AJOUTÉ${audioFiles.length > 1 ? 'S' : ''}`);
+        showStatusBriefly(`+${audioFiles.length} FILE${audioFiles.length > 1 ? 'S' : ''} ADDED`);
     }
 }
 
