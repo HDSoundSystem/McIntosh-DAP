@@ -104,7 +104,7 @@
 .small-label {
     color: var(--mc-green);
     font-size: 10px;
-    font-weight: normal;
+    font-weight: bold;
     text-transform: uppercase;
     text-align: center;
     font-family: 'Roboto', sans-serif;
