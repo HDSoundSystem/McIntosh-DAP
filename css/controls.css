@@ -96,7 +96,7 @@
 .label-green {
     color: var(--mc-green);
     font-size: 16px;
-    font-weight: bold;
+    font-weight: normal;
     margin-bottom: 8px;
     text-transform: uppercase;
 }
@@ -104,7 +104,7 @@
 .small-label {
     color: var(--mc-green);
     font-size: 10px;
-    font-weight: bold;
+    font-weight: normal;
     text-transform: uppercase;
     text-align: center;
     font-family: 'Roboto', sans-serif;
