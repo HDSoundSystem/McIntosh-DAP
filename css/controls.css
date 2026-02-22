@@ -99,9 +99,20 @@
     font-weight: normal;
     margin-bottom: 8px;
     text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .small-label {
+    color: var(--mc-green);
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 1px;
+}
+
+.small-label-option-menu {
     color: var(--mc-green);
     font-size: 10px;
     font-weight: bold;
