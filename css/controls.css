@@ -96,7 +96,7 @@
 .label-green {
     color: var(--mc-green);
     font-size: 16px;
-    font-weight: bold;
+    font-weight: normal;
     margin-bottom: 8px;
     text-transform: uppercase;
 }
