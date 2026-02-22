@@ -373,6 +373,60 @@ trackCount?.addEventListener('click', (e) => {
 // --- AUTRES CONTROLES ---
 inputBtn?.addEventListener('click', () => fileUpload?.click());
 fileUpload?.addEventListener('change', (e) => { if (e.target.files.length > 0) { if (!isPoweredOn) { isPoweredOn = true; } playlist = Array.from(e.target.files); loadTrack(0); } });
+
+// --- DRAG & DROP ---
+const AUDIO_EXTS = ['.flac','.mp3','.mp4','.m4a','.wav','.aac','.ogg'];
+
+function isAudioFile(name) {
+    return AUDIO_EXTS.some(ext => name.toLowerCase().endsWith(ext));
+}
+
+function addFilesToPlaylist(files) {
+    const audioFiles = Array.from(files).filter(f =>
+        f.type.startsWith('audio/') || isAudioFile(f.name)
+    );
+    if (!audioFiles.length) return;
+    if (!isPoweredOn) isPoweredOn = true;
+    const wasEmpty = playlist.length === 0;
+    playlist = playlist.concat(audioFiles);
+    if (wasEmpty) {
+        currentIndex = 0;
+        loadTrack(0);
+    } else {
+        trackCount.textContent = `${currentIndex + 1}/${playlist.length}`;
+        showStatusBriefly(`+${audioFiles.length} FILE${audioFiles.length > 1 ? 'S' : ''} ADDED`);
+    }
+}
+
+document.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'copy';
+});
+
+document.addEventListener('drop', (e) => {
+    e.preventDefault();
+    addFilesToPlaylist(e.dataTransfer.files);
+});
+
+// --- OUVRIR AVEC (Electron uniquement) ---
+if (typeof require !== 'undefined') {
+    const { ipcRenderer } = require('electron');
+    ipcRenderer.on('open-files', (event, filePaths) => {
+        // Convertit les chemins en objets File via fetch blob
+        Promise.all(filePaths.filter(p => isAudioFile(p)).map(p =>
+            fetch(`file://${p}`).then(r => r.blob()).then(blob => {
+                const name = p.split(/[\\/]/).pop();
+                return new File([blob], name, { type: blob.type || 'audio/mpeg' });
+            })
+        )).then(files => {
+            if (!files.length) return;
+            if (!isPoweredOn) isPoweredOn = true;
+            playlist = files;
+            currentIndex = 0;
+            loadTrack(0);
+        });
+    });
+}
 playPauseBtn?.addEventListener('click', () => { 
     if (!isPoweredOn || playlist.length === 0) return; 
     engine.init(); 

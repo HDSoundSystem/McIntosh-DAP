@@ -2,12 +2,41 @@ const { app, BrowserWindow, globalShortcut, nativeImage, ipcMain } = require('el
 const path = require('path');
 
 let win;
+let pendingFiles = []; // Files received before the window was ready
+
+function sendFilesToRenderer(filePaths) {
+    if (win && win.webContents) {
+        win.webContents.send('open-files', filePaths);
+    } else {
+        pendingFiles = filePaths;
+    }
+}
+
+// "Open with" — files passed as arguments at startup
+const openWithFiles = process.argv.slice(2).filter(f => !f.startsWith('--'));
+if (openWithFiles.length) pendingFiles = openWithFiles;
+
+// Fichiers glissés sur l'icône de l'app (macOS / Windows)
+app.on('open-file', (event, filePath) => {
+    event.preventDefault();
+    sendFilesToRenderer([filePath]);
+});
+
+// Second instance (Windows: "Open with" from Explorer)
+app.on('second-instance', (event, argv) => {
+    const files = argv.slice(2).filter(f => !f.startsWith('--'));
+    if (files.length) sendFilesToRenderer(files);
+    if (win) { if (win.isMinimized()) win.restore(); win.focus(); }
+});
+
+const gotLock = app.requestSingleInstanceLock();
+if (!gotLock) { app.quit(); }
 
 function createWindow() {
   win = new BrowserWindow({
     width: 1200,
     height: 800,
-    autoHideMenuBar: true, 
+    autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false
@@ -16,12 +45,18 @@ function createWindow() {
 
   win.loadFile('index.html');
 
-  // --- Boutons de la barre des tâches (Windows) ---
-  win.once('ready-to-show', () => {
-    setThumbar(false); // Initialise en mode "Play"
+  win.webContents.on('did-finish-load', () => {
+      if (pendingFiles.length) {
+          sendFilesToRenderer(pendingFiles);
+          pendingFiles = [];
+      }
   });
 
-  // Écouter les mises à jour de statut depuis le renderer
+  // --- Taskbar buttons (Windows) ---
+  win.once('ready-to-show', () => {
+    setThumbar(false);
+  });
+
   ipcMain.on('update-thumbar', (event, isPlaying) => {
     setThumbar(isPlaying);
   });
@@ -40,14 +75,12 @@ function createWindow() {
   });
 }
 
-// Fonction pour mettre à jour les boutons Thumbar (Windows)
 function setThumbar(isPlaying) {
   if (!win) return;
-  
   win.setThumbarButtons([
     {
       tooltip: 'Précédent',
-      icon: path.join(__dirname, 'assets/windows/prev.png'), 
+      icon: path.join(__dirname, 'assets/windows/prev.png'),
       click() { win.webContents.send('media-control', 'prev'); }
     },
     {
