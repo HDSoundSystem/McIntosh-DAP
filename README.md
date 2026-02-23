@@ -1053,19 +1053,6 @@ A: Yes! Use the BACK COLOR and SHADOW COLOR pickers in the options menu. The DIS
 **Q: How do I set the balance exactly to center?**
 A: The BALANCE knob features a mandatory center snap — when turning from left to right (or right to left), it automatically locks to 0 (center) before continuing. This ensures you never miss the center position.
 
-
----
-<img width="819" height="627" alt="DD" src="https://github.com/user-attachments/assets/be84f4dd-eb7d-449d-9b99-e647c51a6900" />
-<img width="1803" height="834" alt="2" src="https://github.com/user-attachments/assets/a130d215-2d24-4ea1-96f0-d44cc9b4afd8" />
-<img width="1807" height="831" alt="3" src="https://github.com/user-attachments/assets/30af6be4-ef6b-435b-93b6-d70ea4edeb15" />
-<img width="1797" height="826" alt="4" src="https://github.com/user-attachments/assets/56d0c643-1a89-4ef9-bcaa-bbc0542c2023" />
-<img width="1807" height="840" alt="5" src="https://github.com/user-attachments/assets/830a9b4f-64fe-4f6a-b1e5-5f04ffae8491" />
-<img width="1796" height="831" alt="6" src="https://github.com/user-attachments/assets/9441912f-24a2-4f74-b4bd-c20f3a8f4e0a" />
-<img width="1791" height="820" alt="7" src="https://github.com/user-attachments/assets/7fcd8bb5-fc39-4ce2-aa6f-291988130ee3" />
-<img width="1780" height="877" alt="8" src="https://github.com/user-attachments/assets/ae88b2ab-c54b-415a-888b-0aa4cddcddbc" />
-<img width="1793" height="833" alt="9" src="https://github.com/user-attachments/assets/0d2fedd1-9f84-4150-b5e0-e42c1e7ce49c" />
-<img width="1807" height="840" alt="10" src="https://github.com/user-attachments/assets/9b2009c8-4aeb-48c9-b25d-a4e7c85e8ab4" />
-<img width="1796" height="831" alt="11" src="https://github.com/user-attachments/assets/bf2fbe72-a51e-43b3-921e-05b337901f37" />
 ---
 
 **Enjoy your premium web audio experience! 🎵🎛️**
