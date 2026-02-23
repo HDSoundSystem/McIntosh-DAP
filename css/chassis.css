@@ -109,3 +109,22 @@
     /* Dégradé inversé pour simuler l'angle vers le haut */
     background-color: #181818;
 }
+
+/* --- LOGO NOIR ET BLANC (Mode Dim) --- */
+.logo-bw {
+    filter: grayscale(100%) brightness(0.6); /* Enlève la couleur et assombrit */
+    opacity: 0.5;
+    transition: all 0.5s ease;
+}
+
+/* --- LOGO ÉTEINT (Mode Off) --- */
+.logo-off {
+    filter: grayscale(100%) brightness(0.6);
+    opacity: 0.5; /* Très faible lueur pour deviner le logo */
+    transition: all 0.5s ease;
+}
+
+/* Style de base pour une transition douce */
+#mc-logo {
+    transition: all 0.5s ease;
+}

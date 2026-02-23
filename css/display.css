@@ -174,14 +174,26 @@
     color: var(--mc-blue);
 }
 
-/* État réduit (Dimmed) */
-#vfd.vfd-dimmed {
-    opacity: 0.5; /* Réduit la luminosité à 50% */
-    filter: blur(0.3px); /* Optionnel : donne un aspect un peu plus diffus/vintage */
-    transition: opacity 0.3s ease; /* Transition douce pour le changement */
+/* Mode Tamisé (Dimmed) */
+.vfd-dimmed {
+    opacity: 0.5 !important;
+    filter: brightness(0.7);
+    transition: all 0.4s ease;
 }
 
-/* On s'assure que force-off n'entre pas en conflit si tu l'utilises encore ailleurs */
-#vfd.force-off {
-    display: none !important;
+.label-dimmed {
+    opacity: 0.7!important;
+    transition: all 0.4s ease;
+}
+
+/* Mode Éteint (Force-off) */
+.force-off {
+    opacity: 0 !important;
+    pointer-events: none; /* Empêche d'interagir avec un écran éteint */
+    transition: all 0.4s ease;
+}
+
+/* Mode étiquette éteinte */
+.label-off {
+    opacity: 0.5 !important;
 }

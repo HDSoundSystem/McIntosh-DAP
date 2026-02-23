@@ -110,3 +110,22 @@
     background-color: var(--mc-led-green);
     box-shadow: 0 0 10px var(--mc-green), inset 0 0 2px #fff;
 }
+
+/* --- VU-MÈTRES DIMMED --- */
+.meter-dimmed {
+    opacity: 0.5 !important; /* On baisse plus que le VFD car le bleu porte loin */
+    filter: saturate(0.8) brightness(0.8);
+    transition: all 0.5s ease;
+}
+
+/* --- VU-MÈTRES OFF --- */
+.meter-off {
+    opacity: 0.3 !important; /* Presque invisible, juste une silhouette */
+    /*filter: grayscale(1);*/
+    transition: all 0.5s ease;
+}
+
+/* Optionnel : Assure-toi que les aiguilles restent visibles ou s'estompent aussi */
+.meter-off .needle {
+    opacity: 0.3;
+}

@@ -2,10 +2,10 @@
 let McIntoshAudioEngine;
 
 if (typeof require !== 'undefined') {
-    // On est dans Electron
+    // We're in Electron
     McIntoshAudioEngine = require('./js/mcintosh-audio-engine.js');
 } else {
-    // On est dans le Web (le fichier doit être chargé dans le HTML avant script.js)
+    // We are on the web (the file must be loaded in the HTML before script.js)
     McIntoshAudioEngine = window.McIntoshAudioEngine;
 }
 
@@ -32,32 +32,32 @@ const pwr = document.getElementById('pwr');
 const powerLed = document.querySelector('.power-led');
 const audio = document.getElementById('main-audio');
 
-// --- INITIALISATION DU MOTEUR ---
+// --- ENGINE INITIALIZATION ---
 const engine = new McIntoshAudioEngine(audio);
 
-// --- SELECTEURS REBOOT ---
+// --- REBOOT SELECTORS ---
 const rebootModal = document.getElementById('reboot-modal');
 const btnYes = document.getElementById('reboot-yes');
 const btnNo = document.getElementById('reboot-no');
 
-// --- SELECTEURS EQ (BASS/TREBLE) ---
+// --- EQ SELECTORS (BASS/TREBLE) ---
 const bassDown = document.getElementById('bass-down');
 const bassUp = document.getElementById('bass-up');
 const trebleDown = document.getElementById('treble-down');
 const trebleUp = document.getElementById('treble-up');
 const toneReset = document.getElementById('tone-reset');
 
-// --- SELECTEURS BALANCE ---
+// --- BALANCE SELECTORS ---
 const balL = document.getElementById('balance-L');
 const balR = document.getElementById('balance-R');
 
-// --- SELECTEURS POPUP ---
+// --- POPUP SELECTORS ---
 const albumOverlay = document.getElementById('album-overlay');
 const albumPopup = document.getElementById('album-popup');
 const popupImg = document.getElementById('popup-img');
 const noCoverText = document.getElementById('no-cover-text');
 
-// --- SELECTEURS LIBRARY ---
+// --- LIBRARY SELECTORS ---
 const libBtn = document.getElementById('library-btn');
 const modal = document.getElementById('library-modal');
 const closeBtn = document.querySelector('.close-btn');
@@ -95,12 +95,12 @@ let pointA = 0;
 let pointB = 0;
 let volHoldInterval = null;
 
-// --- INITIALISATION VOLUME ---
+// --- VOLUME INITIALIZATION ---
 let currentVolume = 0.05;
 engine.setVolume(currentVolume);
 if (volumeKnob) volumeKnob.style.transform = `rotate(${currentVolume * 270 - 135}deg)`;
 
-// --- FONCTIONS UTILITAIRES ---
+// --- UTILITY FUNCTIONS ---
 function fitText(element, maxFontSize) {
     if (!element) return;
     let fontSize = maxFontSize;
@@ -154,7 +154,7 @@ function updateVFDStatusDisplay() {
     modeIndicator.innerHTML = `<span>${isRandom ? "RANDOM" : ""}</span><span>${repeatText}</span><span style="color: #00c3ff">${abText}</span>`;
 }
 
-// --- POWER (avec popup reboot) ---
+// --- POWER (with reboot popup) ---
 pwr?.addEventListener('click', () => {
     rebootModal.style.display = 'flex';
 });
@@ -185,7 +185,7 @@ function setBalance(val) {
     }
 }
 
-// balance listeners définis plus bas avec le knob
+// balance listeners defined below with the knob
 
 const eqBtns = [
     { b: bassUp, f: () => bassGain = Math.min(12, bassGain + 2), t: 'BASS' },
@@ -256,7 +256,7 @@ function loadTrack(index) {
     engine.play().then(() => updateStatusIcon('play'));
 }
 
-// --- CLICS INTERACTIFS ---
+// --- INTERACTIVE CLICKS ---
 vfdLarge?.addEventListener('click', (e) => {
     if (!isPoweredOn) return;
     e.stopPropagation(); albumOverlay.style.display = 'block'; albumPopup.style.display = 'block';
@@ -349,7 +349,7 @@ prevBtn?.addEventListener('mousedown', () => startSeeking('prev'));
 prevBtn?.addEventListener('mouseup', () => stopSeeking('prev'));
 prevBtn?.addEventListener('mouseleave', () => stopSeeking('prev'));
 
-// --- MÉTADONNÉES PLAYLIST ---
+// --- PLAYLIST METADATA ---
 function readMetaForFiles(files, startIndex = 0) {
     if (!window.jsmediatags) return;
     files.forEach((file, i) => {
@@ -585,25 +585,43 @@ folderInput && (folderInput.onchange = (e) => {
     }
 });
 
-// --- DISPLAY BUTTON ---
+let displayMode = 0; 
+
 document.getElementById('display-btn')?.addEventListener('click', () => {
     if (!isPoweredOn) return;
-    
-    const mainLogo = document.getElementById('logo-main');
-    const altLogo = document.getElementById('logo-alt');
-    
-    if (mainLogo && altLogo) {
-        const isMainHidden = mainLogo.style.display === 'none';
-        mainLogo.style.setProperty('display', isMainHidden ? 'block' : 'none', 'important');
-        altLogo.style.setProperty('display', isMainHidden ? 'none' : 'block', 'important');
-    }
-    
-    document.querySelectorAll('.meter').forEach(m => m.classList.toggle('meter-alt-bg'));
 
-    // --- LIGNE MODIFIÉE : On réduit l'affichage au lieu de l'éteindre ---
-    document.getElementById('vfd')?.classList.toggle('vfd-dimmed');
+    const vfd = document.getElementById('vfd');
+    const meters = document.querySelectorAll('.meter');
+    const mcLogo = document.getElementById('mc-logo'); // Ton logo mc-logo.png
+    const labels = document.querySelectorAll('.label-green, .small-label, .small-label-option-menu');
     
-    document.querySelectorAll('.label-green, .small-label, .small-label-option-menu').forEach(el => el.classList.toggle('label-off'));
+    displayMode = (displayMode + 1) % 3;
+
+    if (displayMode === 0) {
+        // --- MODE NORMAL (Couleur d'origine) ---
+        vfd?.classList.remove('vfd-dimmed', 'force-off');
+        meters.forEach(m => m.classList.remove('meter-dimmed', 'meter-off'));
+        mcLogo?.classList.remove('logo-bw', 'logo-off');
+        labels.forEach(el => el.classList.remove('label-dimmed', 'label-off'));
+        showStatusBriefly("DISPLAY: BRIGHT");
+
+    } else if (displayMode === 1) {
+        // --- MODE DIMMED (Noir et Blanc + Tamisé) ---
+        vfd?.classList.add('vfd-dimmed');
+        meters.forEach(m => m.classList.add('meter-dimmed'));
+        mcLogo?.classList.add('logo-bw');
+        mcLogo?.classList.remove('logo-off');
+        labels.forEach(el => el.classList.add('label-dimmed'));
+        showStatusBriefly("DISPLAY: DIMMED");
+
+    } else if (displayMode === 2) {
+        // --- MODE OFF (Presque invisible) ---
+        vfd?.classList.add('force-off');
+        meters.forEach(m => m.classList.add('meter-off'));
+        mcLogo?.classList.add('logo-off');
+        labels.forEach(el => el.classList.add('label-off'));
+        showStatusBriefly("DISPLAY: OFF");
+    }
 });
 
 document.getElementById('random-btn')?.addEventListener('click', () => { if (isPoweredOn) { isRandom = !isRandom; updateVFDStatusDisplay(); } });

@@ -25,7 +25,6 @@ const ASSETS_TO_CACHE = [
     '/assets/img/logo_b.png',
     '/assets/img/favicon.png',
     '/assets/img/vumeter-new.png',
-    '/assets/img/vumeter-new-off.png',
     '/assets/info/info3.png',
     // FontAwesome
     '/assets/fontawesome7/css/all.min.css',
