@@ -1055,6 +1055,7 @@ A: The BALANCE knob features a mandatory center snap — when turning from left 
 
 
 ---
+<img width="819" height="627" alt="DD" src="https://github.com/user-attachments/assets/be84f4dd-eb7d-449d-9b99-e647c51a6900" />
 <img width="1803" height="834" alt="2" src="https://github.com/user-attachments/assets/a130d215-2d24-4ea1-96f0-d44cc9b4afd8" />
 <img width="1807" height="831" alt="3" src="https://github.com/user-attachments/assets/30af6be4-ef6b-435b-93b6-d70ea4edeb15" />
 <img width="1797" height="826" alt="4" src="https://github.com/user-attachments/assets/56d0c643-1a89-4ef9-bcaa-bbc0542c2023" />
