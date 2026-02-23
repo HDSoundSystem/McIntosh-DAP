@@ -66,6 +66,7 @@ const fileList = document.getElementById('file-list');
 
 // --- VARIABLES ---
 let playlist = [];
+let playlistMeta = [];
 let currentIndex = 0;
 let isPoweredOn = false;
 let isMuted = false;
@@ -348,6 +349,27 @@ prevBtn?.addEventListener('mousedown', () => startSeeking('prev'));
 prevBtn?.addEventListener('mouseup', () => stopSeeking('prev'));
 prevBtn?.addEventListener('mouseleave', () => stopSeeking('prev'));
 
+// --- MÉTADONNÉES PLAYLIST ---
+function readMetaForFiles(files, startIndex = 0) {
+    if (!window.jsmediatags) return;
+    files.forEach((file, i) => {
+        const idx = startIndex + i;
+        window.jsmediatags.read(file, {
+            onSuccess: (tag) => {
+                const t = tag.tags;
+                playlistMeta[idx] = {
+                    artist: (t.artist || '').toUpperCase(),
+                    title:  (t.title  || file.name.replace(/\.[^/.]+$/, '')).toUpperCase(),
+                    album:  (t.album  || '').toUpperCase()
+                };
+            },
+            onError: () => {
+                playlistMeta[idx] = { artist: '', title: file.name.replace(/\.[^/.]+$/, '').toUpperCase(), album: '' };
+            }
+        });
+    });
+}
+
 // --- PLAYLIST POPUP ---
 trackCount?.addEventListener('click', (e) => {
     if (!isPoweredOn || playlist.length === 0) return;
@@ -356,9 +378,18 @@ trackCount?.addEventListener('click', (e) => {
     if (!container) return;
     container.innerHTML = "";
     playlist.forEach((f, i) => {
+        const meta = playlistMeta[i];
+        const artist = meta?.artist || '';
+        const title  = meta?.title  || f.name.replace(/\.[^/.]+$/, '').toUpperCase();
+        const album  = meta?.album  || '';
         const item = document.createElement('div');
         item.className = `playlist-item ${i === currentIndex ? 'active-track' : ''}`;
-        item.innerHTML = `<span>${i + 1}. ${f.name.toUpperCase()}</span>`;
+        item.innerHTML = `
+            <div class="pi-number">${i + 1}</div>
+            <div class="pi-row"><span class="pi-label">ARTIST:</span><span class="pi-value">${artist || '—'}</span></div>
+            <div class="pi-row"><span class="pi-label">TITLE:</span><span class="pi-value">${title || '—'}</span></div>
+            <div class="pi-row"><span class="pi-label">ALBUM:</span><span class="pi-value">${album || '—'}</span></div>
+        `;
         item.onclick = () => {
             loadTrack(i);
             document.querySelectorAll('#playlist-items .playlist-item').forEach(el => el.classList.remove('active-track'));
@@ -367,12 +398,17 @@ trackCount?.addEventListener('click', (e) => {
         container.appendChild(item);
     });
     const pp = document.getElementById('playlist-popup');
-    if (pp) pp.style.display = 'block';
+    if (pp) pp.classList.add('visible');
+});
+
+document.getElementById('playlist-close-btn')?.addEventListener('click', () => {
+    const pp = document.getElementById('playlist-popup');
+    if (pp) pp.classList.remove('visible');
 });
 
 // --- AUTRES CONTROLES ---
 inputBtn?.addEventListener('click', () => fileUpload?.click());
-fileUpload?.addEventListener('change', (e) => { if (e.target.files.length > 0) { if (!isPoweredOn) { isPoweredOn = true; } playlist = Array.from(e.target.files); loadTrack(0); } });
+fileUpload?.addEventListener('change', (e) => { if (e.target.files.length > 0) { if (!isPoweredOn) { isPoweredOn = true; } playlist = Array.from(e.target.files); playlistMeta = []; readMetaForFiles(playlist); loadTrack(0); } });
 
 // --- DRAG & DROP ---
 const AUDIO_EXTS = ['.flac','.mp3','.mp4','.m4a','.wav','.aac','.ogg'];
@@ -388,7 +424,9 @@ function addFilesToPlaylist(files) {
     if (!audioFiles.length) return;
     if (!isPoweredOn) isPoweredOn = true;
     const wasEmpty = playlist.length === 0;
+    const startIndex = playlist.length;
     playlist = playlist.concat(audioFiles);
+    readMetaForFiles(audioFiles, startIndex);
     if (wasEmpty) {
         currentIndex = 0;
         loadTrack(0);
@@ -443,6 +481,8 @@ if (typeof require !== 'undefined') {
             if (!files.length) return;
             if (!isPoweredOn) isPoweredOn = true;
             playlist = files;
+            playlistMeta = [];
+            readMetaForFiles(playlist);
             currentIndex = 0;
             loadTrack(0);
         });
@@ -532,6 +572,8 @@ folderInput && (folderInput.onchange = (e) => {
     const files = Array.from(e.target.files).filter(f => f.type.startsWith('audio/') || f.name.endsWith('.m4a') || f.name.endsWith('.aac') || f.name.endsWith('.ogg'));
     if (files.length > 0) {
         playlist = files;
+        playlistMeta = [];
+        readMetaForFiles(playlist);
         if (fileList) fileList.innerHTML = "";
         playlist.forEach((file, index) => {
             const li = document.createElement('li');
@@ -686,11 +728,6 @@ document.getElementById('options-btn')?.addEventListener('click', (e) => {
 document.addEventListener('click', (e) => {
     if (optionsPopup && !optionsPopup.contains(e.target)) optionsPopup.style.display = 'none';
     if (e.target == modal) modal.style.display = "none";
-});
-
-document.getElementById('playlist-close-btn')?.addEventListener('click', () => {
-    const pp = document.getElementById('playlist-popup');
-    if (pp) pp.style.display = 'none';
 });
 
 // --- ELECTRON SPECIFIC ---

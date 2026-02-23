@@ -60,68 +60,110 @@
     background-color: black;
     border: 8px solid var(--mc-gold);
     border-radius: 15px;
-    padding: 20px;
-    width: 400px;
+    width: 420px;
     max-height: 700px;
-    overflow-y: auto;
+    overflow: hidden;
+    flex-direction: column;
+}
+
+#playlist-popup.visible {
+    display: flex;
+}
+
+.playlist-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--mc-gold);
+    background-color: black;
+    flex-shrink: 0;
+}
+
+.playlist-center-text {
+    font-size: 13px;
+    letter-spacing: 2px;
+    margin: 0;
 }
 
 #playlist-close-btn {
-    position: sticky;
-    top: 0;
-    float: right;
     background: none;
     border: none;
     color: var(--mc-gold);
-    font-size: 24px;
+    font-size: 22px;
     line-height: 1;
     cursor: pointer;
     padding: 0 4px;
-    margin-bottom: 4px;
-    z-index: 1;
 }
 
 #playlist-close-btn:hover {
     color: var(--mc-green);
 }
 
-#playlist-popup::-webkit-scrollbar {
-    width: 5px;
-}
-
-#playlist-popup::-webkit-scrollbar-thumb {
-    background: var(--mc-blue);
-}
-
-.playlist-center-text {
-    text-align: center;
-    margin-bottom: 15px;
-}
-
 #playlist-items {
+    overflow-y: auto;
+    padding: 8px 0;
     color: var(--mc-blue);
     font-family: 'Roboto', sans-serif;
-    font-size: 14px;
+    font-size: 12px;
 }
 
+#playlist-items::-webkit-scrollbar { width: 5px; }
+#playlist-items::-webkit-scrollbar-thumb { background: var(--mc-blue); }
+
 .playlist-item {
-    padding: 10px;
-    border-bottom: 1px solid var(--mc-gold);
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(200, 169, 81, 0.2);
     cursor: pointer;
     transition: background 0.2s;
-    text-transform: uppercase;
-    display: flex;
-    justify-content: space-between;
 }
 
 .playlist-item:hover {
     background: #1a1a1a;
+}
+
+.playlist-item:hover .pi-label {
     color: var(--mc-green);
 }
 
-.playlist-item.active-track {
+.playlist-item.active-track .pi-value {
     color: var(--mc-green);
     font-weight: bold;
+}
+
+.playlist-item.active-track .pi-label {
+    color: var(--mc-green);
+}
+
+.pi-number {
+    color: var(--mc-gold);
+    font-size: 13px;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+}
+
+.pi-row {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 2px;
+    line-height: 1.4;
+}
+
+.pi-label {
+    color: var(--mc-gold);
+    font-size: 13px;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+    min-width: 44px;
+    text-transform: uppercase;
+}
+
+.pi-value {
+    color: var(--mc-blue);
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    word-break: break-word;
 }
 
 .playlist-logo-container {
