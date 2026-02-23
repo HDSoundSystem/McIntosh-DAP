@@ -1,5 +1,5 @@
-/* ================================
-   CONTRÔLES (BOUTONS ET POTENTIOMÈTRES)
+/* ==================================
+   CONTROLS (BUTTONS AND POTENTIOMETERS)
    ================================ */
 
 .knob-section {
@@ -29,7 +29,7 @@
     transform: translateX(-50%) translateY(10px);
 }
 
-/* POTENTIOMÈTRES */
+/* POTENTIOMETERS */
 
 .knob-outer {
     width: 160px;
@@ -172,12 +172,12 @@
     margin-bottom: 12px;
 }
 
-/* BOUTONS - Style de base */
+/* BUTTONS - Basic Style */
 .btn-base {
     position: relative;
     width: 62px;
     height: 50px;
-    /* Dégradé multicouche pour l'aspect verre/laque */
+    /* Multi-layered gradient for a glass/lacquer effect */
     background: linear-gradient(180deg,
             #353535 0%,
             #1a1a1a 40%,
@@ -187,7 +187,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    /* Bordure plus claire pour définir l'arête brillante */
+    /* Lighter border to define the bright edge */
     border: 1px solid #3a3a3a;
     box-shadow:
         0 4px 10px rgba(0, 0, 0, 0.9),
@@ -213,7 +213,7 @@
         0 -1px 2px rgba(255, 255, 255, 0.15);
     border: 1px solid #222;
     transition: all 0.1s ease;
-    /* Empêche l'effet visuel de bloquer le clic sur les inputs cachés */
+    /* Prevents the visual effect from blocking clicks on hidden inputs */
     pointer-events: none;
     z-index: 2;
 }
@@ -237,7 +237,7 @@
     background: linear-gradient(180deg, #1d1d1d, #050505);
 }
 
-/* BOUTON POWER */
+/* POWER BUTTON */
 .power-btn {
     background: #1a1a1a;
 }
@@ -279,7 +279,7 @@
     transition: none;
 }
 
-/* COLOR PICKERS DANS LES BOUTONS */
+/* COLOR PICKERS IN THE BUTTONS */
 .btn-base.black-btn {
     position: relative;
     overflow: hidden;

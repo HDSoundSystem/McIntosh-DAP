@@ -29,6 +29,20 @@
 @import url('css/info.css');
 
 body {
+    background-image: url('');
+
+    /* L'image ne se répète pas si elle est plus petite que l'écran */
+    background-repeat: no-repeat;
+
+    /* L'image est fixée : elle ne défile pas avec le contenu */
+    background-attachment: fixed;
+
+    /* L'image est centrée horizontalement et verticalement */
+    background-position: center;
+
+    /* L'image couvre tout l'espace disponible sans être déformée */
+    background-size: cover;
+    
     background-color: var(--background-color-app);
     display: flex;
     justify-content: center;

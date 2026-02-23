@@ -1,12 +1,12 @@
 /* ================================
-   MODALES ET POPUPS
+   MODALES and POPUPS
    ================================ */
 
 /* MENU OPTIONS */
 .options-menu {
     display: none;
     position: absolute;
-    top: 40%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 300px;
@@ -15,8 +15,8 @@
     border-radius: 15px;
     padding: 5px;
     z-index: 100;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
-    transform: translate(90%, calc(-50% + 100px));
+    box-shadow: 0 0 20px rgba(34, 34, 34, 0.699);
+    transform: translate(90%, calc(-40% + 100px));
 }
 
 .options-row {
