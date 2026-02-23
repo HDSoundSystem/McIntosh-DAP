@@ -398,6 +398,25 @@ function addFilesToPlaylist(files) {
     }
 }
 
+const dropOverlay = document.getElementById('drop-overlay');
+let dragCounter = 0;
+
+document.addEventListener('dragenter', (e) => {
+    e.preventDefault();
+    dragCounter++;
+    const hasFile = Array.from(e.dataTransfer.items).some(item => item.kind === 'file');
+    if (hasFile && dropOverlay) dropOverlay.classList.add('active');
+});
+
+document.addEventListener('dragleave', (e) => {
+    e.preventDefault();
+    dragCounter--;
+    if (dragCounter <= 0) {
+        dragCounter = 0;
+        if (dropOverlay) dropOverlay.classList.remove('active');
+    }
+});
+
 document.addEventListener('dragover', (e) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'copy';
@@ -405,6 +424,8 @@ document.addEventListener('dragover', (e) => {
 
 document.addEventListener('drop', (e) => {
     e.preventDefault();
+    dragCounter = 0;
+    if (dropOverlay) dropOverlay.classList.remove('active');
     addFilesToPlaylist(e.dataTransfer.files);
 });
 
