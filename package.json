@@ -1,6 +1,6 @@
 {
   "name": "McIntosh-DAP",
-  "version": "2.6.3",
+  "version": "2.6.4",
   "description": "McIntosh-Reference-Digital-Audio-Player",
   "main": "main.js",
   "scripts": {
