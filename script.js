@@ -597,7 +597,7 @@ document.getElementById('display-btn')?.addEventListener('click', () => {
     }
     document.querySelectorAll('.meter').forEach(m => m.classList.toggle('meter-alt-bg'));
     document.getElementById('vfd')?.classList.toggle('force-off');
-    document.querySelectorAll('.label-green, .small-label').forEach(el => el.classList.toggle('label-off'));
+    document.querySelectorAll('.label-green, .small-label, .small-label-option-menu').forEach(el => el.classList.toggle('label-off'));
 });
 
 document.getElementById('random-btn')?.addEventListener('click', () => { if (isPoweredOn) { isRandom = !isRandom; updateVFDStatusDisplay(); } });

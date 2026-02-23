@@ -58,6 +58,7 @@
 /* LABELS OFF STATE */
 .label-green,
 .small-label,
+.small-label-option-menu,
 .small-label i {
     transition: color 0.8s ease, opacity 0.8s ease !important;
 }
