@@ -173,3 +173,15 @@
     font-size: 30px;
     color: var(--mc-blue);
 }
+
+/* État réduit (Dimmed) */
+#vfd.vfd-dimmed {
+    opacity: 0.5; /* Réduit la luminosité à 50% */
+    filter: blur(0.3px); /* Optionnel : donne un aspect un peu plus diffus/vintage */
+    transition: opacity 0.3s ease; /* Transition douce pour le changement */
+}
+
+/* On s'assure que force-off n'entre pas en conflit si tu l'utilises encore ailleurs */
+#vfd.force-off {
+    display: none !important;
+}

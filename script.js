@@ -588,15 +588,21 @@ folderInput && (folderInput.onchange = (e) => {
 // --- DISPLAY BUTTON ---
 document.getElementById('display-btn')?.addEventListener('click', () => {
     if (!isPoweredOn) return;
+    
     const mainLogo = document.getElementById('logo-main');
     const altLogo = document.getElementById('logo-alt');
+    
     if (mainLogo && altLogo) {
         const isMainHidden = mainLogo.style.display === 'none';
         mainLogo.style.setProperty('display', isMainHidden ? 'block' : 'none', 'important');
         altLogo.style.setProperty('display', isMainHidden ? 'none' : 'block', 'important');
     }
+    
     document.querySelectorAll('.meter').forEach(m => m.classList.toggle('meter-alt-bg'));
-    document.getElementById('vfd')?.classList.toggle('force-off');
+
+    // --- LIGNE MODIFIÉE : On réduit l'affichage au lieu de l'éteindre ---
+    document.getElementById('vfd')?.classList.toggle('vfd-dimmed');
+    
     document.querySelectorAll('.label-green, .small-label, .small-label-option-menu').forEach(el => el.classList.toggle('label-off'));
 });
 
