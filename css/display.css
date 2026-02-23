@@ -1,5 +1,5 @@
 /* ================================
-   ÉCRAN MATRICIEL VFD
+   VFD MATRIX DISPLAY
    ================================ */
 
 .display-area {
@@ -31,7 +31,7 @@
     transform: translateY(-35px);
 }
 
-/* Volume display en bas du VFD */
+/* Volume display at the bottom of the VFD */
 #volume-display {
     color: var(--mc-blue);
     font-family: 'bitcount single', sans-serif;
@@ -47,7 +47,7 @@
     z-index: 10;
 }
 
-/* Coins techniques du VFD */
+/* Technical corners of the VFD */
 .vfd-tech-corner {
     position: absolute;
     top: 15px;
@@ -186,14 +186,14 @@
     transition: all 0.4s ease;
 }
 
-/* Mode Éteint (Force-off) */
+/* Force-off mode */
 .force-off {
     opacity: 0 !important;
-    pointer-events: none; /* Empêche d'interagir avec un écran éteint */
+    pointer-events: none; /* Prevents interaction with a screen that is off */
     transition: all 0.4s ease;
 }
 
-/* Mode étiquette éteinte */
+/* Label mode off */
 .label-off {
     opacity: 0.5 !important;
 }
