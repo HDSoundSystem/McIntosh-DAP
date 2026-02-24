@@ -7,38 +7,40 @@
     justify-content: space-between;
     align-items: center;
     height: 320px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    padding-left: 60px;
+    padding-right: 60px;
 }
 
 .meter {
-    /* Propriétés finales après cascade des 3 définitions */
-    width: 550px;
-    height: 300px;
+    width: 418px;
+    height: 200px;
     position: relative;
-    /* De la 1ère définition - gardées */
-    border: 0px solid #080808;
-    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
-    overflow: hidden;
-    /* De la 2ème définition - gardées */
+    border-radius: 4px; 
+
+    /* 2. LA PROPRIÉTÉ INDISPENSABLE */
+    /* Elle force l'image de fond à suivre l'arrondi du cadre */
+    overflow: hidden; 
+
+    /* Le reste de votre code */
     background-image: url(../assets/img/vumeter-new.png);
-    background-size: 80% auto;
-    background-repeat: no-repeat;
-    background-color: transparent;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    /* De la 3ème définition - écrase background-position */
+    background-size: cover; /* "cover" est mieux pour remplir l'arrondi sans vides */
     background-position: center;
-    transition: background-image 0.8s ease;
+    background-repeat: no-repeat;
+    
+    /* Optionnel : une bordure pour souligner l'arrondi */
+    border: 3px solid #2c2c2c;
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+
+    margin-bottom: 30px;
 }
 
 .needle {
     position: absolute;
-    bottom: 5px;
+    bottom: -40px;
     left: 50%;
     width: 2px;
-    height: 245px;
+    height: 235px;
     background: #080808;
     transform-origin: bottom center;
     transform: rotate(-55deg);

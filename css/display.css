@@ -18,6 +18,7 @@
     height: 280px;
     background: var(--background-matrix-display);
     border: 2px solid #1a1a1a;
+    border-radius: 2px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -28,7 +29,7 @@
     letter-spacing: 4px;
     position: relative;
     opacity: 1;
-    transform: translateY(-35px);
+    transform: translateY(-20px);
 }
 
 /* Volume display at the bottom of the VFD */
