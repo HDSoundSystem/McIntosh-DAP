@@ -1,4 +1,4 @@
-<img width="1494" height="242" alt="12" src="https://github.com/user-attachments/assets/564c8f77-dc5a-476a-85d6-43ced526b60b" />
+<img width="1482" height="231" alt="1" src="https://github.com/user-attachments/assets/87ed49b7-9437-4980-9dc6-4206d0007214" />
 
 # McIntosh Reference Digital Audio Player
 ## Inspired by the high-end McIntosh MSA5500 2-Channel Streaming Integrated Amplifier and DS200 STREAMING DAC
