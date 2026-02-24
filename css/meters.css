@@ -8,11 +8,13 @@
     align-items: center;
     height: 320px;
     margin-bottom: 30px;
+    padding-left: 60px;
+    padding-right: 60px;
 }
 
 .meter {
-    width: 550px;
-    height: 240px;
+    width: 418px;
+    height: 200px;
     position: relative;
     border-radius: 4px; 
 
@@ -35,10 +37,10 @@
 
 .needle {
     position: absolute;
-    bottom: -60px;
+    bottom: -40px;
     left: 50%;
     width: 2px;
-    height: 295px;
+    height: 235px;
     background: #080808;
     transform-origin: bottom center;
     transform: rotate(-55deg);
