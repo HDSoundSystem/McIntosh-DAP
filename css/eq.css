@@ -107,7 +107,7 @@
 #eq-preset-name-display {
     position: absolute;
     /* Utilisation de rgba : rouge=0, vert=0, bleu=0 (noir) et alpha=0.6 (60% d'opacité) */
-    background-color: rgba(0, 0, 0, 0.6); 
+    background-color: rgba(0, 0, 0, 0.6);
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
@@ -123,8 +123,8 @@
     border-radius: 4px;
 }
 
-.vfd-eq-preset{
-    margin-left: 10px; 
+.vfd-eq-preset {
+    margin-left: 10px;
     color: var(--mc-blue);
     font-size: 18px;
 }

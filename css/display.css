@@ -184,7 +184,7 @@
 }
 
 .label-dimmed {
-    opacity: 0.7!important;
+    opacity: 0.7 !important;
     transition: all 0.4s ease;
 }
 

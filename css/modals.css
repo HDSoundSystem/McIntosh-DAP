@@ -109,8 +109,13 @@
     font-size: 12px;
 }
 
-#playlist-items::-webkit-scrollbar { width: 5px; }
-#playlist-items::-webkit-scrollbar-thumb { background: var(--mc-blue); }
+#playlist-items::-webkit-scrollbar {
+    width: 5px;
+}
+
+#playlist-items::-webkit-scrollbar-thumb {
+    background: var(--mc-blue);
+}
 
 .playlist-item {
     padding: 10px 16px;

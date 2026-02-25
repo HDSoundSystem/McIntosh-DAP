@@ -359,8 +359,8 @@ function readMetaForFiles(files, startIndex = 0) {
                 const t = tag.tags;
                 playlistMeta[idx] = {
                     artist: (t.artist || '').toUpperCase(),
-                    title:  (t.title  || file.name.replace(/\.[^/.]+$/, '')).toUpperCase(),
-                    album:  (t.album  || '').toUpperCase()
+                    title: (t.title || file.name.replace(/\.[^/.]+$/, '')).toUpperCase(),
+                    album: (t.album || '').toUpperCase()
                 };
             },
             onError: () => {
@@ -380,8 +380,8 @@ trackCount?.addEventListener('click', (e) => {
     playlist.forEach((f, i) => {
         const meta = playlistMeta[i];
         const artist = meta?.artist || '';
-        const title  = meta?.title  || f.name.replace(/\.[^/.]+$/, '').toUpperCase();
-        const album  = meta?.album  || '';
+        const title = meta?.title || f.name.replace(/\.[^/.]+$/, '').toUpperCase();
+        const album = meta?.album || '';
         const item = document.createElement('div');
         item.className = `playlist-item ${i === currentIndex ? 'active-track' : ''}`;
         item.innerHTML = `
@@ -411,7 +411,7 @@ inputBtn?.addEventListener('click', () => fileUpload?.click());
 fileUpload?.addEventListener('change', (e) => { if (e.target.files.length > 0) { if (!isPoweredOn) { isPoweredOn = true; } playlist = Array.from(e.target.files); playlistMeta = []; readMetaForFiles(playlist); loadTrack(0); } });
 
 // --- DRAG & DROP ---
-const AUDIO_EXTS = ['.flac','.mp3','.mp4','.m4a','.wav','.aac','.ogg'];
+const AUDIO_EXTS = ['.flac', '.mp3', '.mp4', '.m4a', '.wav', '.aac', '.ogg'];
 
 function isAudioFile(name) {
     return AUDIO_EXTS.some(ext => name.toLowerCase().endsWith(ext));
@@ -488,9 +488,9 @@ if (typeof require !== 'undefined') {
         });
     });
 }
-playPauseBtn?.addEventListener('click', () => { 
-    if (!isPoweredOn || playlist.length === 0) return; 
-    engine.init(); 
+playPauseBtn?.addEventListener('click', () => {
+    if (!isPoweredOn || playlist.length === 0) return;
+    engine.init();
     if (audio.paused) {
         engine.play();
         updateStatusIcon('play');
@@ -507,15 +507,15 @@ playPauseBtn?.addEventListener('click', () => {
         }
     }
 });
-stopBtn?.addEventListener('click', () => { 
-    if (isPoweredOn) { 
-        engine.stop(); 
+stopBtn?.addEventListener('click', () => {
+    if (isPoweredOn) {
+        engine.stop();
         updateStatusIcon('stop');
         if (typeof require !== 'undefined') {
             const { ipcRenderer } = require('electron');
             ipcRenderer.send('update-thumbar', false);
         }
-    } 
+    }
 });
 muteBtn?.addEventListener('click', () => { if (isPoweredOn) { isMuted = !isMuted; audio.muted = isMuted; showVolumeBriefly(); } });
 document.getElementById('loudness-btn')?.addEventListener('click', () => { if (isPoweredOn && !isBypassActive) { isLoudnessActive = !isLoudnessActive; document.getElementById('vfd-loudness-text')?.classList.toggle('loudness-visible', isLoudnessActive); applyLoudnessEffect(); } });
@@ -585,7 +585,7 @@ folderInput && (folderInput.onchange = (e) => {
     }
 });
 
-let displayMode = 0; 
+let displayMode = 0;
 
 document.getElementById('display-btn')?.addEventListener('click', () => {
     if (!isPoweredOn) return;
@@ -594,7 +594,7 @@ document.getElementById('display-btn')?.addEventListener('click', () => {
     const meters = document.querySelectorAll('.meter');
     const mcLogo = document.getElementById('mc-logo'); // Ton logo mc-logo.png
     const labels = document.querySelectorAll('.label-green, .small-label, .small-label-option-menu');
-    
+
     displayMode = (displayMode + 1) % 2;
 
     if (displayMode === 0) {
@@ -674,33 +674,33 @@ volumeKnob?.addEventListener('wheel', (e) => { if (isPoweredOn) { e.preventDefau
 volumeKnob?.addEventListener('mouseenter', () => { if (isPoweredOn) showVolumeBriefly(); });
 
 // --- MEDIA SESSION ---
-function updateMediaMetadata() { 
-    if ('mediaSession' in navigator && playlist.length > 0) { 
-        navigator.mediaSession.metadata = new MediaMetadata({ 
-            title: vfdLarge.textContent, 
+function updateMediaMetadata() {
+    if ('mediaSession' in navigator && playlist.length > 0) {
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: vfdLarge.textContent,
             artist: (vfdInfo.textContent.split('–')[0] || '').trim(),
             artwork: [
                 { src: popupImg.src && popupImg.src.startsWith('data:') ? popupImg.src : 'assets/img/default.png', sizes: '512x512', type: 'image/png' }
             ]
-        }); 
-        
-        navigator.mediaSession.setActionHandler('play', () => { 
-            engine.play(); 
+        });
+
+        navigator.mediaSession.setActionHandler('play', () => {
+            engine.play();
             updateStatusIcon('play');
             if (typeof require !== 'undefined') {
                 const { ipcRenderer } = require('electron');
                 ipcRenderer.send('update-thumbar', true);
             }
         });
-        navigator.mediaSession.setActionHandler('pause', () => { 
-            engine.pause(); 
+        navigator.mediaSession.setActionHandler('pause', () => {
+            engine.pause();
             updateStatusIcon('pause');
             if (typeof require !== 'undefined') {
                 const { ipcRenderer } = require('electron');
                 ipcRenderer.send('update-thumbar', false);
             }
         });
-        
+
         navigator.mediaSession.setActionHandler('previoustrack', () => {
             if (audio.currentTime > 3) {
                 audio.currentTime = 0;
@@ -710,7 +710,7 @@ function updateMediaMetadata() {
                 loadTrack(playlist.length - 1);
             }
         });
-        
+
         navigator.mediaSession.setActionHandler('nexttrack', () => {
             if (isRandom && playlist.length > 1) {
                 let n; do { n = Math.floor(Math.random() * playlist.length); } while (n === currentIndex);
@@ -721,7 +721,7 @@ function updateMediaMetadata() {
                 loadTrack(0);
             }
         });
-    } 
+    }
 }
 
 audio.onended = () => {
@@ -843,12 +843,12 @@ const presetLabels = {
 };
 
 const eqPresets = {
-    'eq-pop-btn':     [3, 2, 1, 0, 1, 2, 2, 1, 1, 2],
-    'eq-rock-btn':    [5, 4, 2, 0, -1, 0, 1, 2, 4, 5],
-    'eq-jazz-btn':    [2, 1, 0, 1, 2, 2, 1, 0, 0, -1],
+    'eq-pop-btn': [3, 2, 1, 0, 1, 2, 2, 1, 1, 2],
+    'eq-rock-btn': [5, 4, 2, 0, -1, 0, 1, 2, 4, 5],
+    'eq-jazz-btn': [2, 1, 0, 1, 2, 2, 1, 0, 0, -1],
     'eq-classic-btn': [4, 3, 2, 0, 0, 0, 0, 2, 3, 4],
-    'eq-live-btn':    [6, 4, 2, 0, 1, 2, 4, 5, 3, 2],
-    'eq-reset-btn':   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    'eq-live-btn': [6, 4, 2, 0, 1, 2, 4, 5, 3, 2],
+    'eq-reset-btn': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 };
 
 
@@ -862,7 +862,7 @@ function drawEQCurve() {
     eqCtx.strokeStyle = "#1a1a1a";
     eqCtx.lineWidth = 1;
     eqCtx.beginPath();
-    for(let i = 1; i < 4; i++) {
+    for (let i = 1; i < 4; i++) {
         let y = (height / 4) * i;
         eqCtx.moveTo(0, y); eqCtx.lineTo(width, y);
     }
@@ -872,7 +872,7 @@ function drawEQCurve() {
     const points = Array.from(eqSliders).map((slider, index) => {
         const x = (width / (eqSliders.length - 1)) * index;
         const y = (height / 2) - (slider.value * (height / 26));
-        return {x, y};
+        return { x, y };
     });
 
     // Courbe "McIntosh"
@@ -896,7 +896,7 @@ function drawEQCurve() {
 // Appliquer un preset (unique, fusion des comportements)
 function applyPreset(btnId) {
     if (!isPoweredOn) return;
-    
+
     const gains = eqPresets[btnId];
     if (!gains) return;
 
@@ -910,7 +910,7 @@ function applyPreset(btnId) {
     // 2. Préparer le nom du preset pour l'affichage
     // On transforme "eq-rock-btn" en "ROCK"
     let presetName = btnId.replace('eq-', '').replace('-btn', '').toUpperCase();
-    
+
     // 3. Logique d'affichage sur le VFD (à côté du bitrate)
     const vfdPresetElement = document.getElementById('vfd-preset-display');
     if (vfdPresetElement) {
@@ -968,7 +968,7 @@ eqResetBtn?.addEventListener('click', () => {
     if (!isPoweredOn) return;
 
     eqSliders.forEach(slider => {
-        slider.value = 0; 
+        slider.value = 0;
         const freq = slider.getAttribute('data-freq');
         if (engine.setCustomFilter) {
             engine.setCustomFilter(freq, 0);

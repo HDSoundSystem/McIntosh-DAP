@@ -1,6 +1,6 @@
-/* ================================
-   ÉTATS ET MODES SPÉCIAUX
-   ================================ */
+/* =========================
+   STATES AND SPECIAL MODES
+   ========================= */
 
 /* STEALTH MODE */
 .meter-container.stealth-mode {
@@ -13,7 +13,7 @@
     display: none;
 }
 
-/* VU-MÈTRES - Images alternatives */
+/* VU METERS - Alternative Images */
 
 .meter.meter-alt-bg {
     background-image: url('../assets/img/vumeter-new-off.png') !important;
@@ -30,7 +30,7 @@
     display: none !important;
 }
 
-/* LOGO ALTERNATIF */
+/* ALTERNATIVE LOGO */
 .brand-center {
     position: relative;
 }
@@ -95,8 +95,6 @@
     display: inline-block !important;
 }
 
-/* PUSH LABELS - remplacés par .knob-sub-label dans controls.css */
-
 /* TRACK COUNT STYLING */
 #track-count {
     font-variant-numeric: tabular-nums;
@@ -107,7 +105,7 @@
     margin-right: 38px;
 }
 
-/* CURSEURS INTERACTIFS */
+/* INTERACTIVE CURSORS */
 #track-count,
 #time-display,
 .vfd-large {
@@ -125,9 +123,11 @@
     0% {
         opacity: 1;
     }
+
     50% {
         opacity: 0.3;
     }
+
     100% {
         opacity: 1;
     }

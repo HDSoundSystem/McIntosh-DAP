@@ -5,11 +5,11 @@ let win;
 let pendingFiles = []; // Files received before the window was ready
 
 function sendFilesToRenderer(filePaths) {
-    if (win && win.webContents) {
-        win.webContents.send('open-files', filePaths);
-    } else {
-        pendingFiles = filePaths;
-    }
+  if (win && win.webContents) {
+    win.webContents.send('open-files', filePaths);
+  } else {
+    pendingFiles = filePaths;
+  }
 }
 
 // "Open with" — files passed as arguments at startup
@@ -18,15 +18,15 @@ if (openWithFiles.length) pendingFiles = openWithFiles;
 
 // Fichiers glissés sur l'icône de l'app (macOS / Windows)
 app.on('open-file', (event, filePath) => {
-    event.preventDefault();
-    sendFilesToRenderer([filePath]);
+  event.preventDefault();
+  sendFilesToRenderer([filePath]);
 });
 
 // Second instance (Windows: "Open with" from Explorer)
 app.on('second-instance', (event, argv) => {
-    const files = argv.slice(2).filter(f => !f.startsWith('--'));
-    if (files.length) sendFilesToRenderer(files);
-    if (win) { if (win.isMinimized()) win.restore(); win.focus(); }
+  const files = argv.slice(2).filter(f => !f.startsWith('--'));
+  if (files.length) sendFilesToRenderer(files);
+  if (win) { if (win.isMinimized()) win.restore(); win.focus(); }
 });
 
 const gotLock = app.requestSingleInstanceLock();
@@ -46,10 +46,10 @@ function createWindow() {
   win.loadFile('index.html');
 
   win.webContents.on('did-finish-load', () => {
-      if (pendingFiles.length) {
-          sendFilesToRenderer(pendingFiles);
-          pendingFiles = [];
-      }
+    if (pendingFiles.length) {
+      sendFilesToRenderer(pendingFiles);
+      pendingFiles = [];
+    }
   });
 
   // --- Taskbar buttons (Windows) ---
