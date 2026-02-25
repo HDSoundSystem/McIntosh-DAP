@@ -64,7 +64,6 @@
     max-height: 700px;
     overflow: hidden;
     flex-direction: column;
-    opacity: 0.9;
 }
 
 #playlist-popup.visible {
