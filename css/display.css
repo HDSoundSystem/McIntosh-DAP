@@ -188,13 +188,6 @@
     transition: all 0.4s ease;
 }
 
-/* Force-off mode */
-.force-off {
-    opacity: 0 !important;
-    pointer-events: none; /* Prevents interaction with a screen that is off */
-    transition: all 0.4s ease;
-}
-
 /* Label mode off */
 .label-off {
     opacity: 0.5 !important;

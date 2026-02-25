@@ -595,7 +595,7 @@ document.getElementById('display-btn')?.addEventListener('click', () => {
     const mcLogo = document.getElementById('mc-logo'); // Ton logo mc-logo.png
     const labels = document.querySelectorAll('.label-green, .small-label, .small-label-option-menu');
     
-    displayMode = (displayMode + 1) % 3;
+    displayMode = (displayMode + 1) % 2;
 
     if (displayMode === 0) {
         // --- MODE NORMAL (Couleur d'origine) ---
@@ -613,14 +613,6 @@ document.getElementById('display-btn')?.addEventListener('click', () => {
         mcLogo?.classList.remove('logo-off');
         labels.forEach(el => el.classList.add('label-dimmed'));
         showStatusBriefly("DISPLAY: DIMMED");
-
-    } else if (displayMode === 2) {
-        // --- MODE OFF (Presque invisible) ---
-        vfd?.classList.add('force-off');
-        meters.forEach(m => m.classList.add('meter-off'));
-        mcLogo?.classList.add('logo-off');
-        labels.forEach(el => el.classList.add('label-off'));
-        showStatusBriefly("DISPLAY: OFF");
     }
 });
 
