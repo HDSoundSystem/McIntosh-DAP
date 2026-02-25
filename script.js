@@ -357,14 +357,21 @@ function readMetaForFiles(files, startIndex = 0) {
         window.jsmediatags.read(file, {
             onSuccess: (tag) => {
                 const t = tag.tags;
+                let coverUrl = '';
+                if (t.picture) {
+                    const { data, format } = t.picture;
+                    const blob = new Blob([new Uint8Array(data)], { type: format });
+                    coverUrl = URL.createObjectURL(blob);
+                }
                 playlistMeta[idx] = {
                     artist: (t.artist || '').toUpperCase(),
-                    title: (t.title || file.name.replace(/\.[^/.]+$/, '')).toUpperCase(),
-                    album: (t.album || '').toUpperCase()
+                    title:  (t.title  || file.name.replace(/\.[^/.]+$/, '')).toUpperCase(),
+                    album:  (t.album  || '').toUpperCase(),
+                    cover:  coverUrl
                 };
             },
             onError: () => {
-                playlistMeta[idx] = { artist: '', title: file.name.replace(/\.[^/.]+$/, '').toUpperCase(), album: '' };
+                playlistMeta[idx] = { artist: '', title: file.name.replace(/\.[^/.]+$/, '').toUpperCase(), album: '', cover: '' };
             }
         });
     });
@@ -380,15 +387,24 @@ trackCount?.addEventListener('click', (e) => {
     playlist.forEach((f, i) => {
         const meta = playlistMeta[i];
         const artist = meta?.artist || '';
-        const title = meta?.title || f.name.replace(/\.[^/.]+$/, '').toUpperCase();
-        const album = meta?.album || '';
+        const title  = meta?.title  || f.name.replace(/\.[^/.]+$/, '').toUpperCase();
+        const album  = meta?.album  || '';
+        const cover  = meta?.cover  || '';
         const item = document.createElement('div');
         item.className = `playlist-item ${i === currentIndex ? 'active-track' : ''}`;
         item.innerHTML = `
-            <div class="pi-number">${i + 1}</div>
-            <div class="pi-row"><span class="pi-label">ARTIST:</span><span class="pi-value">${artist || '—'}</span></div>
-            <div class="pi-row"><span class="pi-label">TITLE:</span><span class="pi-value">${title || '—'}</span></div>
-            <div class="pi-row"><span class="pi-label">ALBUM:</span><span class="pi-value">${album || '—'}</span></div>
+            <div class="pi-cover-wrap">
+                ${cover
+                    ? `<img class="pi-cover" src="${cover}" alt="cover">`
+                    : `<div class="pi-cover pi-cover-empty"><span>♪</span></div>`
+                }
+            </div>
+            <div class="pi-info">
+                <div class="pi-number">${i + 1}</div>
+                <div class="pi-row"><span class="pi-label">ARTIST:</span><span class="pi-value">${artist || '—'}</span></div>
+                <div class="pi-row"><span class="pi-label">TITLE:</span><span class="pi-value">${title || '—'}</span></div>
+                <div class="pi-row"><span class="pi-label">ALBUM:</span><span class="pi-value">${album || '—'}</span></div>
+            </div>
         `;
         item.onclick = () => {
             loadTrack(i);
