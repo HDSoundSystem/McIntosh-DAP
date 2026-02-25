@@ -6,7 +6,7 @@
 .options-menu {
     display: none;
     position: absolute;
-    top: 30%;
+    top: 28%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 300px;
@@ -54,13 +54,13 @@
     display: none;
     position: fixed;
     top: 50%;
-    left: 20%;
+    left: 23%;
     transform: translate(-50%, -50%);
     z-index: 10000;
     background-color: black;
     border: 8px solid var(--mc-gold);
     border-radius: 15px;
-    width: 420px;
+    width: 490px;
     max-height: 700px;
     overflow: hidden;
     flex-direction: column;
@@ -121,6 +121,9 @@
     border-bottom: 1px solid rgba(200, 169, 81, 0.2);
     cursor: pointer;
     transition: background 0.2s;
+    display: flex;
+    gap: 12px;
+    align-items: center;
 }
 
 .playlist-item:hover {
@@ -138,6 +141,39 @@
 
 .playlist-item.active-track .pi-label {
     color: var(--mc-green);
+}
+
+/* Cover art */
+.pi-cover-wrap {
+    flex-shrink: 0;
+}
+
+.pi-cover {
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid rgba(200, 169, 81, 0.3);
+    display: block;
+}
+
+.pi-cover-empty {
+    width: 64px;
+    height: 64px;
+    border-radius: 4px;
+    border: 1px solid rgba(200, 169, 81, 0.3);
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(200, 169, 81, 0.3);
+    font-size: 22px;
+}
+
+/* Infos à droite de la cover */
+.pi-info {
+    flex: 1;
+    min-width: 0;
 }
 
 .pi-number {
@@ -159,7 +195,7 @@
     font-size: 13px;
     letter-spacing: 1px;
     flex-shrink: 0;
-    min-width: 44px;
+    min-width: 52px;
     text-transform: uppercase;
 }
 
@@ -169,6 +205,9 @@
     letter-spacing: 1px;
     text-transform: uppercase;
     word-break: break-word;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .playlist-logo-container {
