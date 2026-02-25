@@ -1,5 +1,4 @@
 // McIntosh DAP - Service Worker
-// Version 1.0.0
 
 const CACHE_NAME = 'McIntosh-DAP';
 const ASSETS_TO_CACHE = [
@@ -25,7 +24,6 @@ const ASSETS_TO_CACHE = [
     '/assets/img/logo_b.png',
     '/assets/img/favicon.png',
     '/assets/img/vumeter-new.png',
-    '/assets/info/info3.png',
     // FontAwesome
     '/assets/fontawesome7/css/all.min.css',
     '/assets/fontawesome7/webfonts/fa-solid-900.woff2',

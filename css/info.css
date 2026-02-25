@@ -17,8 +17,8 @@
 #info-overlay-fix img {
     max-width: 90%;
     max-height: 90%;
-    border: 5px solid var(--mc-gold);
-    border-radius: 15px;
+    /*border: 5px solid var(--mc-gold);*/
+    border-radius: 0px;
     background: #000;
     pointer-events: none;
 }
@@ -32,6 +32,7 @@
     font-weight: 300;
     text-transform: uppercase;
     text-shadow: 0 0 10px rgba(120, 107, 70, 0.5);
+    cursor: default;
 }
 
 .release-version::after {
@@ -53,7 +54,7 @@
     font-size: 12px;
     letter-spacing: 5px;
     transition: all 0.3s ease;
-    opacity: 0.7;
+    opacity: 1;
     margin-top: 5px;
 }
 
@@ -61,6 +62,18 @@
     opacity: 1;
     text-shadow: 0 0 8px var(--mc-gold);
     color: #fff;
+}
+
+.reference{
+    color: var(--mc-gold);
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    letter-spacing: 5px;
+    transition: all 0.3s ease;
+    opacity: 1;
+    margin-top: 5px;
+    cursor: default;
 }
 
 
