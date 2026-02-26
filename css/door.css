@@ -156,6 +156,6 @@
         /* Brighter */
         drop-shadow(-1px -1px 0px rgba(0, 0, 0, 0.9)) brightness(1.3);
     /* Shimmer */
-    transform: scale(1.02);
+    transform: scale(1);
     /* Slight enlargement */
 }
