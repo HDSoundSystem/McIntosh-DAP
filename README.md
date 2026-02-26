@@ -1,4 +1,3 @@
-<img width="1347" height="152" alt="beta" src="https://github.com/user-attachments/assets/91c9722a-592c-4d3d-925d-8837852a3b47" />
 <img width="1482" height="231" alt="1" src="https://github.com/user-attachments/assets/87ed49b7-9437-4980-9dc6-4206d0007214" />
 
 # McIntosh Reference Digital Audio Player
