@@ -87,31 +87,73 @@
      visibility: hidden;
  }
 
- /* Bouton Enter Style McIntosh */
- #enter-btn {
-     padding: 20px 40px;
-     background: transparent;
-     border: 2px solid #00c3ff;
-     border-radius: 5px;
-     color: #00c3ff;
-     font-family: "Roboto", sans-serif;
-     text-transform: uppercase;
-     letter-spacing: 5px;
-     font-weight: bold;
-     cursor: pointer;
-     transition: all 0.4s ease;
-     box-shadow: 0 0 15px rgba(0, 255, 102, 0.1);
- }
+#enter-btn {
+    padding: 20px 40px;
+    background: #080808; /* Fond noir pur */
+    
+    /* 1. Bordure Chrome */
+    border: 2px solid;
+    border-image: linear-gradient(145deg, #777 0%, #fff 45%, #888 55%, #fff 100%) 1;
+    
+    /* 2. Texte Chrome */
+    color: #fff; /* Fallback */
+    background: linear-gradient(to bottom, #777 0%, #fff 45%, #888 50%, #fff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    
+    /* 3. Lueur argentée subtile autour du bouton */
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    position: relative;
+}
 
- #enter-btn:hover {
-     background: #00c3ff;
-     color: #000;
-     box-shadow: 0 0 30px rgba(9, 112, 126, 0.781);
- }
+#enter-btn:hover {
+    /* Au survol, on intensifie les reflets et la lueur */
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    transform: scale(1);
+    filter: brightness(1.2);
+}
+
+#enter-btn:active {
+    transform: scale(0.98);
+    filter: brightness(0.8);
+}
 
  /* Logo sur la porte gauche */
  .door-logo {
-     width: 200px;
-     filter: grayscale(1) brightness(0.8);
-     opacity: 0.5;
- }
+    width: 200px;
+    
+    /* EFFET ARGENT CHROME BRILLANT */
+    /* 1. On force une base gris moyen métallique nette */
+    filter: grayscale(1) brightness(1.2) contrast(1.1);
+    
+    /* 2. On superpose les ombres pour créer le biseau et l'éclat chrome */
+    /* a) Ombre portée douce (profondeur) */
+    /* b) Reflet blanc éclatant décalé (effet miroir) */
+    /* c) Contour noir net (définition) */
+    filter: 
+        drop-shadow(0px 4px 6px rgba(0,0,0,0.7)) /* Ombre portée */
+        drop-shadow(1px 1px 0px rgba(255,255,255,0.9)) /* Reflet vif argent */
+        drop-shadow(-1px -1px 0px rgba(0,0,0,0.8)); /* Ombre de définition */
+
+    /* 3. On remonte l'opacité pour que le chrome claque bien sur le verre noir */
+    opacity: 0.9; 
+
+    /* Optionnel : ajoute un léger scintillement au survol */
+    transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.door-logo:hover {
+    filter: 
+        drop-shadow(0px 6px 8px rgba(0,0,0,0.8))
+        drop-shadow(1px 1px 0px rgba(255,255,255,1)) /* Plus brillant */
+        drop-shadow(-1px -1px 0px rgba(0,0,0,0.9))
+        brightness(1.3); /* Scintillement */
+    transform: scale(1.02); /* Léger grossissement */
+}
