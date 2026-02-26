@@ -1,0 +1,80 @@
+ /* --- STYLE DES PORTES COULISSANTES --- */
+ #main-doors {
+     position: fixed;
+     top: 0;
+     left: 0;
+     width: 100vw;
+     height: 100vh;
+     display: flex;
+     z-index: 10000;
+     /* Au-dessus de tout */
+     transition: visibility 1.2s;
+     overflow: hidden;
+ }
+
+ .door {
+    width: 50%;
+    height: 100%;
+    
+    /* 1. Rendre le fond semi-transparent (0.8 = 80% d'opacité) */
+    background: rgba(8, 8, 8, 0.8); 
+    
+    /* 2. L'effet de flou (Verre opaque) */
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(15px); /* Pour Safari */
+
+    /* 3. Ta bordure argentée brossée */
+    border: 1px solid #8f8e8e5e;
+
+    /* 4. Le reste de tes propriétés */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+    position: relative;
+    
+    /* Ajout d'un léger reflet interne pour l'effet de vitre */
+    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+ /* Animation d'ouverture */
+ .doors-open .door-left {
+     transform: translateX(-100%);
+ }
+
+ .doors-open .door-right {
+     transform: translateX(100%);
+ }
+
+ .doors-open {
+     visibility: hidden;
+ }
+
+ /* Bouton Enter Style McIntosh */
+ #enter-btn {
+     padding: 20px 40px;
+     background: transparent;
+     border: 2px solid #00c3ff;
+     border-radius: 5px;
+     color: #00c3ff;
+     font-family: "Roboto", sans-serif;
+     text-transform: uppercase;
+     letter-spacing: 5px;
+     font-weight: bold;
+     cursor: pointer;
+     transition: all 0.4s ease;
+     box-shadow: 0 0 15px rgba(0, 255, 102, 0.1);
+ }
+
+ #enter-btn:hover {
+     background: #00c3ff;
+     color: #000;
+     box-shadow: 0 0 30px rgba(9, 112, 126, 0.781);
+ }
+
+ /* Logo sur la porte gauche */
+ .door-logo {
+     width: 200px;
+     filter: grayscale(1) brightness(0.8);
+     opacity: 0.5;
+ }

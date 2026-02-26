@@ -28,6 +28,8 @@
 /* Info pop-up */
 @import url('css/info.css');
 
+@import url('css/door.css');
+
 body {
     background-image: url('');
 
