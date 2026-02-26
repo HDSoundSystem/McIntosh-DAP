@@ -7,7 +7,7 @@
      height: 100vh;
      display: flex;
      z-index: 10000;
-     transition: visibility 1.2s;
+     transition: visibility 1.8s;
      overflow: hidden;
  }
 
