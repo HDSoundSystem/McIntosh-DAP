@@ -32,7 +32,7 @@
 /* --- SPECIFIC BORDERS FOR CENTRAL JOINT --- */
 
 .door-left {
-    border-right: 10px solid;
+    border-right: 18px solid;
     border-image: linear-gradient(to bottom,
             #222 0%,
             #8f8e8e 20%,
@@ -46,14 +46,14 @@
     box-shadow:
         inset -8px 0 15px rgba(0, 0, 0, 0.9),
         inset -2px 0 4px rgba(255, 255, 255, 0.2),
-        1px 0 0px #000;
+        2px 0 0px #000;
 
     margin-right: 0.5px;
     position: relative;
 }
 
 .door-right {
-    border-left: 10px solid;
+    border-left: 18px solid;
     border-image: linear-gradient(to bottom,
             #222 0%,
             #8f8e8e 20%,
@@ -65,7 +65,7 @@
     box-shadow:
         inset 8px 0 15px rgba(0, 0, 0, 0.9),
         inset 2px 0 4px rgba(255, 255, 255, 0.2),
-        -1px 0 0px #000;
+        -2px 0 0px #000;
 
     margin-left: 0.5px;
 }
@@ -89,7 +89,7 @@
     /* Pure black background */
 
     /* 1. Chrome Border */
-    border: 2px solid;
+    border: 3px solid;
     border-image: linear-gradient(145deg, #777 0%, #fff 45%, #888 55%, #fff 100%) 1;
 
     /* 2. Chrome Text */
@@ -113,7 +113,7 @@
 
 #enter-btn:hover {
     /* On hover, intensify reflections and glow */
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.425);
     transform: scale(1);
     filter: brightness(1.2);
 }
