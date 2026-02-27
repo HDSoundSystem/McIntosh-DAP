@@ -119,43 +119,35 @@
 }
 
 #enter-btn:active {
-    transform: scale(0.98);
+    transform: scale(0.95);
     filter: brightness(0.8);
 }
 
 /* Logo on the left door */
 .door-logo {
-    width: 200px;
+    /* Use width instead of max-width to force the size */
+    width: 230px; 
+    height: auto;
 
     /* SHINY CHROME SILVER EFFECT */
-    /* 1. Force a sharp metallic medium gray base */
     filter: grayscale(1) brightness(1.2) contrast(1.1);
 
-    /* 2. Overlay shadows to create bevel and chrome shine */
-    /* a) Soft drop shadow (depth) */
-    /* b) Sharp white reflection (mirror effect) */
-    /* c) Sharp black outline (definition) */
-    filter:
+    /* Combined filters into one single declaration to avoid conflicts */
+    filter: 
+        grayscale(1) brightness(1.2) contrast(1.1)
         drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.7))
-        /* Drop shadow */
-        drop-shadow(1px 1px 0px rgba(255, 255, 255, 0.9))
-        /* Sharp silver reflection */
+        drop-shadow(1px 1px 0px rgba(50, 107, 173, 0.9))
         drop-shadow(-1px -1px 0px rgba(0, 0, 0, 0.8));
-    /* Definition shadow */
 
-    /* 3. Increase opacity so the chrome stands out against the black glass */
-    opacity: 0.9;
-
-    /* Optional: add a slight shimmer on hover */
+    opacity: 1;
     transition: filter 0.3s ease, transform 0.3s ease;
 }
 
 .door-logo:hover {
-    filter:
-        drop-shadow(0px 6px 8px rgba(0, 0, 0, 0.8)) drop-shadow(1px 1px 0px rgba(255, 255, 255, 1))
-        /* Brighter */
-        drop-shadow(-1px -1px 0px rgba(0, 0, 0, 0.9)) brightness(1.3);
-    /* Shimmer */
+    filter: 
+        grayscale(1) brightness(1.5) contrast(1.2)
+        drop-shadow(0px 6px 8px rgba(0, 0, 0, 0.8)) 
+        drop-shadow(1px 1px 0px rgba(255, 255, 255, 1))
+        drop-shadow(-1px -1px 0px rgba(0, 0, 0, 0.9));
     transform: scale(1);
-    /* Slight enlargement */
 }
