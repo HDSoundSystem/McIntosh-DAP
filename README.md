@@ -1056,8 +1056,8 @@ A: The BALANCE knob features a mandatory center snap — when turning from left 
 ---
 <img width="1883" height="912" alt="1-2" src="https://github.com/user-attachments/assets/7c9196d5-7d03-4883-8be0-8af62ecc5822" />
 <img width="1803" height="818" alt="1-1" src="https://github.com/user-attachments/assets/31de67c7-c8b7-45a9-a073-e8672985c85f" />
-<img width="1797" height="832" alt="2" src="https://github.com/user-attachments/assets/e1b21d90-3899-450d-b5ff-ffd6e31e1173" />
-<img width="1803" height="825" alt="3" src="https://github.com/user-attachments/assets/a5737ecf-d259-446b-9d64-4ca9100883ae" />
+<img width="1805" height="821" alt="2" src="https://github.com/user-attachments/assets/6a89dafb-b2b4-49a9-94e5-e1f3fb93f855" />
+<img width="1800" height="825" alt="3" src="https://github.com/user-attachments/assets/fd957978-bf7d-49c9-a785-0b567251c90d" />
 <img width="1811" height="823" alt="4" src="https://github.com/user-attachments/assets/50007d6d-1e4e-4a28-9401-56b663e53255" />
 <img width="1801" height="819" alt="5" src="https://github.com/user-attachments/assets/1d48dfdd-607e-461b-a642-4b0028bfa2e0" />
 <img width="1803" height="816" alt="6" src="https://github.com/user-attachments/assets/87ae142c-1187-4663-9f31-304cbffec0c8" />
