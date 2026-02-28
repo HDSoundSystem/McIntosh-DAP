@@ -713,10 +713,10 @@ function animate() {
     const levels = engine.getLevels();
 
     if (!audio.paused && isPoweredOn) {
-        targetAngleL = -55 + Math.pow(Math.min(255, levels.left * 1.8) / 255, 0.7) * 95;
-        targetAngleR = -55 + Math.pow(Math.min(255, levels.right * 1.8) / 255, 0.7) * 95;
-        currentAngleL += (targetAngleL - currentAngleL) * 0.25;
-        currentAngleR += (targetAngleR - currentAngleR) * 0.25;
+        targetAngleL = -55 + Math.pow(Math.min(255, levels.left * 3.5) / 255, 0.7) * 110;
+        targetAngleR = -55 + Math.pow(Math.min(255, levels.right * 3.5) / 255, 0.7) * 110;
+        currentAngleL += (targetAngleL - currentAngleL) * 0.35;
+        currentAngleR += (targetAngleR - currentAngleR) * 0.35;
     } else {
         currentAngleL += (-55 - currentAngleL) * 0.1;
         currentAngleR += (-55 - currentAngleR) * 0.1;
