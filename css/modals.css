@@ -91,18 +91,27 @@
     margin: 0;
 }
 
-#playlist-close-btn {
+#playlist-close-add-btn {
     background: none;
-    border: none;
+    border: 1px solid var(--mc-gold);
     color: var(--mc-gold);
-    font-size: 22px;
+    font-size: 20px;
     line-height: 1;
+    width: 28px;
+    height: 28px;
     cursor: pointer;
-    padding: 0 4px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    border-radius: 2px;
+    margin-right: 15px;
 }
 
-#playlist-close-btn:hover {
-    color: var(--mc-green);
+#playlist-close-add-btn:hover {
+    background: var(--mc-gold);
+    color: #000;
 }
 
 #playlist-items {
@@ -473,29 +482,6 @@
     display: flex;
     align-items: center;
     gap: 4px;
-}
-
-#playlist-add-btn {
-    background: none;
-    border: 1px solid var(--mc-gold);
-    color: var(--mc-gold);
-    font-size: 20px;
-    line-height: 1;
-    width: 28px;
-    height: 28px;
-    cursor: pointer;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    border-radius: 2px;
-    margin-right: 15px;
-}
-
-#playlist-add-btn:hover {
-    background: var(--mc-gold);
-    color: #000;
 }
 
 /* ── REMOVE BUTTON ON PLAYLIST ITEM ─────────────────────────── */
