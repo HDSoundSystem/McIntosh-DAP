@@ -445,9 +445,22 @@ document.getElementById('playlist-items')?.addEventListener('click', (e) => {
     if (currentIndex >= playlist.length) currentIndex = Math.max(0, playlist.length - 1);
     if (playlist.length === 0) {
         audio.pause();
+        audio.src = '';
+        currentIndex = 0;
+        playlistMeta = [];
+        // Fermer la popup
+        document.getElementById('playlist-popup')?.classList.remove('visible');
         showStatusBriefly('PLAYLIST EMPTY');
+        return;
     } else if (idx === currentIndex) {
-        loadTrack(currentIndex);
+        if (currentIndex < playlist.length) {
+            loadTrack(currentIndex); // Joue le suivant (qui a pris l'index)
+        } else {
+            // C'était le dernier — on s'arrête
+            audio.pause();
+            audio.src = '';
+            currentIndex = playlist.length - 1;
+        }
     } else if (idx < currentIndex) {
         currentIndex--;
     }
