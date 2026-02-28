@@ -1,11 +1,8 @@
-// McIntosh DAP - Service Worker
-
 const CACHE_NAME = 'McIntosh-DAP';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
     '/style.css',
-    // New modular CSS files
     '/css/root.css',
     '/css/chassis.css',
     '/css/meters.css',
@@ -15,25 +12,21 @@ const ASSETS_TO_CACHE = [
     '/css/modals.css',
     '/css/eq.css',
     '/css/mobile.css',
-    // Scripts
     '/script.js',
     '/manifest.json',
-    // Images
     '/assets/img/mc-logo.png',
     '/assets/img/logo.png',
     '/assets/img/logo_b.png',
     '/assets/img/favicon.png',
     '/assets/img/vumeter-new.png',
-    // FontAwesome
     '/assets/fontawesome7/css/all.min.css',
     '/assets/fontawesome7/webfonts/fa-solid-900.woff2',
     '/assets/fontawesome7/webfonts/fa-solid-900.ttf'
 ];
 
-// Installing the Service Worker
 self.addEventListener('install', (event) => {
     console.log('[Service Worker] Installation…');
-    
+
     event.waitUntil(
         caches.open(CACHE_NAME)
             .then((cache) => {
@@ -50,15 +43,13 @@ self.addEventListener('install', (event) => {
     );
 });
 
-// Activating the Worker Service
 self.addEventListener('activate', (event) => {
     console.log('[Service Worker] Activation…');
-    
+
     event.waitUntil(
         caches.keys().then((cacheNames) => {
             return Promise.all(
                 cacheNames.map((cacheName) => {
-                    // Delete old caches
                     if (cacheName !== CACHE_NAME) {
                         console.log('[Service Worker] Suppression ancien cache:', cacheName);
                         return caches.delete(cacheName);
@@ -72,33 +63,26 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// Interception of network requests
 self.addEventListener('fetch', (event) => {
-    // Do not cache user-uploaded audio files
     if (event.request.url.startsWith('blob:') ||
         event.request.url.includes('audio-upload')) {
         return;
     }
-    
+
     event.respondWith(
         caches.match(event.request)
             .then((cachedResponse) => {
-                // Returns the cached version if available
                 if (cachedResponse) {
                     console.log('[Service Worker] Réponse du cache:', event.request.url);
                     return cachedResponse;
                 }
 
-                // Otherwise, make a network request
                 console.log('[Service Worker] Requête réseau:', event.request.url);
                 return fetch(event.request)
                     .then((response) => {
-                        // Check that the answer is valid
                         if (!response || response.status !== 200 || response.type !== 'basic') {
                             return response;
                         }
-
-                        // Clone the response because it can only be consumed once.
                         const responseToCache = response.clone();
 
                         caches.open(CACHE_NAME)
@@ -110,7 +94,6 @@ self.addEventListener('fetch', (event) => {
                     })
                     .catch((error) => {
                         console.error('[Service Worker] Erreur de fetch:', error);
-                        // You can return a custom error page here.
                     });
             })
     );

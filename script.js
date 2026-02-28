@@ -58,8 +58,8 @@ const popupImg = document.getElementById('popup-img');
 const noCoverText = document.getElementById('no-cover-text');
 
 // --- LIBRARY SELECTORS ---
- const libBtn = document.getElementById('library-btn');
- const modal = document.getElementById('library-modal');
+const libBtn = document.getElementById('library-btn');
+const modal = document.getElementById('library-modal');
 const closeBtn = document.querySelector('.close-btn');
 const folderInput = document.getElementById('folder-input');
 const fileList = document.getElementById('file-list');
@@ -365,9 +365,9 @@ function readMetaForFiles(files, startIndex = 0) {
                 }
                 playlistMeta[idx] = {
                     artist: (t.artist || '').toUpperCase(),
-                    title:  (t.title  || file.name.replace(/\.[^/.]+$/, '')).toUpperCase(),
-                    album:  (t.album  || '').toUpperCase(),
-                    cover:  coverUrl
+                    title: (t.title || file.name.replace(/\.[^/.]+$/, '')).toUpperCase(),
+                    album: (t.album || '').toUpperCase(),
+                    cover: coverUrl
                 };
                 if (document.getElementById('playlist-popup')?.classList.contains('visible')) {
                     renderPlaylistItems();
@@ -389,19 +389,19 @@ function renderPlaylistItems() {
     if (!container) return;
     container.innerHTML = '';
     playlist.forEach((f, i) => {
-        const meta   = playlistMeta[i];
+        const meta = playlistMeta[i];
         const artist = meta?.artist || '';
-        const title  = meta?.title  || f.name.replace(/\.[^/.]+$/, '').toUpperCase();
-        const album  = meta?.album  || '';
-        const cover  = meta?.cover  || '';
+        const title = meta?.title || f.name.replace(/\.[^/.]+$/, '').toUpperCase();
+        const album = meta?.album || '';
+        const cover = meta?.cover || '';
         const item = document.createElement('div');
         item.className = `playlist-item ${i === currentIndex ? 'active-track' : ''}`;
         item.innerHTML = `
             <div class="pi-cover-wrap">
                 ${cover
-                    ? `<img class="pi-cover" src="${cover}" alt="cover">`
-                    : `<div class="pi-cover pi-cover-empty"><span>♪</span></div>`
-                }
+                ? `<img class="pi-cover" src="${cover}" alt="cover">`
+                : `<div class="pi-cover pi-cover-empty"><span>♪</span></div>`
+            }
             </div>
             <div class="pi-info">
                 <div class="pi-number">${i + 1}</div>
@@ -470,7 +470,7 @@ document.getElementById('playlist-items')?.addEventListener('click', (e) => {
 });
 
 // + ADD TRACKS button in playlist popup (exécuté directement, composants déjà chargés)
-const addBtn   = document.getElementById('playlist-add-btn');
+const addBtn = document.getElementById('playlist-add-btn');
 const addInput = document.getElementById('playlist-add-input');
 addBtn?.addEventListener('click', (e) => {
     e.stopPropagation();

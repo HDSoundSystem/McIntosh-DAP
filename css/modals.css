@@ -1,8 +1,3 @@
-/* ================================
-   MODALES and POPUPS
-   ================================ */
-
-/* MENU OPTIONS */
 .options-menu {
     display: none;
     position: absolute;
@@ -54,7 +49,6 @@
     filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.5));
 }
 
-/* PLAYLIST POPUP */
 #playlist-popup {
     display: none;
     position: fixed;
@@ -109,7 +103,7 @@
     margin-right: 15px;
 }
 
-#playlist-close-btn:hover{
+#playlist-close-btn:hover {
     background: var(--mc-gold);
     color: #000;
 }
@@ -184,7 +178,6 @@
     font-size: 22px;
 }
 
-/* Infos à droite de la cover */
 .pi-info {
     flex: 1;
     min-width: 0;
@@ -231,7 +224,6 @@
     width: 100%;
 }
 
-/* ALBUM POPUP */
 #album-popup {
     display: none;
     position: fixed;
@@ -286,7 +278,6 @@
     width: 100%;
 }
 
-/* REBOOT MODAL */
 .reboot-overlay {
     display: none;
     position: fixed;
@@ -337,7 +328,6 @@
     font-size: 14px;
 }
 
-/* Boutons châssis pour reboot */
 .chassis-btn,
 .chassis-btn-yes {
     position: relative;
@@ -405,7 +395,6 @@
     background: radial-gradient(circle, #912624 0%, #912624 100%);
 }
 
-/* LIBRARY MODAL */
 .modal {
     display: none;
     position: fixed;
@@ -477,7 +466,6 @@
     font-size: 24px;
 }
 
-/* ── PLAYLIST HEADER ACTIONS ────────────────────────────────── */
 .playlist-header-actions {
     display: flex;
     align-items: center;
@@ -506,8 +494,6 @@
     background: var(--mc-gold);
     color: #000;
 }
-
-/* ── REMOVE BUTTON ON PLAYLIST ITEM ─────────────────────────── */
 
 .pi-remove {
     flex-shrink: 0;

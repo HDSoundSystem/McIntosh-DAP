@@ -1,14 +1,9 @@
-/* =======================
-   CHASSIS AND SIDE EDGES
-   ======================= */
-
 .chassis-wrapper {
     position: relative;
     display: flex;
     align-items: center;
 }
 
-/* Common basic style: Simple, vertical and solid */
 .side-trim {
     width: 55px;
     height: 785px;
@@ -17,30 +12,20 @@
     top: -10px;
 }
 
-/* LEFT SIDE */
 .side-left {
     left: -55px;
-    /* Gradient simulating brushed aluminum with a shine on the left edge */
     background: linear-gradient(to right,
             #e0e0e0 0%,
-            /* Éclat extérieur */
             #ffffff 15%,
-            /* Point de lumière vive */
             #bdbdbd 40%,
-            /* Teinte moyenne */
             #9e9e9e 90%,
-            /* Ombre vers le verre */
-            #444444 100%
-            /* Jointure noire avec la façade */
-        );
+            #444444 100%);
     box-shadow: -5px 15px 30px rgba(0, 0, 0, 0.4);
     border-radius: 2px 0 0 2px;
 }
 
-/* RIGHT SIDE */
 .side-right {
     right: -55px;
-    /* Invert the gradient for the light */
     background: linear-gradient(to left,
             #e0e0e0 0%,
             #ffffff 15%,
@@ -51,7 +36,6 @@
     border-radius: 0 2px 2px 0;
 }
 
-/* Metallic brushing effect (Texture) */
 .side-trim::before {
     content: "";
     position: absolute;
@@ -67,13 +51,11 @@
     opacity: 0.5;
 }
 
-/* MAIN PANEL OF THE AMPLIFIER*/
 .amplifier-panel {
     width: 1650px;
     height: 770px;
     background: var(--panel-black);
     position: relative;
-    /* We remove the simple border to manage it in relief */
     border-bottom: none;
     box-shadow: 0 60px 120px var(--chassis-shadow);
     display: flex;
@@ -83,49 +65,38 @@
     z-index: 1;
 }
 
-/* The metallic edge (bezel) effect */
 .amplifier-panel::after {
     content: "";
     position: absolute;
     bottom: -5px;
-    /* Thickness of your border */
     left: 0;
     width: 100%;
     height: 15px;
-    /* A gradient that simulates the angle of the metal */
     background-color: #181818;
 }
 
-/* Top metal trim (Bezel Top) */
 .amplifier-panel::before {
     content: "";
     position: absolute;
     top: -10px;
-    /* Positioned above the panel */
     left: 0;
     width: 100%;
     height: 15px;
-    /* Inverted gradient to simulate an upward angle */
     background-color: #181818;
 }
 
-/* --- BLACK AND WHITE LOGO (Dim Mode) --- */
 .logo-bw {
     filter: grayscale(100%) brightness(0.6);
-    /* Remove the color and darken */
     opacity: 0.5;
     transition: all 0.5s ease;
 }
 
-/* --- LOGO OFF (Mode Off) --- */
 .logo-off {
     filter: grayscale(100%) brightness(0.6);
     opacity: 0.5;
-    /* The logo is barely visible thanks to the faint glow */
     transition: all 0.5s ease;
 }
 
-/* Basic style for a smooth transition */
 #mc-logo {
     transition: all 0.5s ease;
 }
