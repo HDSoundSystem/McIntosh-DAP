@@ -7,7 +7,7 @@ A premium web-based audio player inspired by the legendary McIntosh amplifier de
 
 ![Status](https://img.shields.io/badge/status-active-success)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-3.0-blue)
+![Version](https://img.shields.io/badge/version-3.1-blue)
 
 
 ![543375630-9f65f1d2-5f77-458b-b0fc-5ec35e992042](https://github.com/user-attachments/assets/7bc36eb4-3abf-4167-862a-a5e87df7afc9)
@@ -45,6 +45,7 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 - **Authentic Interface**: Faithful design to McIntosh amplifiers with animated VU meters and VFD display
 - **Professional Audio Processing**: 10-band equalizer with rotary knob, tone controls, precision stereo balance
 - **Multi-platform**: Web app (PWA) and desktop application (Electron)
+- **Flexible Playlist Management**: Add tracks via INPUT, drag & drop, or `+` button; remove individually with `−`
 - **Multiple Audio Formats**: FLAC, MP3, WAV, MP4/M4A, AAC, ALAC, OGG support
 - **Real-time Visualization**: VU meters with realistic physics and spectrum analyzer
 
@@ -62,7 +63,6 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 #### Playlist Management
 - **Multiple Loading Methods**:
   - **INPUT knob**: Individual file selection (multiple selection supported)
-  - **LIBRARY button**: Complete folder loading with organized navigation
   - **Drag & Drop**: Drag audio files directly onto the interface
     - Works in browser and Electron desktop version
     - Files are **added** to the existing playlist (not replaced)
@@ -70,9 +70,12 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
     - VFD displays `+N FILE(S) ADDED` confirmation
     - Supported formats: FLAC, MP3, MP4, WAV, M4A, AAC, OGG
 - **Playlist Interface**:
-  - Interactive popup - click track counter to browse
+  - Interactive popup — click track counter to browse
+  - **`+` button**: Add tracks to the current playlist without replacing it
+  - **`−` button**: Remove a track from the playlist (appears on hover)
   - Visual indicator for currently playing track
-  - Library modal with organized file list
+  - If the playing track is removed and a next track exists, playback continues automatically
+  - If the last track is removed while playing, audio stops cleanly
 
 #### Playback Controls
 - **Basic Controls**: Play, Pause, Stop, Previous, Next
@@ -240,16 +243,6 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
   - Previous VFD preset display text
 
 ### ⚙️ Advanced Features
-
-#### Library Management
-- **Dedicated LIBRARY Button**: Folder-based loading
-- **Modal Interface**: Browse and select tracks
-- **Automatic Filtering**: Support all audio/* MIME types + M4A/AAC/OGG
-- **Track List**: Display with green play indicators
-- **Direct Playback**: Click any track to load and start
-- **Total Counter**: Shows total track count on load
-- **Security**: Requires system to be powered on
-- **Close**: Close button and click-outside-to-close functionality
 
 #### Web Audio API Processing
 Professional audio graph with:
@@ -744,14 +737,15 @@ dist/McIntosh-dap.exe
 1. **Power on the system**: Click STANDBY/ON button (red LED)
 2. **Load audio files**:
    - Click INPUT knob to select individual files
-   - OR click LIBRARY to load a folder
    - OR drag & drop audio files anywhere on the interface
+   - OR open the playlist popup and click `+` to add more tracks
 3. **Start playback**: Click PLAY/PAUSE
 
 #### Main Controls
-- **INPUT**: Load individual files
-- **LIBRARY**: Load complete folder
+- **INPUT**: Load individual files (added to playlist)
 - **Drag & Drop**: Drop audio files anywhere on the interface to add them to the playlist
+- **Playlist `+`**: Add more tracks to the current playlist (button in playlist popup header)
+- **Playlist `−`**: Remove a track from the playlist (appears on hover on each track row)
 - **PLAY/PAUSE**: Play/Pause
 - **PREV/NEXT**: Previous/next track (hold for fast seek)
 - **STOP**: Stop playback
@@ -1009,7 +1003,10 @@ This project pays homage to **McIntosh Laboratory**, legendary American manufact
 ### FAQ
 
 **Q: Can I add files by dragging and dropping them?**
-A: Yes! Drag any audio files (FLAC, MP3, WAV, M4A, AAC, OGG, MP4) directly onto the interface. They will be added to the existing playlist. If the playlist was empty, playback starts automatically. The VFD briefly displays `+N FILE(S) ADDED` as confirmation.
+A: Yes! Drag any audio files (FLAC, MP3, WAV, M4A, AAC, OGG, MP4) directly onto the interface. They will be added to the existing playlist. If the playlist was empty, playback starts automatically. The VFD briefly displays `+N FILE(S) ADDED` as confirmation. You can also use the `+` button in the playlist popup header to add tracks, or the INPUT knob for individual file selection.
+
+**Q: Can I remove a track from the playlist?**
+A: Yes — hover over any track in the playlist popup to reveal the `−` button on the right. Clicking it removes that track. If it was currently playing and a next track exists, playback continues automatically. If it was the last track playing, audio stops cleanly.
 
 **Q: Why won't my audio files play?**
 A: Check that they're in a supported format (FLAC/MP3/WAV/MP4/AAC/OGG). Some browsers require user interaction before playing audio.
@@ -1056,8 +1053,8 @@ A: The BALANCE knob features a mandatory center snap — when turning from left 
 ---
 <img width="1883" height="912" alt="1-2" src="https://github.com/user-attachments/assets/7c9196d5-7d03-4883-8be0-8af62ecc5822" />
 <img width="1803" height="818" alt="1-1" src="https://github.com/user-attachments/assets/31de67c7-c8b7-45a9-a073-e8672985c85f" />
-<img width="1797" height="832" alt="2" src="https://github.com/user-attachments/assets/e1b21d90-3899-450d-b5ff-ffd6e31e1173" />
-<img width="1803" height="825" alt="3" src="https://github.com/user-attachments/assets/a5737ecf-d259-446b-9d64-4ca9100883ae" />
+<img width="1805" height="821" alt="2" src="https://github.com/user-attachments/assets/6a89dafb-b2b4-49a9-94e5-e1f3fb93f855" />
+<img width="1800" height="825" alt="3" src="https://github.com/user-attachments/assets/fd957978-bf7d-49c9-a785-0b567251c90d" />
 <img width="1811" height="823" alt="4" src="https://github.com/user-attachments/assets/50007d6d-1e4e-4a28-9401-56b663e53255" />
 <img width="1801" height="819" alt="5" src="https://github.com/user-attachments/assets/1d48dfdd-607e-461b-a642-4b0028bfa2e0" />
 <img width="1803" height="816" alt="6" src="https://github.com/user-attachments/assets/87ae142c-1187-4663-9f31-304cbffec0c8" />

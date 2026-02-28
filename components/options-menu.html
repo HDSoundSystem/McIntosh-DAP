@@ -20,12 +20,6 @@
             <div class="btn-base black-btn"
                 id="ab-loop-btn"></div>
         </div>
-        <div class="button-option">
-            <div class="label-zone-option"><span
-                    class="small-label-option-menu">LIBRARY</span></div>
-            <div class="btn-base black-btn"
-                id="library-btn"></div>
-        </div>
     </div>
     <div class="gold-divider"></div>
     <div class="options-row">
@@ -122,7 +116,11 @@
 <div id="playlist-popup" class="options-menu">
     <div class="playlist-header">
         <span class="label-green playlist-center-text">CURRENT PLAYLIST</span>
-        <button id="playlist-close-btn">&times;</button>
+        <div class="playlist-header-actions">
+            <input type="file" id="playlist-add-input" multiple accept="audio/*" style="display:none">
+            <button id="playlist-add-btn" title="ADD TRACKS">+</button>
+            <button id="playlist-close-btn">&times;</button>
+        </div>
     </div>
     <div id="playlist-items"></div>
 </div>
