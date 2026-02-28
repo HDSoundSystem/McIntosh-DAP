@@ -369,23 +369,27 @@ function readMetaForFiles(files, startIndex = 0) {
                     album:  (t.album  || '').toUpperCase(),
                     cover:  coverUrl
                 };
+                if (document.getElementById('playlist-popup')?.classList.contains('visible')) {
+                    renderPlaylistItems();
+                }
             },
             onError: () => {
                 playlistMeta[idx] = { artist: '', title: file.name.replace(/\.[^/.]+$/, '').toUpperCase(), album: '', cover: '' };
+                if (document.getElementById('playlist-popup')?.classList.contains('visible')) {
+                    renderPlaylistItems();
+                }
             }
         });
     });
 }
 
 // --- PLAYLIST POPUP ---
-trackCount?.addEventListener('click', (e) => {
-    if (!isPoweredOn || playlist.length === 0) return;
-    e.stopPropagation();
+function renderPlaylistItems() {
     const container = document.getElementById('playlist-items');
     if (!container) return;
-    container.innerHTML = "";
+    container.innerHTML = '';
     playlist.forEach((f, i) => {
-        const meta = playlistMeta[i];
+        const meta   = playlistMeta[i];
         const artist = meta?.artist || '';
         const title  = meta?.title  || f.name.replace(/\.[^/.]+$/, '').toUpperCase();
         const album  = meta?.album  || '';
@@ -405,14 +409,22 @@ trackCount?.addEventListener('click', (e) => {
                 <div class="pi-row"><span class="pi-label">TITLE:</span><span class="pi-value">${title || '—'}</span></div>
                 <div class="pi-row"><span class="pi-label">ALBUM:</span><span class="pi-value">${album || '—'}</span></div>
             </div>
+            <button class="pi-remove" data-index="${i}" title="REMOVE">−</button>
         `;
-        item.onclick = () => {
+        item.onclick = (e) => {
+            if (e.target.classList.contains('pi-remove')) return;
             loadTrack(i);
             document.querySelectorAll('#playlist-items .playlist-item').forEach(el => el.classList.remove('active-track'));
             item.classList.add('active-track');
         };
         container.appendChild(item);
     });
+}
+
+trackCount?.addEventListener('click', (e) => {
+    if (!isPoweredOn || playlist.length === 0) return;
+    e.stopPropagation();
+    renderPlaylistItems();
     const pp = document.getElementById('playlist-popup');
     if (pp) pp.classList.add('visible');
 });
@@ -420,6 +432,44 @@ trackCount?.addEventListener('click', (e) => {
 document.getElementById('playlist-close-btn')?.addEventListener('click', () => {
     const pp = document.getElementById('playlist-popup');
     if (pp) pp.classList.remove('visible');
+});
+
+// Delegation pour le bouton − (suppression de piste)
+document.getElementById('playlist-items')?.addEventListener('click', (e) => {
+    const btn = e.target.closest('.pi-remove');
+    if (!btn) return;
+    e.stopPropagation();
+    const idx = parseInt(btn.dataset.index);
+    playlist.splice(idx, 1);
+    playlistMeta.splice(idx, 1);
+    if (currentIndex >= playlist.length) currentIndex = Math.max(0, playlist.length - 1);
+    if (playlist.length === 0) {
+        audio.pause();
+        showStatusBriefly('PLAYLIST EMPTY');
+    } else if (idx === currentIndex) {
+        loadTrack(currentIndex);
+    } else if (idx < currentIndex) {
+        currentIndex--;
+    }
+    renderPlaylistItems();
+    showStatusBriefly(`${playlist.length} TRACK${playlist.length !== 1 ? 'S' : ''}`);
+});
+
+// + ADD TRACKS button in playlist popup (exécuté directement, composants déjà chargés)
+const addBtn   = document.getElementById('playlist-add-btn');
+const addInput = document.getElementById('playlist-add-input');
+addBtn?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    addInput?.click();
+});
+addInput?.addEventListener('change', (e) => {
+    if (e.target.files.length > 0) {
+        addFilesToPlaylist(e.target.files);
+        // Re-render immédiatement (les métadonnées se mettront à jour au fil du chargement)
+        const pp = document.getElementById('playlist-popup');
+        if (pp?.classList.contains('visible')) renderPlaylistItems();
+    }
+    e.target.value = '';
 });
 
 // --- AUTRES CONTROLES ---

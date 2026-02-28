@@ -462,3 +462,64 @@
     cursor: pointer;
     font-size: 24px;
 }
+/* ── PLAYLIST HEADER ACTIONS ────────────────────────────────── */
+.playlist-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+#playlist-add-btn {
+    background: none;
+    border: 1px solid var(--mc-gold);
+    color: var(--mc-gold);
+    font-size: 20px;
+    line-height: 1;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    border-radius: 2px;
+}
+
+#playlist-add-btn:hover {
+    background: var(--mc-gold);
+    color: #000;
+}
+
+/* ── REMOVE BUTTON ON PLAYLIST ITEM ─────────────────────────── */
+
+.pi-remove {
+    flex-shrink: 0;
+    align-self: center;
+    background: #0a0a0a;
+    border: 1px solid rgba(255, 0, 0, 0.3);
+    color: rgba(255, 0, 0, 0.5);
+    font-size: 18px;
+    line-height: 1;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 2px;
+    opacity: 0;
+    transition: opacity 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.playlist-item:hover .pi-remove {
+    opacity: 1;
+}
+
+.pi-remove:hover {
+    color: #ff0000;
+    border-color: #ff0000;
+    background: rgba(255, 0, 0, 0.1);
+}
