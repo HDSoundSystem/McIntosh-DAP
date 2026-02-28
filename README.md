@@ -1,6 +1,7 @@
 <img width="1482" height="231" alt="1" src="https://github.com/user-attachments/assets/87ed49b7-9437-4980-9dc6-4206d0007214" />
 
 # McIntosh Reference Digital Audio Player
+
 ## Inspired by the high-end McIntosh MSA5500 2-Channel Streaming Integrated Amplifier and DS200 STREAMING DAC
 
 A premium web-based audio player inspired by the legendary McIntosh amplifier design, featuring authentic VU meters, professional 10-band equalizer with dedicated rotary knob, stereo balance with precision control and mandatory center snap, A-B loop functionality, mono mode, loudness compensation, power guard protection, customizable visual themes, and a stunning interface that captures the essence of high-end audio equipment.
@@ -8,7 +9,6 @@ A premium web-based audio player inspired by the legendary McIntosh amplifier de
 ![Status](https://img.shields.io/badge/status-active-success)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Version](https://img.shields.io/badge/version-3.1-blue)
-
 
 ![543375630-9f65f1d2-5f77-458b-b0fc-5ec35e992042](https://github.com/user-attachments/assets/7bc36eb4-3abf-4167-862a-a5e87df7afc9)
 <img width="1803" height="820" alt="1" src="https://github.com/user-attachments/assets/b946bb14-aa4f-4878-ade3-7e24e99b233f" />
@@ -42,6 +42,7 @@ A premium web-based audio player inspired by the legendary McIntosh amplifier de
 The **McIntosh DAP** is a premium web-based audio application that recreates the experience of using an authentic McIntosh amplifier. It combines modern web technologies with iconic vintage design to deliver an immersive and visually stunning listening experience.
 
 ### Key Highlights
+
 - **Authentic Interface**: Faithful design to McIntosh amplifiers with animated VU meters and VFD display
 - **Professional Audio Processing**: 10-band equalizer with rotary knob, tone controls, precision stereo balance
 - **Multi-platform**: Web app (PWA) and desktop application (Electron)
@@ -56,11 +57,13 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 ### 🎵 Audio Playback
 
 #### Multi-format Support
+
 - **Supported Formats**: FLAC, MP3, MP4/M4A, WAV, AAC, ALAC, OGG
 - **Quality**: High-resolution audio support with complete metadata
 - **Automatic Analysis**: Bitrate, format, and ID3 metadata extraction
 
 #### Playlist Management
+
 - **Multiple Loading Methods**:
   - **INPUT knob**: Individual file selection (multiple selection supported)
   - **Drag & Drop**: Drag audio files directly onto the interface
@@ -78,6 +81,7 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
   - If the last track is removed while playing, audio stops cleanly
 
 #### Playback Controls
+
 - **Basic Controls**: Play, Pause, Stop, Previous, Next
 - **Fast Seek**: Press and hold previous/next buttons for quick navigation
   - 500ms hold delay to prevent accidental jumps
@@ -89,6 +93,7 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 - **Random Playback**: Shuffle mode with intelligent selection (avoids immediate repeats)
 
 #### A-B Loop
+
 - **First click**: Set point A
 - **Second click**: Set point B and activate loop
 - **Third click**: Disable loop
@@ -96,6 +101,7 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 - **Visual indicator**: "A-B" in VFD display
 
 #### System Integration
+
 - **Media Session API**: Control from keyboard media keys
 - **Native Controls**: Browser media controls support
 - **Position Tracking**: Position state for Chrome/Edge
@@ -105,6 +111,7 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 ### 📺 Visual Interface
 
 #### Animated Stereo VU Meters
+
 - **Real-time Visualization**: Dual-channel audio analysis
 - **Smooth Animation**: Realistic physics with 25% smoothing
 - **Authentic Design**: Custom McIntosh-style meter background image
@@ -113,6 +120,7 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 - **Alternate Mode**: Alternative meter background available (meter-alt-bg)
 
 #### VFD Display (Vacuum Fluorescent Display)
+
 - **Track Information**:
   - Title with dynamic text sizing (auto-fit content)
   - Artist and album information
@@ -129,6 +137,7 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
   - EQ preset indicator: `| EQ ROCK`, `| EQ JAZZ`, `| EQ CUSTOM`, etc. — displayed when any non-flat EQ is active
 
 #### Display Modes
+
 - **Normal Mode**: Full illumination
 - **Alternate Logo**: Toggle between mc-logo.png and mc-logo-off.png
 - **Alternate VU Backgrounds**: Different meter designs
@@ -136,6 +145,7 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 - **Label Dimming**: All green labels turn gray when display is off
 
 #### Interactive Elements
+
 - **Album Art Viewer**: Click track title to view embedded artwork in popup
 - **Interactive Playlist**: Click track counter to browse and select tracks
 - **Status LEDs**:
@@ -144,6 +154,7 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
   - POWER GUARD LEDs (red, left and right) - blink rapidly when volume ≥ 90%
 
 #### Visual Customization
+
 - **Background Color Picker**: Customize app background
 - **Shadow Color Picker**: Adjust chassis shadow color
 - **Real-time Preview**: Color preview in buttons
@@ -153,6 +164,7 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 ### 🎛️ Audio Controls
 
 #### Volume Control
+
 - **Interactive Rotary Knob**:
   - Metallic chrome finish
   - Click and hold left/right for continuous adjustment (0.01 steps at 50ms intervals)
@@ -164,11 +176,13 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 - **Layout**: ADJUST label displayed directly below the knob
 
 #### Mute Function
+
 - **Instant Muting**: Audio mute with status display
 - **Visual Indicator**: Shows "MUTE" in volume display area
 - **Preservation**: Volume setting preserved
 
 #### 10-Band Graphic Equalizer
+
 - **Professional Control**: Covers entire audio spectrum
 - **Frequencies**: 32Hz, 64Hz, 125Hz, 250Hz, 500Hz, 1kHz, 2kHz, 4kHz, 8kHz, 16kHz
 - **Range**: ±12dB per band
@@ -187,6 +201,7 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 - **EQ CUSTOM Mode**: When sliders are adjusted manually, VFD displays `| EQ CUSTOM` status — identical behavior to named presets
 
 #### 2-Band Tone Controls (Classic McIntosh Style)
+
 - **Bass**: ±12dB at 200Hz (low shelf filter)
   - Adjustable in 2dB steps
   - Range: -12dB to +12dB
@@ -197,6 +212,7 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 - **Visual Feedback**: Display in options menu
 
 #### Stereo Balance
+
 - **Left/Right Adjustment**: -1 to +1
 - **Web Audio StereoPanner**: Precise control
 - **BALANCE Rotary Knob**: Dedicated chrome rotary knob below VOLUME button
@@ -209,12 +225,14 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 - **Smart Disable**: Disabled when Mono mode is active
 
 #### Mono Mode
+
 - **Stereo to Mono Conversion**: Combined mono output
 - **Auto-center**: Balance centered on activation
 - **Green LED**: Visual indicator
 - **Restoration**: Previous balance restored on deactivation
 
 #### Loudness Compensation
+
 - **Fletcher-Munson Based**: Bass/treble boost at low volumes
 - **Automatic Compensation**: Based on current volume level
 - **Maximum Effect**: At 0% volume, progressively decreases
@@ -224,6 +242,7 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 - **Visual Indicator**: VFD display when active
 
 #### Reset and Protection
+
 - **Tone Reset**: One-click restoration to flat EQ (0dB) and center balance (0)
 - **Power Guard Protection**:
   - Visual warning when volume > 90%
@@ -231,6 +250,7 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
   - Prevents speaker/hearing damage
 
 #### Signal Bypass
+
 - **BYPASS Button**: Instantly cuts all audio processing in one click
   - Disables: 10-band EQ, Bass/Treble tone controls, Loudness compensation
   - All audio processing set to 0dB — pure signal path
@@ -245,7 +265,9 @@ The **McIntosh DAP** is a premium web-based audio application that recreates the
 ### ⚙️ Advanced Features
 
 #### Web Audio API Processing
+
 Professional audio graph with:
+
 - **MediaElementSourceNode**: Audio input source
 - **StereoPanner**: Balance control
 - **Two BiquadFilter Nodes**: Bass/treble tone controls
@@ -255,6 +277,7 @@ Professional audio graph with:
 - **AudioDestination**: Final audio output
 
 #### Progressive Web App (PWA)
+
 - **Service Worker**: Offline cache for static resources
 - **Installable**: Add to home screen
 - **Manifest**: Complete app configuration
@@ -262,6 +285,7 @@ Professional audio graph with:
 - **Adaptive Icons**: Support for all screen sizes
 
 #### Electron Desktop Application
+
 - **Windows Thumbnail Buttons**: Taskbar controls (Previous, Play/Pause, Next)
 - **Media Keys**: System key support (Play/Pause, Next, Previous)
 - **Native Window Controls**: Native menu bar
@@ -275,6 +299,7 @@ Professional audio graph with:
 ### Technology Stack
 
 #### Frontend
+
 - **HTML5**: Semantic structure with modular components
 - **CSS3**: Responsive design with CSS variables and animations
 - **JavaScript (ES6+)**: Modern application logic with modules
@@ -283,11 +308,13 @@ Professional audio graph with:
 - **Font Awesome 7**: Complete icon library
 
 #### Backend/Runtime
+
 - **Electron 26**: Cross-platform desktop framework
 - **Node.js**: JavaScript runtime for desktop app
 - **electron-builder**: Packaging tool for distribution
 
 #### Web APIs Used
+
 - **Media Session API**: System media controls
 - **Service Worker API**: PWA offline cache
 - **Web Audio API**: Audio processing and analysis
@@ -387,6 +414,7 @@ AudioDestinationNode (Speakers)
 #### McIntoshAudioEngine Class
 
 **Core Properties**:
+
 ```javascript
 {
   audio: HTMLAudioElement,         // HTML5 audio element
@@ -403,6 +431,7 @@ AudioDestinationNode (Speakers)
 ```
 
 **Core Methods**:
+
 - `init()`: Initialize audio context and graph
 - `play()`: Start playback
 - `pause()`: Pause playback
@@ -416,9 +445,11 @@ AudioDestinationNode (Speakers)
 ### Modular Components
 
 #### 1. Component Loader (component-loader.js)
+
 **Role**: Dynamically loads HTML components into main page
 
 **How it Works**:
+
 ```javascript
 // List of components to load
 const components = [
@@ -440,15 +471,18 @@ document.dispatchEvent(new Event('componentsLoaded'));
 ```
 
 **Benefits**:
+
 - Separation of concerns
 - Improved maintainability
 - Asynchronous loading
 - Component reusability
 
 #### 2. Main Script (script.js)
+
 **Role**: Orchestrates all application logic
 
 **Structure**:
+
 ```javascript
 // --- IMPORT & INIT ---
 const engine = new McIntoshAudioEngine(audio);
@@ -485,6 +519,7 @@ function applyLoudnessEffect() { /* ... */ }
 ```
 
 **Responsibilities**:
+
 - Playlist management
 - Playback controls
 - Interface updates
@@ -493,9 +528,11 @@ function applyLoudnessEffect() { /* ... */ }
 - Playback modes (repeat, random, A-B)
 
 #### 3. Electron Main (main.js)
+
 **Role**: Electron application entry point
 
 **Features**:
+
 ```javascript
 const { app, BrowserWindow, globalShortcut } = require('electron');
 
@@ -527,9 +564,11 @@ app.whenReady().then(createWindow);
 ```
 
 #### 4. Service Worker (sw.js)
+
 **Role**: PWA cache management for offline functionality
 
 **Cache Strategy**:
+
 ```javascript
 const CACHE_NAME = 'mcintosh-dap-v2.5.1';
 const urlsToCache = [
@@ -563,6 +602,7 @@ self.addEventListener('fetch', e => {
 ### State Management System
 
 #### Global States
+
 ```javascript
 // System state
 isPoweredOn: boolean        // System on/off
@@ -594,6 +634,7 @@ currentAngleR: number       // Right VU needle angle
 ```
 
 #### Data Flow
+
 ```
 User Action (Event)
         ↓
@@ -611,6 +652,7 @@ Visual Feedback
 ### Performance Optimizations
 
 #### 1. VU Meter Animation
+
 ```javascript
 // Smoothing with requestAnimationFrame
 function animateMeters() {
@@ -635,6 +677,7 @@ function animateMeters() {
 ```
 
 #### 2. Control Debouncing
+
 ```javascript
 // Volume display auto-hide
 let volTimeout = null;
@@ -659,6 +702,7 @@ function startSeeking(direction) {
 ```
 
 #### 3. Lazy Loading of Metadata
+
 ```javascript
 function loadTrack(index) {
   // Immediate audio loading
@@ -681,18 +725,22 @@ function loadTrack(index) {
 ### Web Version (PWA)
 
 #### Prerequisites
+
 - Modern browser (Chrome, Edge, Firefox, Safari)
 - Web Audio API support
 - Service worker support (for PWA)
 
 #### Installation
+
 1. **Clone the repository**:
+
 ```bash
 git clone https://github.com/yourusername/mcintosh-dap.git
 cd mcintosh-dap
 ```
 
-2. **Serve the application**:
+1. **Serve the application**:
+
 ```bash
 # With Python 3
 python -m http.server 8000
@@ -701,9 +749,9 @@ python -m http.server 8000
 npx http-server -p 8000
 ```
 
-3. **Access**: Open `http://localhost:8000`
+1. **Access**: Open `http://localhost:8000`
 
-4. **Install as PWA** (optional):
+2. **Install as PWA** (optional):
    - Chrome: Click install icon in address bar
    - Edge: Menu → Apps → Install this app
    - Safari: Share → Add to Home Screen
@@ -711,9 +759,11 @@ npx http-server -p 8000
 ### Desktop Version (Electron)
 
 #### Prerequisites
+
 - Node.js 14+ and npm
 
 #### Installation and Build
+
 ```bash
 # 1. Install dependencies
 npm install
@@ -726,7 +776,9 @@ npm run dist
 ```
 
 #### Executable File
+
 After build, the portable app is in:
+
 ```
 dist/McIntosh-dap.exe
 ```
@@ -734,6 +786,7 @@ dist/McIntosh-dap.exe
 ### Usage
 
 #### Getting Started
+
 1. **Power on the system**: Click STANDBY/ON button (red LED)
 2. **Load audio files**:
    - Click INPUT knob to select individual files
@@ -742,6 +795,7 @@ dist/McIntosh-dap.exe
 3. **Start playback**: Click PLAY/PAUSE
 
 #### Main Controls
+
 - **INPUT**: Load individual files (added to playlist)
 - **Drag & Drop**: Drop audio files anywhere on the interface to add them to the playlist
 - **Playlist `+`**: Add more tracks to the current playlist (button in playlist popup header)
@@ -759,6 +813,7 @@ dist/McIntosh-dap.exe
 - **RESET**: Restart application (with confirmation)
 
 #### OPTIONS Menu
+
 - **Bass/Treble**: Tone controls (±12dB in 2dB steps)
 - **Balance L/R**: Stereo balance (0.1 increments)
 - **TONE RESET**: Reset EQ and balance
@@ -772,6 +827,7 @@ dist/McIntosh-dap.exe
 - **SHADOW COLOR**: Customize shadow color
 
 #### Direct Rotary Controls (no menu required)
+
 - **EQUALIZER knob** (below INPUT): Cycle through EQ presets directly — FLAT, POP, ROCK, JAZZ, CLASSIC, LIVE
 - **BALANCE knob** (below VOLUME): Adjust stereo balance in 2% steps with mandatory center snap
 
@@ -782,6 +838,7 @@ dist/McIntosh-dap.exe
 ### Customizable CSS Variables
 
 File `/css/root.css`:
+
 ```css
 :root {
   /* Main colors */
@@ -810,6 +867,7 @@ File `/css/root.css`:
 ### Electron Configuration
 
 File `package.json`:
+
 ```json
 {
   "build": {
@@ -829,12 +887,14 @@ File `package.json`:
 ### Service Worker Cache
 
 File `sw.js` - Modify to customize cache:
+
 ```javascript
 const CACHE_NAME = 'mcintosh-dap-v2.5.1';
 const urlsToCache = [
   // Add or remove URLs to cache
 ];
 ```
+
 ---
 
 ## 🤝 Contributing
@@ -852,6 +912,7 @@ Contributions are welcome! Here's how to participate:
 ### Code Standards
 
 #### JavaScript
+
 - Modern ES6+
 - Indentation: 4 spaces
 - Semicolons required
@@ -859,12 +920,14 @@ Contributions are welcome! Here's how to participate:
 - Naming: camelCase for variables/functions, PascalCase for classes
 
 #### CSS
+
 - BEM naming convention when appropriate
 - CSS variables for reusable values
 - Mobile-first for responsive
 - Comments for main sections
 
 #### HTML
+
 - Semantic HTML5
 - ARIA attributes for accessibility
 - Indentation: 4 spaces

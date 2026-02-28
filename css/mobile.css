@@ -19,24 +19,24 @@
     }
 }
 
-/* --- COMPATIBILITÉ IPAD & TABLETTES --- */
+/* --- IPAD & TABLET COMPATIBILITY --- */
 @media screen and (max-width: 1100px) {
     .chassis-wrapper {
-        /* On réduit la taille globale pour que ça rentre dans l'écran */
+        /* Scale down the overall size to fit the screen */
         transform: scale(0.85);
         transform-origin: center center;
     }
 
     body {
-        /* On empêche le scroll si possible, ou on l'autorise si l'écran est vraiment petit */
+        /* Allow vertical scroll for small screens or prevent it if possible */
         overflow-y: auto;
         align-items: flex-start;
-        /* Évite que le haut soit coupé si on scale */
+        /* Prevent the top from being cut off during scaling */
         padding-top: 20px;
     }
 }
 
-/* --- IPAD PORTRAIT (Plus étroit) --- */
+/* --- IPAD PORTRAIT (Narrower) --- */
 @media screen and (max-width: 800px) {
     .chassis-wrapper {
         transform: scale(0.7);
@@ -44,11 +44,11 @@
 
     .side-trim {
         display: none;
-        /* On cache les bords en alu pour gagner de la place sur petit iPad */
+        /* Hide aluminum edges to save space on small iPads */
     }
 }
 
-/* Empêche le zoom bleu par défaut sur iPad quand on touche un bouton */
+/* Prevent default blue highlight on iPad when tapping buttons */
 .btn-base, .knob-outer, #display-btn {
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
@@ -58,9 +58,9 @@
 @media screen and (max-width: 1024px) {
     .matrix-display {
         width: 90vw;
-        /* Utilise la largeur de l'écran */
+        /* Use viewport width */
         max-width: 950px;
         transform: translateY(-10px);
-        /* On réduit le décalage sur tablette */
+        /* Reduce offset on tablets */
     }
 }

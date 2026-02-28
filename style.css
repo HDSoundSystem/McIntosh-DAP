@@ -1,50 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Bitcount+Single:wght@300&family=Roboto:wght@300;400&display=swap');
-
-/* CSS variables */
 @import url('css/root.css');
-
-/* Main structure */
 @import url('css/chassis.css');
-
-/* Visual components */
 @import url('css/meters.css');
 @import url('css/display.css');
-
-/* Controls and buttons */
 @import url('css/controls.css');
-
-/* States and modes */
 @import url('css/states.css');
-
-/* Modals and popups */
 @import url('css/modals.css');
-
-/* Equalizer */
 @import url('css/eq.css');
-
-/* Mobile responsive */
 @import url('css/mobile.css');
-
-/* Info pop-up */
 @import url('css/info.css');
-
 @import url('css/door.css');
 
 body {
-    background-image: url('');
-
-    /* L'image ne se répète pas si elle est plus petite que l'écran */
-    background-repeat: no-repeat;
-
-    /* L'image est fixée : elle ne défile pas avec le contenu */
-    background-attachment: fixed;
-
-    /* L'image est centrée horizontalement et verticalement */
-    background-position: center;
-
-    /* L'image couvre tout l'espace disponible sans être déformée */
-    background-size: cover;
-    
     background-color: var(--background-color-app);
     display: flex;
     justify-content: center;
@@ -66,9 +33,7 @@ body {
 #folder-input {
     display: none;
 }
-/* ================================
-   DROP OVERLAY
-   ================================ */
+
 .drop-overlay {
     display: none;
     position: fixed;
@@ -120,6 +85,11 @@ body {
 }
 
 @keyframes drop-pulse {
-    0%, 100% { box-shadow: 0 0 30px rgba(0, 195, 255, 0.2), inset 0 0 20px rgba(0, 195, 255, 0.03); }
-    50%       { box-shadow: 0 0 60px rgba(0, 195, 255, 0.45), inset 0 0 40px rgba(0, 195, 255, 0.08); }
+    0%, 100% {
+        box-shadow: 0 0 30px rgba(0, 195, 255, 0.2), inset 0 0 20px rgba(0, 195, 255, 0.03);
+    }
+
+    50% {
+        box-shadow: 0 0 60px rgba(0, 195, 255, 0.45), inset 0 0 40px rgba(0, 195, 255, 0.08);
+    }
 }

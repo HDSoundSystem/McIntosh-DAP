@@ -1,4 +1,3 @@
-/* --- SLIDING DOORS STYLE --- */
 #main-doors {
     position: fixed;
     top: 0;
@@ -24,12 +23,8 @@
     transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
     position: relative;
     box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.05);
-
-    /* Remove all default borders here */
     border: none;
 }
-
-/* --- SPECIFIC BORDERS FOR CENTRAL JOINT --- */
 
 .door-left {
     border-right: 18px solid;
@@ -39,15 +34,10 @@
             #ffffff 45%,
             #8f8e8e 55%,
             #222 100%) 1;
-
-    /* ROUNDED EFFECT AND ACCENTUATED DEPTH */
-    /* 1. Large inset shadow (15px) creates the curvature */
-    /* 2. Very dark shadow (0.9) on the right edge marks the separation */
     box-shadow:
         inset -8px 0 15px rgba(0, 0, 0, 0.9),
         inset -2px 0 4px rgba(255, 255, 255, 0.2),
         2px 0 0px #000;
-
     margin-right: 0.5px;
     position: relative;
 }
@@ -60,8 +50,6 @@
             #ffffff 45%,
             #8f8e8e 55%,
             #222 100%) 1;
-
-    /* ROUNDED EFFECT AND ACCENTUATED DEPTH */
     box-shadow:
         inset 8px 0 15px rgba(0, 0, 0, 0.9),
         inset 2px 0 4px rgba(255, 255, 255, 0.2),
@@ -70,7 +58,6 @@
     margin-left: 0.5px;
 }
 
-/* Opening animation */
 .doors-open .door-left {
     transform: translateX(-100%);
 }
@@ -86,33 +73,23 @@
 #enter-btn {
     padding: 20px 40px;
     background: #080808;
-    /* Pure black background */
-
-    /* 1. Chrome Border */
     border: 3px solid;
     border-image: linear-gradient(145deg, #777 0%, #fff 45%, #888 55%, #fff 100%) 1;
-
-    /* 2. Chrome Text */
     color: #fff;
-    /* Fallback */
     background: linear-gradient(to bottom, #777 0%, #fff 45%, #888 50%, #fff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-
     font-family: "Roboto", sans-serif;
     text-transform: uppercase;
     letter-spacing: 5px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
-
-    /* 3. Subtle silver glow around the button */
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
     position: relative;
 }
 
 #enter-btn:hover {
-    /* On hover, intensify reflections and glow */
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.425);
     transform: scale(1);
     filter: brightness(1.2);
@@ -123,31 +100,19 @@
     filter: brightness(0.8);
 }
 
-/* Logo on the left door */
 .door-logo {
-    /* Use width instead of max-width to force the size */
-    width: 230px; 
+    width: 230px;
     height: auto;
-
-    /* SHINY CHROME SILVER EFFECT */
     filter: grayscale(1) brightness(1.2) contrast(1.1);
-
-    /* Combined filters into one single declaration to avoid conflicts */
-    filter: 
-        grayscale(1) brightness(1.2) contrast(1.1)
-        drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.7))
-        drop-shadow(1px 1px 0px rgba(120, 107, 70, 0.9))
-        drop-shadow(-1px -1px 0px rgba(0, 0, 0, 0.8));
+    filter:
+        grayscale(1) brightness(1.2) contrast(1.1) drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.7)) drop-shadow(1px 1px 0px rgba(120, 107, 70, 0.9)) drop-shadow(-1px -1px 0px rgba(0, 0, 0, 0.8));
 
     opacity: 1;
     transition: filter 0.3s ease, transform 0.3s ease;
 }
 
 .door-logo:hover {
-    filter: 
-        grayscale(1) brightness(1.5) contrast(1.2)
-        drop-shadow(0px 6px 8px rgba(0, 0, 0, 0.8)) 
-        drop-shadow(1px 1px 0px rgba(255, 255, 255, 1))
-        drop-shadow(-1px -1px 0px rgba(0, 0, 0, 0.9));
+    filter:
+        grayscale(1) brightness(1.5) contrast(1.2) drop-shadow(0px 6px 8px rgba(0, 0, 0, 0.8)) drop-shadow(1px 1px 0px rgba(255, 255, 255, 1)) drop-shadow(-1px -1px 0px rgba(0, 0, 0, 0.9));
     transform: scale(1);
 }

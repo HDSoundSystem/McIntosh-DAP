@@ -1,8 +1,3 @@
-/* =========================
-   STATES AND SPECIAL MODES
-   ========================= */
-
-/* STEALTH MODE */
 .meter-container.stealth-mode {
     filter: brightness(0);
     opacity: 0.1;
@@ -13,13 +8,10 @@
     display: none;
 }
 
-/* VU METERS - Alternative Images */
-
 .meter.meter-alt-bg {
     background-image: url('../assets/img/vumeter-new-off.png') !important;
 }
 
-/* FORCE OFF STATE */
 .force-off {
     opacity: 0 !important;
     visibility: hidden !important;
@@ -30,7 +22,6 @@
     display: none !important;
 }
 
-/* ALTERNATIVE LOGO */
 .brand-center {
     position: relative;
 }
@@ -55,7 +46,6 @@
     visibility: visible;
 }
 
-/* LABELS OFF STATE */
 .label-green,
 .small-label,
 .small-label-option-menu,
@@ -74,13 +64,11 @@
     color: inherit;
 }
 
-/* VFD OFF */
 .matrix-display.vfd-off {
     opacity: 0 !important;
     transition: opacity 0.4s ease;
 }
 
-/* LOUDNESS INDICATOR */
 .loudness-indicator {
     display: none;
     margin-left: 12px;
@@ -95,7 +83,6 @@
     display: inline-block !important;
 }
 
-/* TRACK COUNT STYLING */
 #track-count {
     font-variant-numeric: tabular-nums;
     display: inline-block;
@@ -105,14 +92,12 @@
     margin-right: 38px;
 }
 
-/* INTERACTIVE CURSORS */
 #track-count,
 #time-display,
 .vfd-large {
     cursor: pointer;
 }
 
-/* LED BLINK ANIMATION */
 .blink-fast {
     animation: blink-red 0.2s infinite;
     background-color: var(--mc-led-red) !important;
