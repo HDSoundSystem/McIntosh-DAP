@@ -92,6 +92,12 @@
     text-shadow: 0 0 3px rgba(0, 0, 0, 0.8);
 }
 
+.mini-label-green {
+    color: var(--mc-green);
+    font-size: 11px;
+    margin-bottom: 8px;
+}
+
 /* LABELS */
 .label-green {
     color: var(--mc-green);
