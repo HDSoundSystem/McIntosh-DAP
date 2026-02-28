@@ -446,9 +446,9 @@ document.getElementById('playlist-items')?.addEventListener('click', (e) => {
     if (playlist.length === 0) {
         audio.pause();
         audio.src = '';
+        audio.load();
         currentIndex = 0;
         playlistMeta = [];
-        // Fermer la popup
         document.getElementById('playlist-popup')?.classList.remove('visible');
         showStatusBriefly('PLAYLIST EMPTY');
         return;
@@ -456,9 +456,10 @@ document.getElementById('playlist-items')?.addEventListener('click', (e) => {
         if (currentIndex < playlist.length) {
             loadTrack(currentIndex); // Joue le suivant (qui a pris l'index)
         } else {
-            // C'était le dernier — on s'arrête
+            // C'était le dernier fichier en lecture — on s'arrête
             audio.pause();
             audio.src = '';
+            audio.load();
             currentIndex = playlist.length - 1;
         }
     } else if (idx < currentIndex) {
