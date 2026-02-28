@@ -58,8 +58,8 @@ const popupImg = document.getElementById('popup-img');
 const noCoverText = document.getElementById('no-cover-text');
 
 // --- LIBRARY SELECTORS ---
-const libBtn = document.getElementById('library-btn');
-const modal = document.getElementById('library-modal');
+ const libBtn = document.getElementById('library-btn');
+ const modal = document.getElementById('library-modal');
 const closeBtn = document.querySelector('.close-btn');
 const folderInput = document.getElementById('folder-input');
 const fileList = document.getElementById('file-list');
