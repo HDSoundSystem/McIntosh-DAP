@@ -409,7 +409,7 @@ function renderPlaylistItems() {
                 <div class="pi-row"><span class="pi-label">TITLE:</span><span class="pi-value">${title || '—'}</span></div>
                 <div class="pi-row"><span class="pi-label">ALBUM:</span><span class="pi-value">${album || '—'}</span></div>
             </div>
-            <button class="pi-remove" data-index="${i}" title="REMOVE">−</button>
+            <button class="pi-remove" data-index="${i}">−</button>
         `;
         item.onclick = (e) => {
             if (e.target.classList.contains('pi-remove')) return;
