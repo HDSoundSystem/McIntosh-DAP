@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hdsoundsystem.github.io/McIntosh-DAP/sitemap.xml
