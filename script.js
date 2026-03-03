@@ -29,7 +29,6 @@ const stopBtn = document.getElementById('stop-btn');
 const muteBtn = document.getElementById('mute-btn');
 const volumeKnob = document.getElementById('volume-knob');
 const pwr = document.getElementById('pwr');
-const powerLed = document.querySelector('.power-led');
 const audio = document.getElementById('main-audio');
 
 // --- ENGINE INITIALIZATION ---
@@ -47,22 +46,11 @@ const trebleDown = document.getElementById('treble-down');
 const trebleUp = document.getElementById('treble-up');
 const toneReset = document.getElementById('tone-reset');
 
-// --- BALANCE SELECTORS ---
-const balL = document.getElementById('balance-L');
-const balR = document.getElementById('balance-R');
-
 // --- POPUP SELECTORS ---
 const albumOverlay = document.getElementById('album-overlay');
 const albumPopup = document.getElementById('album-popup');
 const popupImg = document.getElementById('popup-img');
 const noCoverText = document.getElementById('no-cover-text');
-
-// --- LIBRARY SELECTORS ---
-const libBtn = document.getElementById('library-btn');
-const modal = document.getElementById('library-modal');
-const closeBtn = document.querySelector('.close-btn');
-const folderInput = document.getElementById('folder-input');
-const fileList = document.getElementById('file-list');
 
 // --- VARIABLES ---
 let playlist = [];
@@ -164,11 +152,6 @@ btnYes?.addEventListener('click', () => {
 btnNo?.addEventListener('click', () => {
     rebootModal.style.display = 'none';
 });
-
-// --- ENGINE INIT ---
-function initEngine() {
-    engine.init();
-}
 
 // --- BALANCE & EQ (BASS/TREBLE) ---
 function showBalanceStatus() {
@@ -644,28 +627,6 @@ document.getElementById('bypass-btn')?.addEventListener('click', () => {
     }
 });
 
-// --- FONCTION LIBRARY ---
-libBtn && (libBtn.onclick = () => { if (isPoweredOn) modal.style.display = "block"; else showStatusBriefly("POWER ON FIRST"); });
-closeBtn && (closeBtn.onclick = () => modal.style.display = "none");
-
-folderInput && (folderInput.onchange = (e) => {
-    const files = Array.from(e.target.files).filter(f => f.type.startsWith('audio/') || f.name.endsWith('.m4a') || f.name.endsWith('.aac') || f.name.endsWith('.ogg'));
-    if (files.length > 0) {
-        playlist = files;
-        playlistMeta = [];
-        readMetaForFiles(playlist);
-        if (fileList) fileList.innerHTML = "";
-        playlist.forEach((file, index) => {
-            const li = document.createElement('li');
-            li.innerHTML = `<span style="color:var(--mc-led-green)">▶</span> ${file.name.toUpperCase()}`;
-            li.onclick = () => { loadTrack(index); modal.style.display = "none"; };
-            fileList?.appendChild(li);
-        });
-        showStatusBriefly(`${playlist.length} TRACKS LOADED`);
-    }
-});
-
-let displayMode = 0;
 
 document.getElementById('display-btn')?.addEventListener('click', () => {
     if (!isPoweredOn) return;
@@ -748,7 +709,6 @@ volumeKnob?.addEventListener('mousedown', (e) => {
     const change = () => { currentVolume = isRight ? Math.min(1, currentVolume + 0.01) : Math.max(0, currentVolume - 0.01); updateVolumeDisplay(); };
     change(); volHoldInterval = setInterval(change, 50);
 });
-window.addEventListener('mouseup', () => clearInterval(volHoldInterval));
 volumeKnob?.addEventListener('mouseleave', () => clearInterval(volHoldInterval));
 volumeKnob?.addEventListener('wheel', (e) => { if (isPoweredOn) { e.preventDefault(); currentVolume = e.deltaY < 0 ? Math.min(1, currentVolume + 0.05) : Math.max(0, currentVolume - 0.05); updateVolumeDisplay(); } });
 volumeKnob?.addEventListener('mouseenter', () => { if (isPoweredOn) showVolumeBriefly(); });
@@ -823,7 +783,6 @@ document.getElementById('options-btn')?.addEventListener('click', (e) => {
 
 document.addEventListener('click', (e) => {
     if (optionsPopup && !optionsPopup.contains(e.target)) optionsPopup.style.display = 'none';
-    if (e.target == modal) modal.style.display = "none";
 });
 
 // --- ELECTRON SPECIFIC ---
@@ -869,14 +828,6 @@ if (typeof require !== 'undefined') {
     });
 }
 
-function openInfo() {
-    if (typeof isPoweredOn !== 'undefined' && !isPoweredOn) return;
-    const overlay = document.getElementById('info-overlay-fix');
-    if (overlay) {
-        overlay.style.display = 'flex';
-    }
-}
-
 // Changement de la couleur de fond de l'application
 const bgPicker = document.getElementById('bg-picker');
 bgPicker?.addEventListener('input', (e) => {
@@ -911,16 +862,6 @@ const eqSliders = document.querySelectorAll('.eq-band input'); // cible uniqueme
 const eqCanvas = document.getElementById('eq-curve');
 const eqCtx = eqCanvas?.getContext('2d');
 const displayElement = document.getElementById('eq-preset-name-display');
-
-
-const presetLabels = {
-    'eq-pop-btn': 'POP',
-    'eq-rock-btn': 'ROCK',
-    'eq-jazz-btn': 'JAZZ',
-    'eq-classic-btn': 'CLASSIC',
-    'eq-live-btn': 'LIVE',
-    'eq-reset-btn': 'FLAT'
-};
 
 const eqPresets = {
     'eq-pop-btn': [3, 2, 1, 0, 1, 2, 2, 1, 1, 2],
@@ -1070,18 +1011,6 @@ Object.keys(eqPresets).forEach(id => {
     }
 });
 
-// (Optionnel) Mise à jour du label si clic sur bouton (sans appliquer, au cas où)
-Object.keys(presetLabels).forEach(id => {
-    const btn = document.getElementById(id);
-    if (btn) {
-        btn.addEventListener('click', () => {
-            if (displayElement) {
-                displayElement.innerText = presetLabels[id];
-            }
-        });
-    }
-});
-
 // Init EQ
 if (displayElement) displayElement.innerText = "FLAT";
 
@@ -1109,7 +1038,6 @@ equalizerKnob?.addEventListener('mousedown', (e) => {
     change();
     eqHoldInterval = setInterval(change, 300);
 });
-window.addEventListener('mouseup', () => clearInterval(eqHoldInterval));
 equalizerKnob?.addEventListener('mouseleave', () => clearInterval(eqHoldInterval));
 equalizerKnob?.addEventListener('wheel', (e) => {
     if (!isPoweredOn) return;
@@ -1148,7 +1076,6 @@ balanceKnob?.addEventListener('mousedown', (e) => {
     change();
     balHoldInterval = setInterval(change, 50);
 });
-window.addEventListener('mouseup', () => clearInterval(balHoldInterval));
 balanceKnob?.addEventListener('mouseleave', () => clearInterval(balHoldInterval));
 balanceKnob?.addEventListener('wheel', (e) => {
     if (!isPoweredOn) return;
@@ -1156,3 +1083,11 @@ balanceKnob?.addEventListener('wheel', (e) => {
     applyBalance(e.deltaY < 0);
 });
 balanceKnob?.addEventListener('mouseenter', () => isPoweredOn && showBalanceStatus());
+
+
+// --- MOUSEUP GLOBAL — arrêt de tous les knobs ---
+window.addEventListener('mouseup', () => {
+    clearInterval(volHoldInterval);
+    clearInterval(eqHoldInterval);
+    clearInterval(balHoldInterval);
+});
