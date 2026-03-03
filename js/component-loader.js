@@ -5,7 +5,9 @@ class ComponentLoader {
             { file: 'components/meter-section.html' },
             { file: 'components/display-area.html' },
             { file: 'components/controls.html' },
-            { file: 'components/options-menu.html' }
+            { file: 'components/options-menu.html' },
+            { file: 'components/info.html' },
+            { file: 'components/drop.html' }
         ];
         this.modalsComponent = { file: 'components/modals.html' };
     }
