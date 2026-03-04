@@ -16,7 +16,6 @@
     background: rgba(8, 8, 8, 0.8);
     backdrop-filter: blur(30px);
     -webkit-backdrop-filter: blur(15px);
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -72,32 +71,9 @@
 
 #enter-btn {
     padding: 20px 40px;
-    background: #080808;
-    border: 3px solid;
-    border-image: linear-gradient(145deg, #777 0%, #fff 45%, #888 55%, #fff 100%) 1;
-    color: #fff;
-    background: linear-gradient(to bottom, #777 0%, #fff 45%, #888 50%, #fff 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-family: "Roboto", sans-serif;
-    text-transform: uppercase;
-    letter-spacing: 5px;
-    font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
     position: relative;
-}
-
-#enter-btn:hover {
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.425);
-    transform: scale(1);
-    filter: brightness(1.2);
-}
-
-#enter-btn:active {
-    transform: scale(0.95);
-    filter: brightness(0.8);
 }
 
 .door-logo {
