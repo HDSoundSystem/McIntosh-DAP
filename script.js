@@ -84,10 +84,7 @@ let seekInterval = null;
 let isSeeking = false;
 let seekStartTime = 0;
 let isMouseDown = false;
-let currentAngleL = -55;
-let currentAngleR = -55;
-let targetAngleL = -55;
-let targetAngleR = -55;
+// currentAngleL/R et targetAngleL/R sont gérés en interne par js/vu-meter.js
 let isRandom = false;
 let repeatMode = 0;
 let abMode = 0;
@@ -708,23 +705,10 @@ document.getElementById('ab-loop-btn')?.addEventListener('click', () => {
 });
 
 // --- VU-METRES ---
-function animate() {
-    requestAnimationFrame(animate);
-    const levels = engine.getLevels();
-
-    if (!audio.paused && isPoweredOn) {
-        targetAngleL = -55 + Math.pow(Math.min(255, levels.left * 3.5) / 255, 0.7) * 110;
-        targetAngleR = -55 + Math.pow(Math.min(255, levels.right * 3.5) / 255, 0.7) * 110;
-        currentAngleL += (targetAngleL - currentAngleL) * 0.35;
-        currentAngleR += (targetAngleR - currentAngleR) * 0.35;
-    } else {
-        currentAngleL += (-55 - currentAngleL) * 0.1;
-        currentAngleR += (-55 - currentAngleR) * 0.1;
-    }
-    nl && (nl.style.transform = `rotate(${currentAngleL}deg)`);
-    nr && (nr.style.transform = `rotate(${currentAngleR}deg)`);
-}
-animate();
+// La logique d'animation est dans js/vu-meter.js
+// Les paramètres (sensibilité, courbe, lissage...) se règlent dans VU_METER_CONFIG
+// en haut de ce fichier.
+startVuMeter(engine, audio, nl, nr, () => isPoweredOn);
 
 // --- VOLUME ---
 function updateVolumeDisplay() {
