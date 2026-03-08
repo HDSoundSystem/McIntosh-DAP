@@ -34,14 +34,3 @@ body {
 #folder-input {
     display: none;
 }
-
-
-@keyframes drop-pulse {
-    0%, 100% {
-        box-shadow: 0 0 30px rgba(0, 195, 255, 0.2), inset 0 0 20px rgba(0, 195, 255, 0.03);
-    }
-
-    50% {
-        box-shadow: 0 0 60px rgba(0, 195, 255, 0.45), inset 0 0 40px rgba(0, 195, 255, 0.08);
-    }
-}
