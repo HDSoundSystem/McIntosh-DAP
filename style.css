@@ -10,6 +10,7 @@
 @import url('css/mobile.css');
 @import url('css/info.css');
 @import url('css/door.css');
+@import url('css/overlay.css');
 
 body {
     background-color: var(--background-color-app);
@@ -34,55 +35,6 @@ body {
     display: none;
 }
 
-.drop-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    background: rgba(0, 0, 0, 0.80);
-    backdrop-filter: blur(4px);
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    pointer-events: none;
-}
-
-.drop-overlay.active {
-    display: flex;
-}
-
-.drop-overlay-box {
-    border: 2px dashed var(--mc-blue, #00c3ff);
-    border-radius: 12px;
-    padding: 40px 60px;
-    text-align: center;
-    box-shadow: 0 0 40px rgba(0, 195, 255, 0.25), inset 0 0 30px rgba(0, 195, 255, 0.05);
-    animation: drop-pulse 1.2s ease-in-out infinite;
-}
-
-.drop-overlay-icon {
-    font-size: 3rem;
-    color: var(--mc-blue, #00c3ff);
-    margin-bottom: 12px;
-    display: block;
-}
-
-.drop-overlay-text {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1rem;
-    letter-spacing: 3px;
-    color: var(--mc-blue, #00c3ff);
-    text-transform: uppercase;
-}
-
-.drop-overlay-sub {
-    font-family: 'Roboto', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 2px;
-    color: rgba(0, 195, 255, 0.5);
-    margin-top: 8px;
-    text-transform: uppercase;
-}
 
 @keyframes drop-pulse {
     0%, 100% {
