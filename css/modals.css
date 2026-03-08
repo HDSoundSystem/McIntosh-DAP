@@ -294,7 +294,7 @@
 .reboot-content {
     border: 5px solid var(--mc-gold);
     border-radius: 15px;
-    background: black;
+    background: #080808;
     padding: 40px;
     text-align: center;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);

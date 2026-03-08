@@ -12,16 +12,22 @@ const ASSETS_TO_CACHE = [
     '/css/modals.css',
     '/css/eq.css',
     '/css/mobile.css',
+    '/css/meter.css',
+    '/css/overlay.css',
+    '/css/info.css',
     '/script.js',
+    '/js/vu-meter.js',
+    '/js/mcintosh-audio-engine.js',
+    '/js/component-loader.js',
     '/manifest.json',
     '/assets/img/mc-logo.png',
     '/assets/img/logo.png',
     '/assets/img/logo_b.png',
     '/assets/img/favicon.png',
-    '/assets/img/vumeter-new.png',
-    '/assets/fontawesome7/css/all.min.css',
-    '/assets/fontawesome7/webfonts/fa-solid-900.woff2',
-    '/assets/fontawesome7/webfonts/fa-solid-900.ttf'
+    '/assets/img/favicon.ico',
+    '/assets/img/McIntosh_Logo_Black_G.png',
+    '/assets/img/DD_overlay_logo_mc.png',
+    '/assets/img/vumeter-new.png'
 ];
 
 self.addEventListener('install', (event) => {
