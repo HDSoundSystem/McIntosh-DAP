@@ -231,7 +231,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 1000;
-    background: #222;
+    background: black;
     padding: 10px;
     border: 5px solid var(--mc-gold);
     border-radius: 15px;
@@ -294,7 +294,7 @@
 .reboot-content {
     border: 5px solid var(--mc-gold);
     border-radius: 15px;
-    background: #1a1a1a;
+    background: #080808;
     padding: 40px;
     text-align: center;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
