@@ -225,6 +225,10 @@ function loadTrack(index) {
                 vfdLarge.textContent = (t.title || file.name).toUpperCase();
                 vfdInfo.textContent = `${t.artist || "UNKNOWN"} – ${t.album || "UNKNOWN"}`.toUpperCase();
                 setTimeout(() => fitText(vfdLarge, 30), 10);
+                const popupAlbum  = document.getElementById('popup-album-name');
+                const popupArtist = document.getElementById('popup-artist-name');
+                if (popupAlbum)  popupAlbum.textContent  = (t.album  || 'UNKNOWN ALBUM').toUpperCase();
+                if (popupArtist) popupArtist.textContent = (t.artist || 'UNKNOWN ARTIST').toUpperCase();
                 const img = t.picture;
                 if (img) {
                     let s = ""; for (let i = 0; i < img.data.length; i++) s += String.fromCharCode(img.data[i]);
@@ -242,6 +246,10 @@ function loadTrack(index) {
                 vfdLarge.textContent = file.name.toUpperCase();
                 vfdInfo.textContent = "ARTIST – ALBUM";
                 setTimeout(() => fitText(vfdLarge, 30), 10);
+                const popupAlbumErr  = document.getElementById('popup-album-name');
+                const popupArtistErr = document.getElementById('popup-artist-name');
+                if (popupAlbumErr)  popupAlbumErr.textContent  = 'UNKNOWN ALBUM';
+                if (popupArtistErr) popupArtistErr.textContent = 'UNKNOWN ARTIST';
                 popupImg.src = "";
                 popupImg.style.display = 'none';
                 noCoverText && (noCoverText.style.display = 'flex');

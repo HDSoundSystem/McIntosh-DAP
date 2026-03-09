@@ -68,7 +68,7 @@
 }
 
 .indicator-label {
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--roboto);
     font-size: 10px;
     font-weight: 700;
     color: var(--mc-gold);

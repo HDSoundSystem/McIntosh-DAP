@@ -112,7 +112,7 @@
     overflow-y: auto;
     padding: 8px 0;
     color: var(--mc-blue);
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--roboto);
     font-size: 12px;
 }
 
@@ -222,6 +222,38 @@
     margin-top: 30px;
     margin-bottom: 20px;
     width: 100%;
+}
+
+#popup-track-info {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 12px 10px;
+    font-family: var(--roboto);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--mc-gold);
+    text-shadow: 0 0 8px rgba(120, 107, 70, 0.5);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 600px;
+}
+
+#popup-album-name {
+    color: var(--mc-gold);
+}
+
+#popup-artist-name {
+    color: var(--mc-gold);
+}
+
+.popup-info-separator {
+    color: var(--mc-gold);
+    font-weight: 300;
 }
 
 #album-popup {

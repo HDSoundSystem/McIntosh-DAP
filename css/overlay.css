@@ -32,7 +32,7 @@
 }
 
 .drop-overlay-text {
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--roboto);
     font-size: 1rem;
     letter-spacing: 3px;
     color: var(--mc-blue, #00c3ff);
@@ -40,7 +40,7 @@
 }
 
 .drop-overlay-sub {
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--roboto);
     font-size: 0.65rem;
     letter-spacing: 2px;
     color: rgba(0, 195, 255, 0.5);

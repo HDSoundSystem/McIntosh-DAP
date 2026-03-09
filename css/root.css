@@ -1,5 +1,5 @@
 :root {
-    --release-number: "RELEASE 3.1.5";
+    --release-number: "RELEASE 3.1.6";
     --background-color-app: #100f0f;
     --chassis-shadow: #c7c7c7;
     --mc-blue: #00c3ff;
@@ -14,4 +14,6 @@
     --background-option-menu: #000000;
     --police-size-counter: 30px;
     --police-size-label-counter: 12px;
+    --roboto : 'roboto', sans-serif;
+    --bitcount : 'bitcount single', sans-serif;
 }
