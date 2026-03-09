@@ -129,9 +129,9 @@ function showVolumeBriefly() {
 function updateStatusIcon(state) {
     if (!isPoweredOn || !statusIcon) return;
     statusIcon.className = "";
-    if (state === 'play') statusIcon.innerHTML = 'PLAY<i class="fas fa-play"></i>';
-    else if (state === 'pause') { statusIcon.innerHTML = 'PAUSE<i class="fas fa-pause"></i>'; statusIcon.classList.add('blink-soft'); }
-    else if (state === 'stop') statusIcon.innerHTML = 'STOP<i class="fas fa-stop"></i>';
+    if (state === 'play') statusIcon.innerHTML = 'PLAY';
+    else if (state === 'pause') { statusIcon.innerHTML = 'PAUSE'; }
+    else if (state === 'stop') statusIcon.innerHTML = 'STOP';
 }
 
 function applyLoudnessEffect() {
