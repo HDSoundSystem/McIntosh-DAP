@@ -75,7 +75,7 @@
 
 .knob-sub-label {
     color: var(--mc-gold);
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--roboto);
     font-size: 10px;
     font-weight: 900;
     text-transform: uppercase;
@@ -106,7 +106,7 @@
     font-weight: bold;
     text-transform: uppercase;
     text-align: center;
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--roboto);
     letter-spacing: 1px;
 }
 
@@ -116,7 +116,7 @@
     font-weight: bold;
     text-transform: uppercase;
     text-align: center;
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--roboto);
 }
 
 .small-label i {
@@ -347,7 +347,7 @@
     left: 20px;
     font-size: 12px !important;
     font-weight: bold;
-    font-family: 'bitcount single', sans-serif;
+    font-family: var(--bitcount);
     display: flex;
     gap: 15px;
     pointer-events: none;

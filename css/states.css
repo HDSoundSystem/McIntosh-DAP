@@ -74,7 +74,7 @@
     margin-left: 12px;
     font-size: 18px;
     color: var(--mc-blue);
-    font-family: 'bitcount single', sans-serif;
+    font-family: var(--bitcount);
     text-shadow: 0 0 15px var(--mc-blue);
     text-transform: uppercase;
 }

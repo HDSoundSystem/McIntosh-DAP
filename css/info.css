@@ -24,7 +24,7 @@
 .release-version {
     margin-top: 20px;
     color: var(--mc-gold);
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--roboto);
     font-size: 14px;
     letter-spacing: 3px;
     font-weight: 300;
@@ -38,7 +38,7 @@
     display: block;
     margin-top: 20px;
     color: var(--mc-gold);
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--roboto);
     font-size: 14px;
     letter-spacing: 3px;
     text-transform: uppercase;
@@ -48,7 +48,7 @@
 .github-link {
     color: var(--mc-gold);
     text-decoration: none;
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--roboto);
     font-size: 12px;
     letter-spacing: 5px;
     transition: all 0.3s ease;
@@ -65,7 +65,7 @@
 .reference {
     color: var(--mc-gold);
     text-decoration: none;
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--roboto);
     font-size: 12px;
     letter-spacing: 5px;
     transition: all 0.3s ease;
@@ -92,7 +92,7 @@
     gap: 10px;
     color: var(--mc-gold);
     text-decoration: none !important;
-    font-family: 'Roboto', sans-serif;
+    font-family: var(--roboto);
     font-size: 11px;
     letter-spacing: 1px;
     transition: opacity 0.3s ease;
