@@ -1118,8 +1118,8 @@ A: The BALANCE knob features a mandatory center snap — when turning from left 
 <img width="1805" height="821" alt="2" src="https://github.com/user-attachments/assets/6a89dafb-b2b4-49a9-94e5-e1f3fb93f855" />
 <img width="1800" height="825" alt="3" src="https://github.com/user-attachments/assets/fd957978-bf7d-49c9-a785-0b567251c90d" />
 <img width="1811" height="823" alt="4" src="https://github.com/user-attachments/assets/50007d6d-1e4e-4a28-9401-56b663e53255" />
-<img width="1801" height="819" alt="5" src="https://github.com/user-attachments/assets/1d48dfdd-607e-461b-a642-4b0028bfa2e0" />
-<img width="1803" height="816" alt="6" src="https://github.com/user-attachments/assets/87ae142c-1187-4663-9f31-304cbffec0c8" />
+<img width="1810" height="819" alt="5" src="https://github.com/user-attachments/assets/9ece0ec8-4195-41f0-97ca-dcfb125de700" />
+<img width="1802" height="820" alt="6" src="https://github.com/user-attachments/assets/efa712f5-b7aa-4bed-993f-cebf31192838" />
 <img width="1802" height="822" alt="7" src="https://github.com/user-attachments/assets/8fe2c2f9-7fa6-4c93-b1b0-bb2ee0eab6be" />
 
 **Enjoy your premium web audio experience! 🎵🎛️**
