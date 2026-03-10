@@ -99,12 +99,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     const mainScript = document.createElement('script');
                     mainScript.src = 'script.js';
                     document.body.appendChild(mainScript);
-
-                    const enterBtn = document.getElementById('enter-btn');
-                    const doorContainer = document.getElementById('main-doors');
-
-                    enterBtn.addEventListener('click', () => {
-                        doorContainer.classList.add('doors-open');
                         
                         if (window.engine && typeof engine.init === 'function') {
                             engine.init();
