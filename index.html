@@ -82,12 +82,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
         <script>
         document.addEventListener('componentsLoaded', function() {
-            console.log('🎵 Composants chargés...');
-            
+
             const audioEngine = document.createElement('script');
             audioEngine.src = 'js/mcintosh-audio-engine.js';
             document.body.appendChild(audioEngine);
-            
+
             audioEngine.onload = function() {
 
                 const vuMeter = document.createElement('script');
@@ -100,16 +99,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     mainScript.src = 'script.js';
                     document.body.appendChild(mainScript);
 
-                    const enterBtn = document.getElementById('enter-btn');
-                    const doorContainer = document.getElementById('main-doors');
-
-                    enterBtn.addEventListener('click', () => {
-                        doorContainer.classList.add('doors-open');
-                        
-                        if (window.engine && typeof engine.init === 'function') {
-                            engine.init();
-                        }
-                    });
                 };
             };
         });
