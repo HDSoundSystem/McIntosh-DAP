@@ -11,8 +11,7 @@ A premium web-based audio player inspired by the legendary McIntosh amplifier de
 ![Version](https://img.shields.io/badge/version-3.1.6-blue)
 
 ![543375630-9f65f1d2-5f77-458b-b0fc-5ec35e992042](https://github.com/user-attachments/assets/7bc36eb4-3abf-4167-862a-a5e87df7afc9)
-<img width="1803" height="820" alt="1" src="https://github.com/user-attachments/assets/b946bb14-aa4f-4878-ade3-7e24e99b233f" />
-
+<img width="1808" height="819" alt="1" src="https://github.com/user-attachments/assets/42782621-604b-4ebc-af0c-9d32e3d54661" />
 ---
 
 ## 📑 Table of Contents
