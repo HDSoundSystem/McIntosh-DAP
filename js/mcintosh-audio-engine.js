@@ -24,6 +24,9 @@ if (typeof window.McIntoshAudioEngine === 'undefined' && typeof McIntoshAudioEng
             this.trebleGain = 0;
             this.currentBalance = 0;
             this.isLoudnessActive = false;
+            this.isMonoActive = false;
+            this.monoSplitter = null;
+            this.monoMerger = null;
             this.isInitialized = false;
         }
 
@@ -72,12 +75,21 @@ if (typeof window.McIntoshAudioEngine === 'undefined' && typeof McIntoshAudioEng
                     lastNode = filter;
                 });
 
+                // --- MONO NODES (toujours créés, activés via setMono) ---
+                this.monoSplitter = this.audioCtx.createChannelSplitter(2);
+                this.monoMerger   = this.audioCtx.createChannelMerger(2);
+
+                // Splitter analyse L/R pour les VU mètres
                 const splitter = this.audioCtx.createChannelSplitter(2);
                 lastNode.connect(splitter);
                 splitter.connect(this.analyserL, 0);
                 splitter.connect(this.analyserR, 1);
 
+                // Sortie stéréo par défaut
                 lastNode.connect(this.audioCtx.destination);
+
+                // Stocker lastNode pour setMono
+                this._lastNode = lastNode;
 
                 this.isInitialized = true;
                 console.log("McIntosh Audio Engine 10-Band EQ Initialized");
@@ -114,7 +126,34 @@ if (typeof window.McIntoshAudioEngine === 'undefined' && typeof McIntoshAudioEng
             // Réappliquer les gains sauvegardés
             this.setBalance(this.currentBalance);
             this.updateEQ(this.bassGain, this.trebleGain, this.isLoudnessActive);
+            // Réappliquer le mode mono si actif
+            if (this.isMonoActive) this.setMono(true);
             console.log(`🎵 AudioContext reinitialized at ${sampleRate} Hz`);
+        }
+
+        // --- MONO MODE ---
+        setMono(active) {
+            this.isMonoActive = active;
+            if (!this.audioCtx || !this._lastNode) return;
+
+            // Déconnecter la sortie actuelle
+            try { this._lastNode.disconnect(this.audioCtx.destination); } catch(e) {}
+            try { this._lastNode.disconnect(this.monoSplitter); } catch(e) {}
+            try { this.monoSplitter.disconnect(); } catch(e) {}
+            try { this.monoMerger.disconnect(); } catch(e) {}
+
+            if (active) {
+                // Sommer L+R → mono sur les deux canaux
+                this._lastNode.connect(this.monoSplitter);
+                this.monoSplitter.connect(this.monoMerger, 0, 0); // L → merger ch0
+                this.monoSplitter.connect(this.monoMerger, 1, 0); // R → merger ch0 (somme)
+                this.monoSplitter.connect(this.monoMerger, 0, 1); // L → merger ch1
+                this.monoSplitter.connect(this.monoMerger, 1, 1); // R → merger ch1 (somme)
+                this.monoMerger.connect(this.audioCtx.destination);
+            } else {
+                // Retour stéréo normal
+                this._lastNode.connect(this.audioCtx.destination);
+            }
         }
 
         // --- NEW METHOD FOR THE 10-BAND EQ ---

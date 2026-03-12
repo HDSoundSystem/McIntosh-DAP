@@ -308,9 +308,11 @@ document.getElementById('mono-btn')?.addEventListener('click', () => {
     isMonoActive = !isMonoActive;
     const ledMono = document.getElementById('led-mono');
     if (isMonoActive) {
+        engine.setMono(true);
         engine.setBalance(0);
         ledMono?.classList.add('active'); showStatusBriefly("MODE: MONO");
     } else {
+        engine.setMono(false);
         engine.setBalance(currentBalance);
         ledMono?.classList.remove('active'); showStatusBriefly("MODE: STEREO");
     }
