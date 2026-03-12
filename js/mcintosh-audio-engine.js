@@ -24,14 +24,18 @@ if (typeof window.McIntoshAudioEngine === 'undefined' && typeof McIntoshAudioEng
             this.trebleGain = 0;
             this.currentBalance = 0;
             this.isLoudnessActive = false;
+            this.isMonoActive = false;
+            this.monoSplitter = null;
+            this.monoMerger = null;
             this.isInitialized = false;
         }
 
-        init() {
+        init(sampleRate = null) {
             if (this.isInitialized) return;
 
             try {
-                this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const ctxOptions = sampleRate ? { sampleRate } : {};
+                this.audioCtx = new (window.AudioContext || window.webkitAudioContext)(ctxOptions);
                 this.analyserL = this.audioCtx.createAnalyser();
                 this.analyserR = this.audioCtx.createAnalyser();
                 this.analyserL.fftSize = 1024;
@@ -71,17 +75,84 @@ if (typeof window.McIntoshAudioEngine === 'undefined' && typeof McIntoshAudioEng
                     lastNode = filter;
                 });
 
+                // --- MONO NODES (toujours créés, activés via setMono) ---
+                this.monoSplitter = this.audioCtx.createChannelSplitter(2);
+                this.monoMerger   = this.audioCtx.createChannelMerger(2);
+
+                // Splitter analyse L/R pour les VU mètres
                 const splitter = this.audioCtx.createChannelSplitter(2);
                 lastNode.connect(splitter);
                 splitter.connect(this.analyserL, 0);
                 splitter.connect(this.analyserR, 1);
 
+                // Sortie stéréo par défaut
                 lastNode.connect(this.audioCtx.destination);
+
+                // Stocker lastNode pour setMono
+                this._lastNode = lastNode;
 
                 this.isInitialized = true;
                 console.log("McIntosh Audio Engine 10-Band EQ Initialized");
             } catch (e) {
                 console.error("Failed to initialize Audio Context:", e);
+            }
+        }
+
+        // --- REINIT WITH NEW SAMPLE RATE ---
+        reinitWithSampleRate(sampleRate) {
+            if (!sampleRate || sampleRate <= 0) return;
+            // Si déjà au bon sample rate, rien à faire
+            if (this.audioCtx && this.audioCtx.sampleRate === sampleRate) return;
+
+            // Fermer l'ancien contexte proprement
+            if (this.audioCtx) {
+                this.audioCtx.close().catch(() => {});
+            }
+
+            // Réinitialiser l'état
+            this.audioCtx  = null;
+            this.source    = null;
+            this.balanceNode = null;
+            this.bassFilter  = null;
+            this.trebleFilter = null;
+            this.filters   = {};
+            this.analyserL = null;
+            this.analyserR = null;
+            this.isInitialized = false;
+
+            // Relancer avec le bon sample rate
+            this.init(sampleRate);
+
+            // Réappliquer les gains sauvegardés
+            this.setBalance(this.currentBalance);
+            this.updateEQ(this.bassGain, this.trebleGain, this.isLoudnessActive);
+            // Réappliquer le mode mono si actif
+            if (this.isMonoActive) this.setMono(true);
+            console.log(`🎵 AudioContext reinitialized at ${sampleRate} Hz`);
+        }
+
+        // --- MONO MODE ---
+        setMono(active) {
+            this.isMonoActive = active;
+            if (!this.audioCtx || !this._lastNode) return;
+
+            // Déconnecter la sortie actuelle
+            try { this._lastNode.disconnect(this.audioCtx.destination); } catch(e) {}
+            try { this._lastNode.disconnect(this.monoSplitter); } catch(e) {}
+            try { this.monoSplitter.disconnect(); } catch(e) {}
+            try { this.monoMerger.disconnect(); } catch(e) {}
+
+            if (active) {
+                // Sommer L+R → mono sur les deux canaux
+                this._lastNode.connect(this.monoSplitter);
+                this.monoSplitter.connect(this.monoMerger, 0, 0); // L → merger ch0
+                this.monoSplitter.connect(this.monoMerger, 1, 0); // R → merger ch0 (somme)
+                this.monoSplitter.connect(this.monoMerger, 0, 1); // L → merger ch1
+                this.monoSplitter.connect(this.monoMerger, 1, 1); // R → merger ch1 (somme)
+                this.monoMerger.connect(this.audioCtx.destination);
+            } else {
+                // Retour stéréo normal
+                this._lastNode.connect(this.audioCtx.destination);
             }
         }
 

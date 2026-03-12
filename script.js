@@ -216,6 +216,13 @@ function loadTrack(index) {
         } else {
             bitrateDisplay.textContent = "—";
         }
+        // Adapter le sample rate du contexte audio au fichier
+        const fileSampleRate = audio.mozAudioChannels
+            ? null  // Firefox expose la valeur différemment
+            : (audio.sampleRate || null);
+        if (fileSampleRate && engine.reinitWithSampleRate) {
+            engine.reinitWithSampleRate(fileSampleRate);
+        }
     };
 
     if (window.jsmediatags) {
@@ -301,9 +308,11 @@ document.getElementById('mono-btn')?.addEventListener('click', () => {
     isMonoActive = !isMonoActive;
     const ledMono = document.getElementById('led-mono');
     if (isMonoActive) {
+        engine.setMono(true);
         engine.setBalance(0);
         ledMono?.classList.add('active'); showStatusBriefly("MODE: MONO");
     } else {
+        engine.setMono(false);
         engine.setBalance(currentBalance);
         ledMono?.classList.remove('active'); showStatusBriefly("MODE: STEREO");
     }
