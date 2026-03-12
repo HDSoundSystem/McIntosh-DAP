@@ -27,11 +27,12 @@ if (typeof window.McIntoshAudioEngine === 'undefined' && typeof McIntoshAudioEng
             this.isInitialized = false;
         }
 
-        init() {
+        init(sampleRate = null) {
             if (this.isInitialized) return;
 
             try {
-                this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const ctxOptions = sampleRate ? { sampleRate } : {};
+                this.audioCtx = new (window.AudioContext || window.webkitAudioContext)(ctxOptions);
                 this.analyserL = this.audioCtx.createAnalyser();
                 this.analyserR = this.audioCtx.createAnalyser();
                 this.analyserL.fftSize = 1024;
@@ -83,6 +84,37 @@ if (typeof window.McIntoshAudioEngine === 'undefined' && typeof McIntoshAudioEng
             } catch (e) {
                 console.error("Failed to initialize Audio Context:", e);
             }
+        }
+
+        // --- REINIT WITH NEW SAMPLE RATE ---
+        reinitWithSampleRate(sampleRate) {
+            if (!sampleRate || sampleRate <= 0) return;
+            // Si déjà au bon sample rate, rien à faire
+            if (this.audioCtx && this.audioCtx.sampleRate === sampleRate) return;
+
+            // Fermer l'ancien contexte proprement
+            if (this.audioCtx) {
+                this.audioCtx.close().catch(() => {});
+            }
+
+            // Réinitialiser l'état
+            this.audioCtx  = null;
+            this.source    = null;
+            this.balanceNode = null;
+            this.bassFilter  = null;
+            this.trebleFilter = null;
+            this.filters   = {};
+            this.analyserL = null;
+            this.analyserR = null;
+            this.isInitialized = false;
+
+            // Relancer avec le bon sample rate
+            this.init(sampleRate);
+
+            // Réappliquer les gains sauvegardés
+            this.setBalance(this.currentBalance);
+            this.updateEQ(this.bassGain, this.trebleGain, this.isLoudnessActive);
+            console.log(`🎵 AudioContext reinitialized at ${sampleRate} Hz`);
         }
 
         // --- NEW METHOD FOR THE 10-BAND EQ ---

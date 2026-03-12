@@ -216,6 +216,13 @@ function loadTrack(index) {
         } else {
             bitrateDisplay.textContent = "—";
         }
+        // Adapter le sample rate du contexte audio au fichier
+        const fileSampleRate = audio.mozAudioChannels
+            ? null  // Firefox expose la valeur différemment
+            : (audio.sampleRate || null);
+        if (fileSampleRate && engine.reinitWithSampleRate) {
+            engine.reinitWithSampleRate(fileSampleRate);
+        }
     };
 
     if (window.jsmediatags) {
