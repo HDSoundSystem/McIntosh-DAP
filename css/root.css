@@ -1,7 +1,8 @@
 :root {
-    --release-number: "RELEASE 3.1.6";
+    --release-number: "RELEASE 3.1.7";
     --background-color-app: #050505;
     --chassis-shadow: #8c8c8c;
+    --vfd-color: #74f1fc;
     --mc-blue: #00c3ff;
     --mc-green: #02c705;
     --panel-black: #080808;
