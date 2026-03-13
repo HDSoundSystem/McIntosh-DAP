@@ -146,13 +146,13 @@ function updateVFDStatusDisplay() {
         modeIndicator.style.cssText = "position: absolute; bottom: 8px; left: 15px; display: flex; flex-direction: column; gap: 2px;";
         document.getElementById('vfd')?.appendChild(modeIndicator);
     }
-    const styleOn  = "font-family: 'Roboto', sans-serif !important; font-size: 10px; font-weight: bold; color: #74f1fc; text-shadow: 0 0 5px rgba(116,241,252,0.7); letter-spacing: 0px; display: block; height: 13px;";
+    const styleOn = "font-family: 'Roboto', sans-serif !important; font-size: 10px; font-weight: bold; color: #74f1fc; text-shadow: 0 0 5px rgba(116,241,252,0.7); letter-spacing: 0px; display: block; height: 13px;";
     const styleOff = "font-family: 'Roboto', sans-serif !important; font-size: 10px; font-weight: bold; color: #0d2a2e; text-shadow: none; letter-spacing: 0px; display: block; height: 13px;";
     // Texte fixe — toujours visible, allumé ou éteint (ordre : A-B, RANDOM, REPEAT(1), REPEAT(ALL))
     const abText = abMode === 1 ? "A-" : "A-B";
     modeIndicator.innerHTML =
-        `<span style="${abMode  > 0 ? styleOn : styleOff}">${abText}</span>` +
-        `<span style="${isRandom    ? styleOn : styleOff}">RANDOM</span>` +
+        `<span style="${abMode > 0 ? styleOn : styleOff}">${abText}</span>` +
+        `<span style="${isRandom ? styleOn : styleOff}">RANDOM</span>` +
         `<span style="${repeatMode === 1 ? styleOn : styleOff}">REPEAT(1)</span>` +
         `<span style="${repeatMode === 2 ? styleOn : styleOff}">REPEAT(ALL)</span>`;
 }
@@ -238,9 +238,9 @@ function loadTrack(index) {
                 vfdLarge.textContent = (t.title || file.name).toUpperCase();
                 vfdInfo.textContent = `${t.artist || "UNKNOWN"} – ${t.album || "UNKNOWN"}`.toUpperCase();
                 setTimeout(() => fitText(vfdLarge, 30), 10);
-                const popupAlbum  = document.getElementById('popup-album-name');
+                const popupAlbum = document.getElementById('popup-album-name');
                 const popupArtist = document.getElementById('popup-artist-name');
-                if (popupAlbum)  popupAlbum.textContent  = (t.album  || 'UNKNOWN ALBUM').toUpperCase();
+                if (popupAlbum) popupAlbum.textContent = (t.album || 'UNKNOWN ALBUM').toUpperCase();
                 if (popupArtist) popupArtist.textContent = (t.artist || 'UNKNOWN ARTIST').toUpperCase();
                 const img = t.picture;
                 if (img) {
@@ -259,9 +259,9 @@ function loadTrack(index) {
                 vfdLarge.textContent = file.name.toUpperCase();
                 vfdInfo.textContent = "ARTIST – ALBUM";
                 setTimeout(() => fitText(vfdLarge, 30), 10);
-                const popupAlbumErr  = document.getElementById('popup-album-name');
+                const popupAlbumErr = document.getElementById('popup-album-name');
                 const popupArtistErr = document.getElementById('popup-artist-name');
-                if (popupAlbumErr)  popupAlbumErr.textContent  = 'UNKNOWN ALBUM';
+                if (popupAlbumErr) popupAlbumErr.textContent = 'UNKNOWN ALBUM';
                 if (popupArtistErr) popupArtistErr.textContent = 'UNKNOWN ARTIST';
                 popupImg.src = "";
                 popupImg.style.display = 'none';
