@@ -122,6 +122,6 @@
 
 .vfd-eq-preset {
     margin-left: 10px;
-    color: var(--mc-blue);
+    color: var(--vfd-color);
     font-size: 18px;
 }
