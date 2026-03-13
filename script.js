@@ -143,12 +143,12 @@ function updateVFDStatusDisplay() {
     if (!modeIndicator) {
         modeIndicator = document.createElement('div');
         modeIndicator.id = 'vfd-mode-indicator';
-        modeIndicator.style.cssText = "position: absolute; bottom: 8px; left: 15px; color: var(--mc-blue, #00c3ff); font-size: 11px; font-weight: bold; text-shadow: 0 0 5px rgba(0,255,102,0.5); display: flex; gap: 10px;";
+        modeIndicator.style.cssText = "position: absolute; bottom: 8px; left: 15px; color: #74f1fc; font-size: 11px; font-weight: bold; text-shadow: 0 0 5px rgba(0,255,102,0.5); display: flex; gap: 10px;";
         document.getElementById('vfd')?.appendChild(modeIndicator);
     }
     let repeatText = repeatMode === 1 ? "REPEAT(1)" : (repeatMode === 2 ? "REPEAT(ALL)" : "");
     let abText = abMode === 1 ? "A-" : (abMode === 2 ? "A-B" : "");
-    modeIndicator.innerHTML = `<span>${isRandom ? "RANDOM" : ""}</span><span>${repeatText}</span><span style="color: #00c3ff">${abText}</span>`;
+    modeIndicator.innerHTML = `<span>${isRandom ? "RANDOM" : ""}</span><span>${repeatText}</span><span style="color: #74f1fc">${abText}</span>`;
 }
 
 // --- POWER (with reboot popup) ---

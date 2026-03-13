@@ -20,9 +20,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: var(--mc-blue);
+    color: var(--vfd-color);
     font-family: var(--bitcount);
-    text-shadow: 0 0 15px var(--mc-blue);
+    text-shadow: 0 0 15px var(--vfd-color);
     letter-spacing: 4px;
     position: relative;
     opacity: 1;
@@ -30,7 +30,7 @@
 }
 
 #volume-display {
-    color: var(--mc-blue);
+    color: var(--vfd-color);
     font-family: var(--bitcount);
     font-size: 30px;
     font-weight: 300;
@@ -52,7 +52,7 @@
     flex-direction: column;
     align-items: flex-start;
     font-family: var(--bitcount);
-    color: var(--mc-blue);
+    color: var(--vfd-color);
 }
 
 .vfd-tech-corner.left-corner {
@@ -91,7 +91,7 @@
 }
 
 #track-count {
-    color: var(--mc-blue);
+    color: var(--vfd-color);
     font-size: var(--police-size-counter);
     font-weight: 300;
     font-family: var(--bitcount);
@@ -104,7 +104,7 @@
 }
 
 #file-format {
-    border: 0px solid var(--mc-blue);
+    border: 0px solid var(--vfd-color);
     padding: 0 4px;
     border-radius: 3px;
 }
@@ -118,7 +118,7 @@
 }
 
 .loudness-indicator {
-    color: var(--mc-blue);
+    color: var(--vfd-color);
     font-size: 18px;
     font-weight: 300;
 }
@@ -149,14 +149,14 @@
     width: 100%;
     text-align: center;
     cursor: pointer;
-    text-shadow: 0 0 15px var(--mc-blue);
+    text-shadow: 0 0 15px var(--vfd-color);
 }
 
 .vfd-info {
     font-family: var(--bitcount);
     font-size: 18px;
     font-weight: 300;
-    color: var(--mc-blue);
+    color: var(--vfd-color);
     text-align: center;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -167,7 +167,7 @@
     bottom: 5px;
     right: 20px;
     font-size: 30px;
-    color: var(--mc-blue);
+    color: var(--vfd-color);
 }
 
 .vfd-dimmed {

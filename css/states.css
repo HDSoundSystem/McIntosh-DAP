@@ -73,9 +73,8 @@
     display: none;
     margin-left: 12px;
     font-size: 18px;
-    color: var(--mc-blue);
+    color: var(--vfd-color);
     font-family: var(--bitcount);
-    text-shadow: 0 0 15px var(--mc-blue);
     text-transform: uppercase;
 }
 
