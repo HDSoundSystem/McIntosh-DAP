@@ -51,7 +51,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    font-family: var(--bitcount);
+    font-family: var(--roboto);
     color: var(--vfd-color);
 }
 
@@ -98,9 +98,18 @@
     line-height: 1;
 }
 
+#time-display {
+    color: var(--vfd-color);
+    font-size: var(--police-size-counter);
+    font-weight: 300;
+    font-family: var(--bitcount);
+    line-height: 1;
+}
+
 #file-format, #bitrate {
     font-size: 18px;
     font-weight: 300;
+    font-family: var(--bitcount);
 }
 
 #file-format {
