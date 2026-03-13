@@ -143,12 +143,13 @@ function updateVFDStatusDisplay() {
     if (!modeIndicator) {
         modeIndicator = document.createElement('div');
         modeIndicator.id = 'vfd-mode-indicator';
-        modeIndicator.style.cssText = "position: absolute; bottom: 8px; left: 15px; color: #74f1fc; font-size: 11px; font-weight: bold; text-shadow: 0 0 5px rgba(0,255,102,0.5); display: flex; gap: 10px;";
+        modeIndicator.style.cssText = "position: absolute; bottom: 8px; left: 15px; display: flex; gap: 10px;";
         document.getElementById('vfd')?.appendChild(modeIndicator);
     }
     let repeatText = repeatMode === 1 ? "REPEAT(1)" : (repeatMode === 2 ? "REPEAT(ALL)" : "");
     let abText = abMode === 1 ? "A-" : (abMode === 2 ? "A-B" : "");
-    modeIndicator.innerHTML = `<span>${isRandom ? "RANDOM" : ""}</span><span>${repeatText}</span><span style="color: #74f1fc">${abText}</span>`;
+    const spanStyle = "font-family: 'Roboto', sans-serif !important; font-size: 11px; font-weight: bold; color: #74f1fc; text-shadow: 0 0 5px rgba(0,255,102,0.5); letter-spacing: 1px;";
+    modeIndicator.innerHTML = `<span style="${spanStyle}">${isRandom ? "RANDOM" : ""}</span><span style="${spanStyle}">${repeatText}</span><span style="${spanStyle}">${abText}</span>`;
 }
 
 // --- POWER (with reboot popup) ---
@@ -232,9 +233,9 @@ function loadTrack(index) {
                 vfdLarge.textContent = (t.title || file.name).toUpperCase();
                 vfdInfo.textContent = `${t.artist || "UNKNOWN"} – ${t.album || "UNKNOWN"}`.toUpperCase();
                 setTimeout(() => fitText(vfdLarge, 30), 10);
-                const popupAlbum  = document.getElementById('popup-album-name');
+                const popupAlbum = document.getElementById('popup-album-name');
                 const popupArtist = document.getElementById('popup-artist-name');
-                if (popupAlbum)  popupAlbum.textContent  = (t.album  || 'UNKNOWN ALBUM').toUpperCase();
+                if (popupAlbum) popupAlbum.textContent = (t.album || 'UNKNOWN ALBUM').toUpperCase();
                 if (popupArtist) popupArtist.textContent = (t.artist || 'UNKNOWN ARTIST').toUpperCase();
                 const img = t.picture;
                 if (img) {
@@ -253,9 +254,9 @@ function loadTrack(index) {
                 vfdLarge.textContent = file.name.toUpperCase();
                 vfdInfo.textContent = "ARTIST – ALBUM";
                 setTimeout(() => fitText(vfdLarge, 30), 10);
-                const popupAlbumErr  = document.getElementById('popup-album-name');
+                const popupAlbumErr = document.getElementById('popup-album-name');
                 const popupArtistErr = document.getElementById('popup-artist-name');
-                if (popupAlbumErr)  popupAlbumErr.textContent  = 'UNKNOWN ALBUM';
+                if (popupAlbumErr) popupAlbumErr.textContent = 'UNKNOWN ALBUM';
                 if (popupArtistErr) popupArtistErr.textContent = 'UNKNOWN ARTIST';
                 popupImg.src = "";
                 popupImg.style.display = 'none';
