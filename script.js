@@ -146,13 +146,15 @@ function updateVFDStatusDisplay() {
         modeIndicator.style.cssText = "position: absolute; bottom: 8px; left: 15px; display: flex; flex-direction: column; gap: 2px;";
         document.getElementById('vfd')?.appendChild(modeIndicator);
     }
-    const spanStyle = "font-family: 'Roboto', sans-serif !important; font-size: 10px; font-weight: bold; color: #74f1fc; text-shadow: 0 0 5px rgba(0,255,102,0.5); letter-spacing: 0px; display: block; height: 13px;";
-    const abText   = abMode === 1 ? "A-" : (abMode === 2 ? "A-B" : "");
-    const repeatText = repeatMode === 1 ? "REPEAT(1)" : (repeatMode === 2 ? "REPEAT(ALL)" : "");
+    const styleOn  = "font-family: 'Roboto', sans-serif !important; font-size: 10px; font-weight: bold; color: #74f1fc; text-shadow: 0 0 5px rgba(116,241,252,0.7); letter-spacing: 0px; display: block; height: 13px;";
+    const styleOff = "font-family: 'Roboto', sans-serif !important; font-size: 10px; font-weight: bold; color: #0d2a2e; text-shadow: none; letter-spacing: 0px; display: block; height: 13px;";
+    // Texte fixe — toujours visible, allumé ou éteint (ordre : A-B, RANDOM, REPEAT(1), REPEAT(ALL))
+    const abText = abMode === 1 ? "A-" : "A-B";
     modeIndicator.innerHTML =
-        `<span style="${spanStyle}">${abText}</span>` +
-        `<span style="${spanStyle}">${isRandom ? "RANDOM" : ""}</span>` +
-        `<span style="${spanStyle}">${repeatText}</span>`;
+        `<span style="${abMode  > 0 ? styleOn : styleOff}">${abText}</span>` +
+        `<span style="${isRandom    ? styleOn : styleOff}">RANDOM</span>` +
+        `<span style="${repeatMode === 1 ? styleOn : styleOff}">REPEAT(1)</span>` +
+        `<span style="${repeatMode === 2 ? styleOn : styleOff}">REPEAT(ALL)</span>`;
 }
 
 // --- POWER (with reboot popup) ---
