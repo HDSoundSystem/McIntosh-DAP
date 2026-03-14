@@ -214,7 +214,7 @@ eqBtns.forEach(item => {
     item.b?.addEventListener('click', () => { if (isPoweredOn && !isBypassActive) { item.f(); applyLoudnessEffect(); showTone(); } });
 });
 toneReset?.addEventListener('click', () => { if (isPoweredOn) { bassGain = 0; trebleGain = 0; currentBalance = 0; if (!isMonoActive) engine.setBalance(0); applyLoudnessEffect(); hideTone(); showStatusBriefly("TONE FLAT"); } });
-toneReset?.addEventListener('mouseenter', () => isPoweredOn && showStatusBriefly("TONE RESET"));
+toneReset?.addEventListener('mouseenter', () => isPoweredOn && showStatusBriefly(""));
 
 // --- TRACK LOADING & COVERS ---
 function loadTrack(index) {
