@@ -110,12 +110,8 @@
     font-size: 18px;
     font-weight: 300;
     font-family: var(--bitcount);
-}
-
-#file-format {
-    border: 0px solid var(--vfd-color);
+    margin-left: -3px;
     padding: 0 4px;
-    border-radius: 3px;
 }
 
 .sub-tech-row {
