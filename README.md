@@ -11,7 +11,7 @@ A premium web-based audio player inspired by the legendary McIntosh amplifier de
 ![Version](https://img.shields.io/badge/version-3.2.0-blue)
 
 ![543375630-9f65f1d2-5f77-458b-b0fc-5ec35e992042](https://github.com/user-attachments/assets/7bc36eb4-3abf-4167-862a-a5e87df7afc9)
-<img width="1793" height="813" alt="1" src="https://github.com/user-attachments/assets/0ad6f8a6-bbbd-416e-abf0-ed4a116ac5da" />
+<img width="1793" height="812" alt="1" src="https://github.com/user-attachments/assets/67d8b1a0-3802-498f-8a32-409841c9989a" />
 
 ---
 
@@ -1114,13 +1114,11 @@ A: Yes! Use the BACK COLOR and SHADOW COLOR pickers in the options menu. The DIS
 A: The BALANCE knob features a mandatory center snap — when turning from left to right (or right to left), it automatically locks to 0 (center) before continuing. This ensures you never miss the center position.
 
 ---
-<img width="1803" height="818" alt="1-1" src="https://github.com/user-attachments/assets/31de67c7-c8b7-45a9-a073-e8672985c85f" />
-<img width="1805" height="821" alt="2" src="https://github.com/user-attachments/assets/6a89dafb-b2b4-49a9-94e5-e1f3fb93f855" />
-<img width="1800" height="825" alt="3" src="https://github.com/user-attachments/assets/fd957978-bf7d-49c9-a785-0b567251c90d" />
-<img width="1811" height="823" alt="4" src="https://github.com/user-attachments/assets/50007d6d-1e4e-4a28-9401-56b663e53255" />
-<img width="1810" height="819" alt="5" src="https://github.com/user-attachments/assets/9ece0ec8-4195-41f0-97ca-dcfb125de700" />
-<img width="1802" height="820" alt="6" src="https://github.com/user-attachments/assets/efa712f5-b7aa-4bed-993f-cebf31192838" />
-<img width="1802" height="822" alt="7" src="https://github.com/user-attachments/assets/8fe2c2f9-7fa6-4c93-b1b0-bb2ee0eab6be" />
+<img width="1803" height="820" alt="2" src="https://github.com/user-attachments/assets/c2b0344b-0f45-4bda-b07f-6bf9151ef7fe" />
+<img width="1809" height="832" alt="3" src="https://github.com/user-attachments/assets/3aa8bbdd-645f-48a6-af37-ec172d43e7ce" />
+<img width="1808" height="822" alt="4" src="https://github.com/user-attachments/assets/f00c9797-c9ca-4801-84cd-4b0fb146c597" />
+<img width="1793" height="825" alt="4-2" src="https://github.com/user-attachments/assets/5fddb0ba-505e-47ae-9c5e-620fba35f33d" />
+<img width="1805" height="818" alt="4-1" src="https://github.com/user-attachments/assets/559b1b6b-3029-47ea-a3d7-c90296c410d0" />
 
 **Enjoy your premium web audio experience! 🎵🎛️**
 
