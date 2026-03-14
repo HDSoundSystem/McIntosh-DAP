@@ -10,6 +10,7 @@
 @import url('css/mobile.css');
 @import url('css/info.css');
 @import url('css/overlay.css');
+@import url('css/door.css');
 
 body {
     background-color: var(--background-color-app);
