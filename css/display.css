@@ -22,7 +22,6 @@
     align-items: center;
     color: var(--vfd-color);
     font-family: var(--bitcount);
-    text-shadow: 0 0 15px var(--vfd-color);
     letter-spacing: 4px;
     position: relative;
     opacity: 1;
@@ -104,6 +103,7 @@
     font-weight: 300;
     font-family: var(--bitcount);
     line-height: 1;
+    margin-right: -6px;
 }
 
 #file-format, #bitrate {
