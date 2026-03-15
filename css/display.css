@@ -189,3 +189,11 @@
 .label-off {
     opacity: 0.5 !important;
 }
+
+#vfd-tone-display {
+    color: var(--vfd-color);
+    font-family: var(--bitcount);
+    font-size: 18px;
+    font-weight: 300;
+    display: none;
+}

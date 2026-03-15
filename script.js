@@ -116,6 +116,20 @@ function showStatusBriefly(text) {
     volTimeout = setTimeout(() => { volDisplay.style.opacity = "0"; }, 2000);
 }
 
+function showTone() {
+    const el = document.getElementById('vfd-tone-display');
+    if (!el) return;
+    const bSign = bassGain > 0 ? '+' : '';
+    const tSign = trebleGain > 0 ? '+' : '';
+    el.textContent = ` | B: ${bSign}${bassGain}dB  T: ${tSign}${trebleGain}dB`;
+    el.style.display = 'inline';
+}
+
+function hideTone() {
+    const el = document.getElementById('vfd-tone-display');
+    if (el) { el.textContent = ''; el.style.display = 'none'; }
+}
+
 function showVolumeBriefly() {
     if (isMuted) {
         clearTimeout(volTimeout);
@@ -197,11 +211,10 @@ const eqBtns = [
     { b: trebleDown, f: () => trebleGain = Math.max(-12, trebleGain - 2), t: 'TREBLE' }
 ];
 eqBtns.forEach(item => {
-    item.b?.addEventListener('click', () => { if (isPoweredOn && !isBypassActive) { item.f(); applyLoudnessEffect(); showStatusBriefly(`${item.t}: ${(item.t === 'BASS' ? bassGain : trebleGain) > 0 ? '+' : ''}${item.t === 'BASS' ? bassGain : trebleGain}dB`); } });
-    item.b?.addEventListener('mouseenter', () => { if (isPoweredOn) { showStatusBriefly(`${item.t}: ${(item.t === 'BASS' ? bassGain : trebleGain) > 0 ? '+' : ''}${item.t === 'BASS' ? bassGain : trebleGain}dB`); } });
+    item.b?.addEventListener('click', () => { if (isPoweredOn && !isBypassActive) { item.f(); applyLoudnessEffect(); showTone(); } });
 });
-toneReset?.addEventListener('click', () => { if (isPoweredOn) { bassGain = 0; trebleGain = 0; currentBalance = 0; if (!isMonoActive) engine.setBalance(0); applyLoudnessEffect(); showStatusBriefly("TONE FLAT"); } });
-toneReset?.addEventListener('mouseenter', () => isPoweredOn && showStatusBriefly("TONE RESET"));
+toneReset?.addEventListener('click', () => { if (isPoweredOn) { bassGain = 0; trebleGain = 0; currentBalance = 0; if (!isMonoActive) engine.setBalance(0); applyLoudnessEffect(); hideTone(); showStatusBriefly("TONE FLAT"); } });
+toneReset?.addEventListener('mouseenter', () => isPoweredOn && showStatusBriefly(""));
 
 // --- TRACK LOADING & COVERS ---
 function loadTrack(index) {
