@@ -59,7 +59,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                 height="0" width="0"
                 style="display:none;visibility:hidden"></iframe></noscript>
 
-        <input type="file" id="audio-upload"
+        <div id="main-doors">
+        <div class="door door-left">
+            
+        </div>
+        <div class="door door-right">
+            <button id="enter-btn"><img src="assets/img/McIntosh_Logo_Black_G.png" class="door-logo" alt="McIntosh"></button>
+        </div>
+    </div>
+                <input type="file" id="audio-upload"
             accept=".flac,.mp3,.mp4,.wav,.m4a,.aac,.ogg" multiple>
 
         <div class="chassis-wrapper">
@@ -96,6 +104,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
                     mainScript.src = 'script.js';
                     document.body.appendChild(mainScript);
 
+                    const enterBtn = document.getElementById('enter-btn');
+                    const mainDoors = document.getElementById('main-doors');
+                    if (enterBtn && mainDoors) {
+                        enterBtn.addEventListener('click', () => {
+                            mainDoors.classList.add('doors-open');
+                        });
+                    }
+
                 };
             };
         });
@@ -104,5 +120,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <script data-goatcounter="https://mcinstosh.goatcounter.com/count" async
             src="//gc.zgo.at/count.js"></script>
 
+        <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((reg) => console.log('[SW] Registered, scope:', reg.scope))
+                    .catch((err) => console.error('[SW] Registration failed:', err));
+            });
+        }
+        </script>
     </body>
 </html>
