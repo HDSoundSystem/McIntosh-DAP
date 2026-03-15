@@ -120,5 +120,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <script data-goatcounter="https://mcinstosh.goatcounter.com/count" async
             src="//gc.zgo.at/count.js"></script>
 
+        <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((reg) => console.log('[SW] Registered, scope:', reg.scope))
+                    .catch((err) => console.error('[SW] Registration failed:', err));
+            });
+        }
+        </script>
     </body>
 </html>
