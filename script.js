@@ -91,6 +91,7 @@ let abMode = 0;
 let pointA = 0;
 let pointB = 0;
 let volHoldInterval = null;
+let currentCoverBlobUrl = null; // Blob URL for Media Session artwork (Chrome requires non-data: URL)
 
 // --- VOLUME INITIALIZATION ---
 let currentVolume = 0.05;
@@ -256,9 +257,11 @@ function loadTrack(index) {
                 if (popupAlbum) popupAlbum.textContent = (t.album || 'UNKNOWN ALBUM').toUpperCase();
                 if (popupArtist) popupArtist.textContent = (t.artist || 'UNKNOWN ARTIST').toUpperCase();
                 const img = t.picture;
+                if (currentCoverBlobUrl) { URL.revokeObjectURL(currentCoverBlobUrl); currentCoverBlobUrl = null; }
                 if (img) {
-                    let s = ""; for (let i = 0; i < img.data.length; i++) s += String.fromCharCode(img.data[i]);
-                    popupImg.src = `data:${img.format};base64,${window.btoa(s)}`;
+                    const blob = new Blob([new Uint8Array(img.data)], { type: img.format });
+                    currentCoverBlobUrl = URL.createObjectURL(blob);
+                    popupImg.src = currentCoverBlobUrl;
                     popupImg.style.display = 'block';
                     noCoverText && (noCoverText.style.display = 'none');
                 } else {
@@ -780,7 +783,7 @@ function updateMediaMetadata() {
             title: vfdLarge.textContent,
             artist: (vfdInfo.textContent.split('–')[0] || '').trim(),
             artwork: [
-                { src: popupImg.src && popupImg.src.startsWith('data:') ? popupImg.src : 'assets/img/default.png', sizes: '512x512', type: 'image/png' }
+                { src: currentCoverBlobUrl || 'assets/img/mc-logo.png', sizes: '512x512', type: currentCoverBlobUrl ? 'image/jpeg' : 'image/png' }
             ]
         });
 
