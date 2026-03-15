@@ -1114,6 +1114,7 @@ A: Yes! Use the BACK COLOR and SHADOW COLOR pickers in the options menu. The DIS
 A: The BALANCE knob features a mandatory center snap — when turning from left to right (or right to left), it automatically locks to 0 (center) before continuing. This ensures you never miss the center position.
 
 ---
+<img width="738" height="194" alt="MCdoor" src="https://github.com/user-attachments/assets/ba76d4cc-f360-4a31-b22b-412fd17865e6" />
 <img width="1803" height="820" alt="2" src="https://github.com/user-attachments/assets/c2b0344b-0f45-4bda-b07f-6bf9151ef7fe" />
 <img width="1809" height="832" alt="3" src="https://github.com/user-attachments/assets/3aa8bbdd-645f-48a6-af37-ec172d43e7ce" />
 <img width="1808" height="822" alt="4" src="https://github.com/user-attachments/assets/f00c9797-c9ca-4801-84cd-4b0fb146c597" />
