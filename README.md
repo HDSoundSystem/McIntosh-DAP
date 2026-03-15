@@ -656,9 +656,6 @@ Libraries and tools: jsmediatags · Font Awesome 7 · Google Fonts (Bitcount Sin
 ---
 
 <img width="1912" height="885" alt="screen-1" src="https://github.com/user-attachments/assets/ccc058ab-ab83-4bab-99d7-8428b2de1104" />
-<img width="1803" height="818" alt="screen-2" src="https://github.com/user-attachments/assets/31de67c7-c8b7-45a9-a073-e8672985c85f" />
-<img width="1805" height="821" alt="screen-3" src="https://github.com/user-attachments/assets/6a89dafb-b2b4-49a9-94e5-e1f3fb93f855" />
-<img width="1800" height="825" alt="screen-4" src="https://github.com/user-attachments/assets/fd957978-bf7d-49c9-a785-0b567251c90d" />
 
 **Enjoy your premium web audio experience!**
 
