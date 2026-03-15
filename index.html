@@ -121,12 +121,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             src="//gc.zgo.at/count.js"></script>
 
         <script>
+        // Service Worker only registered in production (not on localhost / file://)
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then((reg) => console.log('[SW] Registered, scope:', reg.scope))
-                    .catch((err) => console.error('[SW] Registration failed:', err));
-            });
+            const isLocal = location.hostname === 'localhost'
+                         || location.hostname === '127.0.0.1'
+                         || location.protocol === 'file:';
+            if (!isLocal) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/sw.js')
+                        .then((reg) => console.log('[SW] Registered, scope:', reg.scope))
+                        .catch((err) => console.error('[SW] Registration failed:', err));
+                });
+            } else {
+                // Unregister any existing SW in dev mode so cache never blocks changes
+                navigator.serviceWorker.getRegistrations()
+                    .then((regs) => regs.forEach((reg) => reg.unregister()));
+                console.log('[SW] Disabled in dev mode');
+            }
         }
         </script>
     </body>
