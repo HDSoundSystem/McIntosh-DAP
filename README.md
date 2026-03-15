@@ -1,1126 +1,663 @@
-<img width="1482" height="231" alt="1" src="https://github.com/user-attachments/assets/87ed49b7-9437-4980-9dc6-4206d0007214" />
+<img width="1482" height="231" alt="banner" src="https://github.com/user-attachments/assets/87ed49b7-9437-4980-9dc6-4206d0007214" />
 
 # McIntosh Reference Digital Audio Player
 
-## Inspired by the high-end McIntosh MSA5500 2-Channel Streaming Integrated Amplifier and DS200 STREAMING DAC
+### Inspired by the McIntosh MSA5500 2-Channel Streaming Integrated Amplifier and DS200 Streaming DAC
 
-A premium web-based audio player inspired by the legendary McIntosh amplifier design, featuring authentic VU meters, professional 10-band equalizer with dedicated rotary knob, stereo balance with precision control and mandatory center snap, A-B loop functionality, mono mode, loudness compensation, power guard protection, customizable visual themes, and a stunning interface that captures the essence of high-end audio equipment.
+A premium web-based audio player that faithfully recreates the McIntosh amplifier experience — animated dual VU meters with configurable physics, a 10-band parametric equalizer with rotary knob, stereo balance with mandatory center snap, A-B loop, mono mode, loudness compensation, signal bypass with full state restore, hi-res audio with automatic sample rate adaptation, and a fully modular component architecture running natively in the browser or as an Electron desktop app.
 
 ![Status](https://img.shields.io/badge/status-active-success)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Version](https://img.shields.io/badge/version-3.5.0-blue)
 
-![543375630-9f65f1d2-5f77-458b-b0fc-5ec35e992042](https://github.com/user-attachments/assets/7bc36eb4-3abf-4167-862a-a5e87df7afc9)
-<img width="1793" height="812" alt="1" src="https://github.com/user-attachments/assets/67d8b1a0-3802-498f-8a32-409841c9989a" />
+![preview](https://github.com/user-attachments/assets/7bc36eb4-3abf-4167-862a-a5e87df7afc9)
+<img width="1859" height="880" alt="1" src="https://github.com/user-attachments/assets/9aa0d11d-75dd-4e3e-a4aa-4d7c2bd0514f" />
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
-- [Overview](#-overview)
-- [Core Features](#-core-features)
-  - [Audio Playback](#-audio-playback)
-  - [Visual Interface](#-visual-interface)
-  - [Audio Controls](#-audio-controls)
-  - [Advanced Features](#-advanced-features)
-- [Technical Architecture](#-technical-architecture)
+- [Overview](#overview)
+- [Features](#features)
+  - [Playback & Playlist](#playback--playlist)
+  - [Visual Interface](#visual-interface)
+  - [Audio Controls](#audio-controls)
+- [Technical Architecture](#technical-architecture)
   - [Technology Stack](#technology-stack)
   - [Project Structure](#project-structure)
-  - [Audio Architecture](#audio-architecture)
-  - [Modular Components](#modular-components)
-- [Installation and Usage](#-installation-and-usage)
-- [Configuration](#-configuration)
-- [Contributing](#-contributing)
-- [License](#-license)
-- [Disclaimer](#-disclaimer)
-- [Credits](#-credits)
+  - [Script Loading Chain](#script-loading-chain)
+  - [Audio Signal Graph](#audio-signal-graph)
+  - [JavaScript Modules](#javascript-modules)
+  - [HTML Components](#html-components)
+  - [CSS Architecture](#css-architecture)
+  - [State Management](#state-management)
+  - [Service Worker & PWA](#service-worker--pwa)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Contributing](#contributing)
+- [License](#license)
+- [Disclaimer](#disclaimer)
+- [Credits](#credits)
 
 ---
 
-## 🎯 Overview
+## Overview
 
-The **McIntosh DAP** is a premium web-based audio application that recreates the experience of using an authentic McIntosh amplifier. It combines modern web technologies with iconic vintage design to deliver an immersive and visually stunning listening experience.
-
-### Key Highlights
-
-- **Authentic Interface**: Faithful design to McIntosh amplifiers with animated VU meters and VFD display
-- **Professional Audio Processing**: 10-band equalizer with rotary knob, tone controls, precision stereo balance
-- **Multi-platform**: Web app (PWA) and desktop application (Electron)
-- **Flexible Playlist Management**: Add tracks via INPUT, drag & drop, or `+` button; remove individually with `−`
-- **Multiple Audio Formats**: FLAC, MP3, WAV, MP4/M4A, AAC, ALAC, OGG support
-- **Real-time Visualization**: VU meters with realistic physics and spectrum analyzer
+McIntosh DAP is a purely front-end application — no backend, no build step required. HTML components are loaded dynamically via `fetch()`, audio processing is handled entirely by the Web Audio API, and the app works offline once installed as a PWA. An Electron wrapper adds native desktop features (media keys, taskbar controls, file association). On first visit, an animated frosted-glass door intro with the McIntosh logo greets the user before revealing the player.
 
 ---
 
-## ✨ Core Features
+## Features
 
-### 🎵 Audio Playback
+### Playback & Playlist
 
-#### Multi-format Support
+**Supported formats:** FLAC · MP3 · WAV · MP4/M4A · AAC · ALAC · OGG
 
-- **Supported Formats**: FLAC, MP3, MP4/M4A, WAV, AAC, ALAC, OGG
-- **Quality**: High-resolution audio support with complete metadata
-- **Automatic Analysis**: Bitrate, format, and ID3 metadata extraction
+**Loading methods:**
+- **INPUT knob** — file picker, multiple selection
+- **Drag & Drop** — drop files anywhere; added to the current playlist without replacing it. VFD confirms `+N FILE(S) ADDED`
+- **`+` button** — inside the playlist popup header
+- **"Open with"** — double-click a file in the file manager (Electron only); single-instance lock prevents duplicate windows
 
-#### Playlist Management
+**Playlist popup** (click the track counter to open):
+- Displays ARTIST / TITLE / ALBUM with embedded cover thumbnail
+- Highlights the currently playing track
+- **`-` button** on hover — removes a track; playback continues if a next track exists
 
-- **Multiple Loading Methods**:
-  - **INPUT knob**: Individual file selection (multiple selection supported)
-  - **Drag & Drop**: Drag audio files directly onto the interface
-    - Works in browser and Electron desktop version
-    - Files are **added** to the existing playlist (not replaced)
-    - If playlist is empty, playback starts automatically
-    - VFD displays `+N FILE(S) ADDED` confirmation
-    - Supported formats: FLAC, MP3, MP4, WAV, M4A, AAC, OGG
-- **Playlist Interface**:
-  - Interactive popup — click track counter to browse
-  - **`+` button**: Add tracks to the current playlist without replacing it
-  - **`−` button**: Remove a track from the playlist (appears on hover)
-  - Visual indicator for currently playing track
-  - If the playing track is removed and a next track exists, playback continues automatically
-  - If the last track is removed while playing, audio stops cleanly
+**Playback controls:**
+- Play/Pause · Stop · Previous · Next
+- **Hold Prev/Next** — fast seek: ±3 s every 100 ms after a 500 ms activation delay
+- **Repeat modes** — Off → REPEAT(1) → REPEAT(ALL)
+- **Random** — shuffle with no immediate repeat
 
-#### Playback Controls
+**A-B Loop:**
+- Click 1 — set point A (VFD: `A-`)
+- Click 2 — set point B, loop starts immediately (VFD: `A-B`)
+- Click 3 — disable
 
-- **Basic Controls**: Play, Pause, Stop, Previous, Next
-- **Fast Seek**: Press and hold previous/next buttons for quick navigation
-  - 500ms hold delay to prevent accidental jumps
-  - 3-second jumps every 100ms while holding
-- **Repeat Modes**:
-  - **Off**: Normal playback
-  - **REPEAT(1)**: Repeat single track
-  - **REPEAT(ALL)**: Repeat all tracks
-- **Random Playback**: Shuffle mode with intelligent selection (avoids immediate repeats)
+**Hi-Res audio quality:**
+- FLAC is decoded natively by the browser — bit-perfect, no transcoding
+- On each track load, `audio.sampleRate` is read from `loadedmetadata` and `engine.reinitWithSampleRate()` recreates the AudioContext at the exact sample rate of the file (44.1 kHz, 96 kHz, 192 kHz...). All DSP settings are automatically reapplied after reinit
 
-#### A-B Loop
+**System integration:**
+- Media Session API — keyboard media keys, browser thumbnail controls, position state
+- PWA — Service Worker for offline cache, installable from address bar
+- Electron — `open-file` and `second-instance` IPC events
 
-- **First click**: Set point A
-- **Second click**: Set point B and activate loop
-- **Third click**: Disable loop
-- **Automatic validation**: B must be after A
-- **Visual indicator**: "A-B" in VFD display
+---
 
-#### System Integration
+### Visual Interface
 
-- **Media Session API**: Control from keyboard media keys
-- **Native Controls**: Browser media controls support
-- **Position Tracking**: Position state for Chrome/Edge
-- **Progressive Web App**: Installation with service worker for offline cache
-- **Desktop Application**: Electron version with complete system integration
+#### Animated Door Intro
 
-### 📺 Visual Interface
+Two frosted glass panels with a metallic central joint cover the screen on load. Clicking the McIntosh logo on the right panel adds `doors-open` class which slides both panels off screen via CSS transitions. Managed entirely in `css/door.css` with a single JS listener on `#enter-btn`.
 
-#### Animated Stereo VU Meters
+#### Dual VU Meters
 
-- **Real-time Visualization**: Dual-channel audio analysis
-- **Smooth Animation**: Realistic physics with 25% smoothing
-- **Authentic Design**: Custom McIntosh-style meter background image
-- **Response Curve**: Power-law for natural meter movement
-- **Auto Return**: Rest position when stopped
-- **Alternate Mode**: Alternative meter background available (meter-alt-bg)
+Animation is handled exclusively by `js/vu-meter.js`, fully decoupled from `script.js`. All physics are stored in `VU_METER_CONFIG` and applied every frame at ~60 fps via `requestAnimationFrame`.
 
-#### VFD Display (Vacuum Fluorescent Display)
+| Parameter | Default | Description |
+|---|---|---|
+| `ANGLE_REST` | `-55 deg` | Needle rest position (no signal) |
+| `ANGLE_MAX` | `110 deg` | Maximum sweep from rest |
+| `SIGNAL_BOOST` | `3.5` | Raw level multiplier (sensitivity) |
+| `RESPONSE_CURVE` | `0.7` | Less than 1 = logarithmic, 1 = linear, greater than 1 = exponential |
+| `SMOOTHING_ATTACK` | `0.35` | Rise interpolation factor per frame |
+| `SMOOTHING_RELEASE` | `0.1` | Fall interpolation factor on pause/stop |
 
-- **Track Information**:
-  - Title with dynamic text sizing (auto-fit content)
-  - Artist and album information
-  - Track number and total (clickable for playlist)
-- **Technical Information**:
-  - File format indicator (FLAC, MP3, WAV, MP4, AAC/ALAC, OGG)
-  - Bitrate calculation (estimated for VBR files)
-  - Playback time with elapsed/remaining toggle (clickable)
-- **Status Indicators**:
-  - Playback status icons (PLAY, PAUSE with blinking, STOP)
-  - Mode indicators (RANDOM, REPEAT, REPEAT(1), REPEAT(ALL), A-B LOOP) in bottom left
-  - Loudness indicator when active
-  - Volume display overlay (auto-hides after 2 seconds)
-  - EQ preset indicator: `| EQ ROCK`, `| EQ JAZZ`, `| EQ CUSTOM`, etc. — displayed when any non-flat EQ is active
+Per-frame formula:
+```
+targetAngle  = ANGLE_REST + pow(min(255, level x BOOST) / 255, CURVE) x ANGLE_MAX
+currentAngle += (targetAngle - currentAngle) x SMOOTHING_ATTACK    // playing
+currentAngle += (ANGLE_REST  - currentAngle) x SMOOTHING_RELEASE   // stopped
+```
+
+#### VFD Display
+
+- Large title line with auto-fit font (`fitText()`)
+- Artist - Album line
+- Format badge (FLAC / MP3 / WAV / AAC/ALAC / OGG) + estimated bitrate in kbps
+- Processing badge: `| EQ ROCK` or `| EQ CUSTOM` or `| BYPASS`
+- Bass/Treble indicator: `| B: +4dB  T: -2dB` — shown on BASS/TREBLE click, hidden on TONE RESET
+- `| LOUDNESS` badge when active
+- Elapsed / remaining time toggle (click time display)
+- Track counter `n/total` — click to open playlist popup
+- Status icon: PLAY / PAUSE / STOP
+- **VFD mode column** (bottom-left) — 4 fixed rows always visible, lit or dimmed like real VFD inactive segments:
+
+```
+A-B          dimmed / A- / A-B
+RANDOM       dimmed / lit
+REPEAT(1)    dimmed / lit
+REPEAT(ALL)  dimmed / lit
+```
 
 #### Display Modes
 
-- **Normal Mode**: Full illumination
-- **Alternate Logo**: Toggle between mc-logo.png and mc-logo-off.png
-- **Alternate VU Backgrounds**: Different meter designs
-- **VFD Blackout Mode**: Complete display shutdown
-- **Label Dimming**: All green labels turn gray when display is off
+DISPLAY button toggles:
+- **BRIGHT** — full illumination, color logos, green labels
+- **DIMMED** — VFD dimmed, meters dimmed, logo in B&W, labels grayed
 
-#### Interactive Elements
+#### Album Art Popup
 
-- **Album Art Viewer**: Click track title to view embedded artwork in popup
-- **Interactive Playlist**: Click track counter to browse and select tracks
-- **Status LEDs**:
-  - Power LED (red) - indicates system on/off state
-  - MONO LED (green) - active when mono mode enabled
-  - POWER GUARD LEDs (red, left and right) - blink rapidly when volume ≥ 90%
+Clicking the track title opens a popup with the embedded cover art. Above the image: ALBUM NAME - ARTIST NAME displayed in gold color (`var(--mc-gold)`).
 
 #### Visual Customization
 
-- **Background Color Picker**: Customize app background
-- **Shadow Color Picker**: Adjust chassis shadow color
-- **Real-time Preview**: Color preview in buttons
-- **Persistence**: Saved across sessions
-- **Reboot Confirmation Modal**: Safety popup to confirm system restart
-
-### 🎛️ Audio Controls
-
-#### Volume Control
-
-- **Interactive Rotary Knob**:
-  - Metallic chrome finish
-  - Click and hold left/right for continuous adjustment (0.01 steps at 50ms intervals)
-  - Mouse wheel support for precise control (0.05 steps)
-  - Visual feedback with rotation animation (270° range)
-- **Temporary Display**: Overlay auto-hides after 2 seconds
-- **Hover Info**: Shows current volume level
-- **Loudness Integration**: Automatic compensation
-- **Layout**: ADJUST label displayed directly below the knob
-
-#### Mute Function
-
-- **Instant Muting**: Audio mute with status display
-- **Visual Indicator**: Shows "MUTE" in volume display area
-- **Preservation**: Volume setting preserved
-
-#### 10-Band Graphic Equalizer
-
-- **Professional Control**: Covers entire audio spectrum
-- **Frequencies**: 32Hz, 64Hz, 125Hz, 250Hz, 500Hz, 1kHz, 2kHz, 4kHz, 8kHz, 16kHz
-- **Range**: ±12dB per band
-- **Musical Q Factor**: 1.4 for natural sound shaping
-- **Real-time Processing**: Web Audio API with Peaking filters
-- **Dedicated Interface**: Popup with vertical sliders
-- **Visual Labels**: Frequency and gain indicators
-- **FLAT Button**: Restore all bands to 0dB
-- **Independence**: Separate from bass/treble tone controls
-- **EQUALIZER Rotary Knob**: Dedicated chrome rotary knob below INPUT button
-  - Same interaction model as VOLUME knob
-  - Click left half to cycle to previous preset, right half for next preset
-  - Mouse wheel support
-  - Visual rotation animation (60° per preset step)
-  - Presets in order: FLAT → POP → ROCK → JAZZ → CLASSIC → LIVE
-- **EQ CUSTOM Mode**: When sliders are adjusted manually, VFD displays `| EQ CUSTOM` status — identical behavior to named presets
-
-#### 2-Band Tone Controls (Classic McIntosh Style)
-
-- **Bass**: ±12dB at 200Hz (low shelf filter)
-  - Adjustable in 2dB steps
-  - Range: -12dB to +12dB
-- **Treble**: ±12dB at 3000Hz (high shelf filter)
-  - Adjustable in 2dB steps
-  - Range: -12dB to +12dB
-- **Real-time Processing**: Web Audio API biquad filters
-- **Visual Feedback**: Display in options menu
-
-#### Stereo Balance
-
-- **Left/Right Adjustment**: -1 to +1
-- **Web Audio StereoPanner**: Precise control
-- **BALANCE Rotary Knob**: Dedicated chrome rotary knob below VOLUME button
-  - Same interaction model as VOLUME knob
-  - Click left half to move balance left, right half to move right
-  - Mouse wheel support for fine control
-  - Visual rotation animation (4° per step)
-- **Precision Step**: 2% increments (0.02) for fine-grained control
-- **Mandatory Center Snap**: When crossing 0, balance locks exactly to center before continuing — knob resets to 0° rotation
-- **Smart Disable**: Disabled when Mono mode is active
-
-#### Mono Mode
-
-- **Stereo to Mono Conversion**: Combined mono output
-- **Auto-center**: Balance centered on activation
-- **Green LED**: Visual indicator
-- **Restoration**: Previous balance restored on deactivation
-
-#### Loudness Compensation
-
-- **Fletcher-Munson Based**: Bass/treble boost at low volumes
-- **Automatic Compensation**: Based on current volume level
-- **Maximum Effect**: At 0% volume, progressively decreases
-- **Bass Boost**: Up to +8dB additional gain
-- **Treble Boost**: Up to +4dB additional gain
-- **EQ Combination**: Works with manual EQ settings
-- **Visual Indicator**: VFD display when active
-
-#### Reset and Protection
-
-- **Tone Reset**: One-click restoration to flat EQ (0dB) and center balance (0)
-- **Power Guard Protection**:
-  - Visual warning when volume > 90%
-  - Rapid blinking red LEDs (left and right)
-  - Prevents speaker/hearing damage
-
-#### Signal Bypass
-
-- **BYPASS Button**: Instantly cuts all audio processing in one click
-  - Disables: 10-band EQ, Bass/Treble tone controls, Loudness compensation
-  - All audio processing set to 0dB — pure signal path
-  - VFD displays `| BYPASS` status (same style as EQ presets)
-  - All processing controls (EQ sliders, Bass/Treble buttons, Loudness) are locked while active
-- **Full State Restore**: Deactivating BYPASS restores the exact previous state
-  - Bass and treble gains
-  - All 10 EQ band values
-  - Loudness on/off status
-  - Previous VFD preset display text
-
-### ⚙️ Advanced Features
-
-#### Web Audio API Processing
-
-Professional audio graph with:
-
-- **MediaElementSourceNode**: Audio input source
-- **StereoPanner**: Balance control
-- **Two BiquadFilter Nodes**: Bass/treble tone controls
-- **Ten BiquadFilter Nodes**: 10-band graphic equalizer (Peaking type)
-- **ChannelSplitter**: Channel separation for analysis
-- **Two AnalyserNode**: VU meter visualization
-- **AudioDestination**: Final audio output
-
-#### Progressive Web App (PWA)
-
-- **Service Worker**: Offline cache for static resources
-- **Installable**: Add to home screen
-- **Manifest**: Complete app configuration
-- **Offline Mode**: Works without connection after installation
-- **Adaptive Icons**: Support for all screen sizes
-
-#### Electron Desktop Application
-
-- **Windows Thumbnail Buttons**: Taskbar controls (Previous, Play/Pause, Next)
-- **Media Keys**: System key support (Play/Pause, Next, Previous)
-- **Native Window Controls**: Native menu bar
-- **System Integration**: Complete native application
-- **Portable Build**: Windows portable version
+BACK COLOR and SHADOW COLOR pickers in OPTIONS menu — real-time CSS update.
 
 ---
 
-## 🏗️ Technical Architecture
+### Audio Controls
+
+#### Volume Knob
+
+- Click left/right half: ±0.01, hold for continuous adjustment (50 ms interval)
+- Mouse wheel: ±0.05
+- 270 degree visual rotation range
+- Loudness compensation re-applied on every change
+
+#### Mute
+
+Instant audio mute. VFD shows MUTE. Volume value preserved.
+
+#### 10-Band Graphic Equalizer
+
+Frequencies: 32, 64, 125, 250, 500, 1k, 2k, 4k, 8k, 16k Hz — each a BiquadFilterNode of type `peaking`, Q = 1.4, ±12 dB.
+
+- EQ popup: 10 vertical sliders + live bezier curve canvas (`drawEQCurve()`)
+- **EQUALIZER rotary knob** (below INPUT): cycles FLAT → POP → ROCK → JAZZ → CLASSIC → LIVE (60 deg per step, hold or wheel supported)
+- Presets also accessible as buttons inside the EQ popup
+- Manual slider adjustment sets VFD to `| EQ CUSTOM`
+- FLAT button resets all bands to 0 dB
+- All filter changes use `setTargetAtTime(value, ctx.currentTime, 0.01)` for click-free transitions
+
+#### Bass / Treble
+
+- Bass: low shelf at 200 Hz, ±12 dB in 2 dB steps
+- Treble: high shelf at 3000 Hz, ±12 dB in 2 dB steps
+- Current values displayed live on VFD as `| B: +4dB  T: -2dB`
+- **TONE RESET** — resets bass, treble, balance to 0 and hides the tone display
+
+#### Balance
+
+- **BALANCE knob** (below VOLUME): click left/right half or mouse wheel, ±0.02 per step
+- **Mandatory center snap** — crossing 0 locks exactly to 0 before continuing; knob rotation resets to 0 deg
+- Disabled when Mono mode is active
+
+#### Mono Mode
+
+Combines L+R into true mono using a ChannelSplitterNode + ChannelMergerNode chain — both output channels receive the identical mixed signal, eliminating all stereo imaging effects. Forces balance to center; previous balance restored on deactivation.
+
+#### Loudness Compensation
+
+Fletcher-Munson based, calculated in `updateEQ()`:
+```javascript
+const intensity = Math.max(0, (0.7 - volume) / 0.7);
+finalBass   += intensity * 8;   // up to +8 dB at volume 0
+finalTreble += intensity * 4;   // up to +4 dB at volume 0
+```
+Stacks additively with manual bass/treble values.
+
+#### Signal Bypass
+
+One click mutes all processing (10-band EQ + bass/treble + loudness set to 0 dB). Complete state saved in `bypassSnapshot`:
+```javascript
+bypassSnapshot = { bassGain, trebleGain, isLoudnessActive, eqBands: [...10 bands], vfdPresetText };
+```
+Deactivating Bypass restores every value exactly. All processing controls are locked while Bypass is active. VFD shows `| BYPASS`.
+
+---
+
+## Technical Architecture
 
 ### Technology Stack
 
-#### Frontend
+| Layer | Technology |
+|---|---|
+| Markup | HTML5 — 7 modular component files loaded via fetch() |
+| Styles | CSS3 — 13 modular files, CSS custom properties, no framework |
+| Logic | Vanilla JavaScript ES6+, no framework |
+| Audio | Web Audio API — AudioContext, BiquadFilter, StereoPanner, ChannelSplitter, ChannelMerger, AnalyserNode |
+| Metadata | jsmediatags 3.9.5 — ID3 tags, embedded artwork |
+| Icons | Font Awesome 7 (local) |
+| Fonts | Bitcount Single, Roboto (Google Fonts) |
+| Desktop | Electron 26 + electron-builder |
+| PWA | Service Worker v3.5.0 + Web App Manifest |
 
-- **HTML5**: Semantic structure with modular components
-- **CSS3**: Responsive design with CSS variables and animations
-- **JavaScript (ES6+)**: Modern application logic with modules
-- **Web Audio API**: Professional real-time audio processing
-- **jsmediatags**: Audio metadata extraction (ID3 tags, artwork)
-- **Font Awesome 7**: Complete icon library
-
-#### Backend/Runtime
-
-- **Electron 26**: Cross-platform desktop framework
-- **Node.js**: JavaScript runtime for desktop app
-- **electron-builder**: Packaging tool for distribution
-
-#### Web APIs Used
-
-- **Media Session API**: System media controls
-- **Service Worker API**: PWA offline cache
-- **Web Audio API**: Audio processing and analysis
-- **File System Access API**: Local file access
-- **Canvas API**: VU meter rendering (optional)
+---
 
 ### Project Structure
 
 ```
 McIntosh-DAP-main/
-├── index.html                 # Main entry point
-├── main.js                    # Electron entry point
-├── script.js                  # Main application logic
-├── style.css                  # Global styles
-├── sw.js                      # PWA Service Worker
-├── manifest.json              # PWA Manifest
-├── package.json               # npm/Electron configuration
-│
-├── assets/                    # Static resources
-│   ├── fontawesome7/          # Icon library
-│   │   ├── css/               # FA stylesheets
-│   │   └── webfonts/          # FA fonts
-│   ├── img/                   # Images and logos
-│   │   ├── favicon.ico        # App icon
-│   │   ├── favicon.png        # PNG icon
-│   │   ├── logo.png           # McIntosh logo
-│   │   ├── mc-logo*.png       # Logo variations
-│   │   └── vumeter*.png       # VU meter backgrounds
-│   ├── info/                  # Information images
-│   └── windows/               # Windows control icons
-│
-├── components/                # Modular HTML components
-│   ├── controls.html          # Controls section (knobs, buttons)
-│   ├── display-area.html      # VFD display area
-│   ├── meter-section.html     # VU meters section
-│   ├── modals.html            # Modals and popups
-│   └── options-menu.html      # Options menu and EQ
-│
-├── css/                       # Modular stylesheets
-│   ├── root.css               # Global CSS variables
-│   ├── chassis.css            # Chassis and panel styles
-│   ├── controls.css           # Control and button styles
-│   ├── display.css            # VFD display styles
-│   ├── meters.css             # VU meter styles
-│   ├── eq.css                 # Equalizer styles
-│   ├── modals.css             # Modal and popup styles
-│   ├── states.css             # Visual states (on/off/hover)
-│   └── mobile.css             # Responsive mobile/tablet
-│
-└── js/                        # JavaScript modules
-    ├── component-loader.js    # HTML component loader
-    └── mcintosh-audio-engine.js # Web Audio API engine
+|
++-- index.html              Entry point: door intro, CSS, script chain, SW registration
++-- script.js               Main application logic (~1150 lines)
++-- style.css               CSS entry point: @imports all css/ modules
++-- main.js                 Electron main process
++-- sw.js                   PWA Service Worker (v3.5.0)
++-- manifest.json           PWA manifest
++-- package.json            Electron 26 + electron-builder, file associations
+|
++-- js/
+|   +-- component-loader.js       Async HTML injector, fires componentsLoaded event
+|   +-- mcintosh-audio-engine.js  Web Audio API engine (McIntoshAudioEngine class)
+|   +-- vu-meter.js               VU meter animation loop
+|
++-- components/
+|   +-- meter-section.html        SVG VU meters + needle-l / needle-r elements
+|   +-- display-area.html         VFD, status icon, counters, time, bitrate, tone display
+|   +-- controls.html             All knobs and transport buttons
+|   +-- options-menu.html         options-popup + playlist-popup
+|   +-- modals.html               Album art popup, reboot modal, EQ popup
+|   +-- info.html                 About overlay
+|   +-- drop.html                 Drag & drop visual overlay
+|
++-- css/
+|   +-- root.css            CSS custom properties (colors, fonts, sizes)
+|   +-- chassis.css         Outer chassis, panel layout, aluminum trim, border depth effect
+|   +-- meters.css          VU meter containers and needle pivot
+|   +-- display.css         VFD, status icon, badges, tone display
+|   +-- controls.css        Knobs, buttons
+|   +-- eq.css              EQ popup, sliders, curve canvas
+|   +-- modals.css          Options menu, playlist, album popup
+|   +-- states.css          stealth-mode, dimmed, blink-fast, blink-soft
+|   +-- overlay.css         Full-screen overlays
+|   +-- info.css            About overlay
+|   +-- door.css            Animated frosted-glass door intro
+|   +-- mobile.css          Responsive scale() transforms at breakpoints
+|
++-- assets/
+    +-- img/                Logos, favicon, VU meter background, door logo
+    +-- windows/            Taskbar button icons (prev/play/pause/next/stop)
 ```
 
-### Audio Architecture
+---
 
-The audio system is built around a sophisticated Web Audio API graph:
+### Script Loading Chain
 
 ```
-Audio File (HTML5 Audio Element)
-        ↓
+DOMContentLoaded
+  +-- component-loader.js  (synchronous script tag)
+       +-- ComponentLoader.loadAll()
+            fetch() all components into DOM
+            +-- dispatchEvent('componentsLoaded')
+                 +-- [index.html inline listener]
+                      +-- mcintosh-audio-engine.js  (createElement)
+                           +-- vu-meter.js           (createElement)
+                                +-- script.js         (createElement)
+                                +-- enter-btn click listener attached
+
+window.load
+  +-- serviceWorker.register('/sw.js')
+```
+
+All HTML components are in the DOM before any application JS executes.
+
+---
+
+### Audio Signal Graph
+
+```
+<audio id="main-audio">  (native browser decoder: FLAC/MP3/WAV/AAC/OGG)
+    |
+    v
 MediaElementSourceNode
-        ↓
-StereoPannerNode (Balance ±1)
-        ↓
-BiquadFilterNode (Bass: Low Shelf @ 200Hz, ±12dB)
-        ↓
-BiquadFilterNode (Treble: High Shelf @ 3000Hz, ±12dB)
-        ↓
-BiquadFilterNode (EQ Band 1: Peaking @ 32Hz, ±12dB)
-        ↓
-BiquadFilterNode (EQ Band 2: Peaking @ 64Hz, ±12dB)
-        ↓
-BiquadFilterNode (EQ Band 3: Peaking @ 125Hz, ±12dB)
-        ↓
-BiquadFilterNode (EQ Band 4: Peaking @ 250Hz, ±12dB)
-        ↓
-BiquadFilterNode (EQ Band 5: Peaking @ 500Hz, ±12dB)
-        ↓
-BiquadFilterNode (EQ Band 6: Peaking @ 1kHz, ±12dB)
-        ↓
-BiquadFilterNode (EQ Band 7: Peaking @ 2kHz, ±12dB)
-        ↓
-BiquadFilterNode (EQ Band 8: Peaking @ 4kHz, ±12dB)
-        ↓
-BiquadFilterNode (EQ Band 9: Peaking @ 8kHz, ±12dB)
-        ↓
-BiquadFilterNode (EQ Band 10: Peaking @ 16kHz, ±12dB)
-        ↓
-ChannelSplitterNode (L/R Separation)
-        ↓              ↓
-AnalyserNode (L)  AnalyserNode (R)
-        ↓
-AudioDestinationNode (Speakers)
+    |
+    v
+StereoPannerNode                  setBalance(val)  pan in [-1, +1]
+    |
+    v
+BiquadFilterNode  lowshelf  200 Hz    updateEQ()  bass  +-12 dB
+    |
+    v
+BiquadFilterNode  highshelf 3000 Hz   updateEQ()  treble +-12 dB
+    |
+    v
+BiquadFilterNode  peaking   32 Hz  ---+
+BiquadFilterNode  peaking   64 Hz     |
+BiquadFilterNode  peaking  125 Hz     |  setCustomFilter(freq, gain)
+BiquadFilterNode  peaking  250 Hz     |  Q = 1.4  +-12 dB each
+BiquadFilterNode  peaking  500 Hz     |  setTargetAtTime(v, t, 0.01)
+BiquadFilterNode  peaking   1 kHz     |
+BiquadFilterNode  peaking   2 kHz     |
+BiquadFilterNode  peaking   4 kHz     |
+BiquadFilterNode  peaking   8 kHz     |
+BiquadFilterNode  peaking  16 kHz  ---+   (_lastNode)
+    |
+    +-- ChannelSplitterNode --> AnalyserL  getLevels()
+    |                       --> AnalyserR  getLevels()
+    |
+    v (stereo, default)
+AudioDestinationNode
+
+Mono mode (setMono(true)):
+_lastNode --> monoSplitter --> monoMerger (L+R summed on both channels)
+                                   |
+                                   v
+                             AudioDestinationNode
 ```
 
-#### McIntoshAudioEngine Class
+AudioContext sample rate is adapted dynamically on each track load via `reinitWithSampleRate()`.
 
-**Core Properties**:
+---
+
+### JavaScript Modules
+
+#### component-loader.js
 
 ```javascript
-{
-  audio: HTMLAudioElement,         // HTML5 audio element
-  audioCtx: AudioContext,           // Web Audio context
-  source: MediaElementSourceNode,   // Audio source
-  balanceNode: StereoPannerNode,    // Balance control
-  bassFilter: BiquadFilterNode,     // Bass filter
-  trebleFilter: BiquadFilterNode,   // Treble filter
-  filters: Object,                  // Map of 10 EQ filters {freq: filter}
-  analyserL: AnalyserNode,          // Left channel analyzer
-  analyserR: AnalyserNode,          // Right channel analyzer
-  eqBands: Array,                   // [32, 64, 125, 250, 500, 1k, 2k, 4k, 8k, 16k]
+class ComponentLoader {
+    constructor()              // defines components[] list and modalsComponent
+    async loadComponent(file)  // fetch() returns HTML string, logs error on failure
+    async loadAll()            // sequential inject into #amplifier-panel, then
+                               // modals.html into #modals-section
+                               // fires document.dispatchEvent('componentsLoaded')
 }
 ```
 
-**Core Methods**:
-
-- `init()`: Initialize audio context and graph
-- `play()`: Start playback
-- `pause()`: Pause playback
-- `stop()`: Stop and reset
-- `setVolume(val)`: Set volume (0-1)
-- `setBalance(val)`: Set balance (-1 to +1)
-- `updateEQ(bass, treble, loudness)`: Update tone filters
-- `setCustomFilter(freq, gain)`: Set EQ band gain
-- `getLevels()`: Return audio levels {left, right}
-
-### Modular Components
-
-#### 1. Component Loader (component-loader.js)
-
-**Role**: Dynamically loads HTML components into main page
-
-**How it Works**:
+#### mcintosh-audio-engine.js — McIntoshAudioEngine class
 
 ```javascript
-// List of components to load
-const components = [
-  { file: 'meter-section.html', target: '#amplifier-panel' },
-  { file: 'display-area.html', target: '#amplifier-panel' },
-  { file: 'controls.html', target: '#amplifier-panel' },
-  { file: 'modals.html', target: '#modals-section' },
-  { file: 'options-menu.html', target: '#modals-section' }
-];
+// Initialization
+init(sampleRate = null)           // build full node graph; guard: if (isInitialized) return
+reinitWithSampleRate(sampleRate)  // close context, reset all nodes, call init(), reapply all gains
 
-// Loading with fetch and insertion
-components.forEach(async comp => {
-  const html = await fetch(`components/${comp.file}`).then(r => r.text());
-  document.querySelector(comp.target).insertAdjacentHTML('beforeend', html);
-});
+// Playback
+play()                            // resume suspended context, return audio.play() Promise
+pause()                           // audio.pause()
+stop()                            // audio.pause() + currentTime = 0
+setVolume(val)                    // audio.volume clamped [0, 1]
 
-// Event triggered when all components are loaded
-document.dispatchEvent(new Event('componentsLoaded'));
+// DSP (all transitions via setTargetAtTime, timeConstant 0.01)
+setBalance(val)                   // StereoPanner.pan clamped [-1, +1]
+setMono(active)                   // true: ChannelSplitter + Merger (L+R sum on both channels)
+                                  // false: direct to destination
+updateEQ(bass, treble, loudness)  // shelf filters + loudness:
+                                  //   intensity = max(0, (0.7 - volume) / 0.7)
+                                  //   bass   += intensity x 8   (max +8 dB)
+                                  //   treble += intensity x 4   (max +4 dB)
+setCustomFilter(freq, gain)       // single EQ band by frequency key
+
+// Analysis
+getLevels()                       // returns { left, right } averaged over fftSize/2 bins (0-72)
 ```
 
-**Benefits**:
-
-- Separation of concerns
-- Improved maintainability
-- Asynchronous loading
-- Component reusability
-
-#### 2. Main Script (script.js)
-
-**Role**: Orchestrates all application logic
-
-**Structure**:
+#### vu-meter.js
 
 ```javascript
-// --- IMPORT & INIT ---
-const engine = new McIntoshAudioEngine(audio);
+const VU_METER_CONFIG = {
+    ANGLE_REST:        -55,   // needle rest angle (degrees)
+    ANGLE_MAX:         110,   // total sweep from rest
+    SIGNAL_BOOST:      3.5,   // raw level multiplier
+    RESPONSE_CURVE:    0.7,   // power-law exponent
+    SMOOTHING_ATTACK:  0.35,  // rise lerp factor per frame
+    SMOOTHING_RELEASE: 0.1,   // fall lerp factor per frame
+};
 
-// --- STATE VARIABLES ---
-let playlist = [];
-let currentIndex = 0;
-let isPoweredOn = false;
-let currentVolume = 0.05;
-let bassGain = 0;
-let trebleGain = 0;
-let currentBalance = 0;
-// ... etc
-
-// --- EVENT LISTENERS ---
-// Control buttons
-playPauseBtn.addEventListener('click', handlePlayPause);
-prevBtn.addEventListener('click', handlePrevious);
-nextBtn.addEventListener('click', handleNext);
-
-// Knobs
-volumeKnob.addEventListener('mousedown', handleVolumeStart);
-inputBtn.addEventListener('click', () => fileUpload.click());
-
-// Audio element
-audio.addEventListener('timeupdate', updateTimeDisplay);
-audio.addEventListener('ended', handleTrackEnd);
-
-// --- BUSINESS FUNCTIONS ---
-function loadTrack(index) { /* ... */ }
-function updateVUMeters() { /* ... */ }
-function applyLoudnessEffect() { /* ... */ }
-// ... etc
+startVuMeter(engine, audio, needleL, needleR, getIsPoweredOn)
+// Starts requestAnimationFrame loop.
+// getIsPoweredOn is a function reference to always read live state from script.js.
 ```
 
-**Responsibilities**:
+#### script.js — Main application
 
-- Playlist management
-- Playback controls
-- Interface updates
-- VU meter animation
-- Metadata handling
-- Playback modes (repeat, random, A-B)
+Section map:
 
-#### 3. Electron Main (main.js)
+| Lines | Section |
+|---|---|
+| 1-11 | Electron/browser compatible import |
+| 12-65 | DOM selectors |
+| 35 | const engine = new McIntoshAudioEngine(audio) |
+| 67-94 | State variables |
+| 100-173 | Utility: fitText, showStatusBriefly, showTone, hideTone, showVolumeBriefly, updateStatusIcon, applyLoudnessEffect, updateVFDStatusDisplay |
+| 174-189 | Power / reboot modal |
+| 190-218 | Balance & tone: showBalanceStatus, setBalance, bass/treble listeners |
+| 219-302 | loadTrack(index) — src, format, bitrate, sample rate reinit, jsmediatags, cover art |
+| 303-322 | VFD clicks: album popup, time toggle |
+| 323-339 | Audio events: timeupdate (A-B, MediaSession), onended (repeat/random) |
+| 340-384 | Seeking: startSeeking, stopSeeking (500ms delay, +-3s / 100ms) |
+| 385-521 | Playlist: readMetaForFiles, renderPlaylistItems, remove/add track |
+| 522-582 | File loading: isAudioFile, addFilesToPlaylist, drag & drop |
+| 583-679 | Electron open-with — IPC open-files to File objects |
+| 620-679 | Playback controls: Play/Pause, Stop, Mute, Loudness, Bypass snapshot |
+| 743-748 | startVuMeter(engine, audio, nl, nr, () => isPoweredOn) |
+| 749-775 | Volume: updateVolumeDisplay, knob mousedown/wheel |
+| 776-834 | Media Session: updateMediaMetadata(), action handlers |
+| 835-891 | Options popup, Electron IPC media-control |
+| 892-954 | Info overlay, color pickers |
+| 955-1146 | 10-band EQ: drawEQCurve, applyPreset, slider listeners, EQUALIZER knob |
+| 1147-1183 | Balance knob: applyBalance(isRight), center snap |
+| ~1184 | Global window mouseup: clears all hold intervals |
 
-**Role**: Electron application entry point
+Key functions:
 
-**Features**:
+`loadTrack(index)` — sets audio.src, reads format + bitrate on loadedmetadata, calls `engine.reinitWithSampleRate(audio.sampleRate)` if sample rate differs, reads jsmediatags for title/artist/album/cover, populates album popup, calls `engine.init()` + `engine.play()`.
 
+`updateVFDStatusDisplay()` — creates or updates `#vfd-mode-indicator` with 4 fixed-height spans (A-B, RANDOM, REPEAT(1), REPEAT(ALL)). Each span is always rendered: lit (#74f1fc with glow) when active, dimmed (#0d2a2e) when inactive — simulating real VFD inactive segments.
+
+`showTone()` / `hideTone()` — writes `| B: +4dB  T: -2dB` into `#vfd-tone-display` span inside the VFD sub-tech-row. Persists until `hideTone()` is called by TONE RESET.
+
+`applyPreset(btnId)` — maps button id to gains array, updates 10 sliders + engine filters, writes `| EQ NAME` to `#vfd-preset-display`, calls `drawEQCurve()`.
+
+`drawEQCurve()` — reads 10 slider values, maps to canvas x/y, draws quadratic bezier with #00c3ff glow on `#eq-curve` canvas.
+
+Bypass save/restore:
 ```javascript
-const { app, BrowserWindow, globalShortcut } = require('electron');
+// On activate
+bypassSnapshot = { bassGain, trebleGain, isLoudnessActive, eqBands: [...10], vfdPresetText };
+engine.updateEQ(0, 0, false);
+eqSliders.forEach(s => { s.value = 0; engine.setCustomFilter(freq, 0); });
 
-function createWindow() {
-  const win = new BrowserWindow({
-    width: 1800,
-    height: 900,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false
-    }
-  });
-  
-  win.loadFile('index.html');
-  
-  // Windows thumbnail buttons
-  win.setThumbarButtons([
-    { icon: 'prev.png', click: () => win.webContents.send('prev') },
-    { icon: 'play.png', click: () => win.webContents.send('play-pause') },
-    { icon: 'next.png', click: () => win.webContents.send('next') }
-  ]);
-  
-  // Global keyboard shortcuts
-  globalShortcut.register('MediaPlayPause', () => { /* ... */ });
-  globalShortcut.register('MediaNextTrack', () => { /* ... */ });
-}
-
-app.whenReady().then(createWindow);
-```
-
-#### 4. Service Worker (sw.js)
-
-**Role**: PWA cache management for offline functionality
-
-**Cache Strategy**:
-
-```javascript
-const CACHE_NAME = 'mcintosh-dap-v2.5.1';
-const urlsToCache = [
-  '/',
-  '/index.html',
-  '/style.css',
-  '/script.js',
-  '/js/mcintosh-audio-engine.js',
-  '/js/component-loader.js',
-  '/assets/fontawesome7/css/all.min.css',
-  // ... all static resources
-];
-
-// Install: initial caching
-self.addEventListener('install', e => {
-  e.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
-  );
-});
-
-// Fetch: cache-first strategy
-self.addEventListener('fetch', e => {
-  e.respondWith(
-    caches.match(e.request)
-      .then(response => response || fetch(e.request))
-  );
-});
-```
-
-### State Management System
-
-#### Global States
-
-```javascript
-// System state
-isPoweredOn: boolean        // System on/off
-isMuted: boolean            // Audio muted
-isLoudnessActive: boolean   // Loudness compensation active
-isMonoActive: boolean       // Mono mode active
-isBypassActive: boolean     // Bypass mode active (all processing cut)
-bypassSnapshot: Object|null // Saved state before bypass activation
-
-// Playback state
-currentIndex: number        // Current track index
-playlist: Array             // Track list
-isRandom: boolean           // Random mode
-repeatMode: 0|1|2          // 0: off, 1: repeat(1), 2: repeat(all)
-abMode: 0|1|2              // 0: off, 1: A set, 2: A-B active
-pointA: number             // Point A position (seconds)
-pointB: number             // Point B position (seconds)
-
-// Audio state
-currentVolume: number      // Current volume (0-1)
-bassGain: number           // Bass gain (-12 to +12 dB)
-trebleGain: number         // Treble gain (-12 to +12 dB)
-currentBalance: number     // Balance (-1 to +1)
-
-// Visual state
-isShowingRemaining: boolean // Show remaining/elapsed time
-currentAngleL: number       // Left VU needle angle
-currentAngleR: number       // Right VU needle angle
-```
-
-#### Data Flow
-
-```
-User Action (Event)
-        ↓
-Event Handler
-        ↓
-State Update
-        ↓
-Engine Update (if needed)
-        ↓
-UI Update
-        ↓
-Visual Feedback
-```
-
-### Performance Optimizations
-
-#### 1. VU Meter Animation
-
-```javascript
-// Smoothing with requestAnimationFrame
-function animateMeters() {
-  const { left, right } = engine.getLevels();
-  
-  // Conversion with power-law for natural response
-  const dbL = Math.pow(left / 255, 1.5) * 110;
-  const dbR = Math.pow(right / 255, 1.5) * 110;
-  
-  // 25% smoothing for fluid movement
-  targetAngleL = dbL - 55;
-  targetAngleR = dbR - 55;
-  currentAngleL += (targetAngleL - currentAngleL) * 0.25;
-  currentAngleR += (targetAngleR - currentAngleR) * 0.25;
-  
-  // Apply with CSS transform (GPU accelerated)
-  nl.style.transform = `rotate(${currentAngleL}deg)`;
-  nr.style.transform = `rotate(${currentAngleR}deg)`;
-  
-  requestAnimationFrame(animateMeters);
-}
-```
-
-#### 2. Control Debouncing
-
-```javascript
-// Volume display auto-hide
-let volTimeout = null;
-function showVolumeBriefly() {
-  clearTimeout(volTimeout);
-  volDisplay.style.opacity = "1";
-  volTimeout = setTimeout(() => {
-    volDisplay.style.opacity = "0";
-  }, 2000);
-}
-
-// Fast seek with interval
-let seekInterval = null;
-function startSeeking(direction) {
-  setTimeout(() => {
-    if (!isMouseDown) return;
-    seekInterval = setInterval(() => {
-      audio.currentTime += direction * 3; // ±3 seconds
-    }, 100);
-  }, 500); // 500ms delay
-}
-```
-
-#### 3. Lazy Loading of Metadata
-
-```javascript
-function loadTrack(index) {
-  // Immediate audio loading
-  audio.src = URL.createObjectURL(playlist[index]);
-  
-  // Asynchronous metadata extraction
-  jsmediatags.read(playlist[index], {
-    onSuccess: tag => {
-      updateMetadataDisplay(tag);
-      extractAlbumArt(tag);
-    }
-  });
-}
+// On deactivate
+bassGain = bypassSnapshot.bassGain;
+engine.updateEQ(bassGain, trebleGain, isLoudnessActive);
+bypassSnapshot.eqBands.forEach(b => { slider.value = b.value; engine.setCustomFilter(b.freq, b.value); });
 ```
 
 ---
 
-## 📥 Installation and Usage
+### HTML Components
 
-### Web Version (PWA)
+| File | Target | Content |
+|---|---|---|
+| meter-section.html | #amplifier-panel | Two .meter divs, SVG backgrounds, #needle-l / #needle-r |
+| display-area.html | #amplifier-panel | #vfd, text zones, bitrate, format, tone display, time |
+| controls.html | #amplifier-panel | INPUT/VOLUME/EQ/BALANCE knobs, all buttons |
+| options-menu.html | #amplifier-panel | #options-popup + #playlist-popup |
+| info.html | #amplifier-panel | About overlay |
+| drop.html | #amplifier-panel | #drop-overlay drag feedback |
+| modals.html | #modals-section | Album art popup (title/artist in gold), reboot modal, EQ popup |
 
-#### Prerequisites
+---
 
-- Modern browser (Chrome, Edge, Firefox, Safari)
-- Web Audio API support
-- Service worker support (for PWA)
+### CSS Architecture
 
-#### Installation
+| File | Scope |
+|---|---|
+| root.css | --mc-blue, --mc-gold, --vfd-color, --panel-black, --roboto, --bitcount, --release-number 3.5.0 |
+| chassis.css | .chassis-wrapper, .amplifier-panel (glass effect), side trim (white anodized aluminum), border depth |
+| meters.css | .meter-container, .needle pivot |
+| display.css | .vfd, .vfd-large, badges, tone display, mode indicator |
+| controls.css | Knobs, buttons |
+| eq.css | EQ popup, sliders, canvas |
+| modals.css | Options menu, playlist, album popup |
+| states.css | .stealth-mode, .dimmed, .blink-fast, .blink-soft |
+| overlay.css | Full-screen overlays |
+| info.css | About overlay |
+| door.css | #main-doors, .door-left/right, .doors-open animation, #enter-btn transparent |
+| mobile.css | scale() transforms at 2000/1600/1400/1200 px breakpoints |
 
-1. **Clone the repository**:
+---
 
-```bash
-git clone https://github.com/yourusername/mcintosh-dap.git
-cd mcintosh-dap
+### State Management
+
+All state is stored as let variables in script.js:
+
+```javascript
+// System
+let isPoweredOn        = false
+let isMuted            = false
+let isLoudnessActive   = false
+let isMonoActive       = false
+let isBypassActive     = false
+let bypassSnapshot     = null    // { bassGain, trebleGain, isLoudnessActive, eqBands[], vfdPresetText }
+
+// Playlist
+let playlist           = []      // File[] objects
+let playlistMeta       = []      // { artist, title, album, cover } per index
+let currentIndex       = 0
+let isRandom           = false
+let repeatMode         = 0       // 0=off | 1=one | 2=all
+let abMode             = 0       // 0=off | 1=A set | 2=A-B active
+let pointA             = 0       // seconds
+let pointB             = 0       // seconds
+
+// Audio
+let currentVolume      = 0.05
+let bassGain           = 0       // dB, -12 to +12
+let trebleGain         = 0
+let currentBalance     = 0       // -1 to +1
+
+// Seek / hold timers
+let seekInterval       = null
+let isMouseDown        = false
+let volHoldInterval    = null
+
+// UI
+let isShowingRemaining = false
+let displayMode        = 0       // 0=bright | 1=dimmed
+let dragCounter        = 0
 ```
 
-1. **Serve the application**:
+A single `window.addEventListener('mouseup')` at the end of script.js clears all hold intervals — prevents stuck knobs on fast mouse releases.
+
+---
+
+### Service Worker & PWA
+
+`sw.js` version 3.5.0, two caching strategies:
+
+- **Network-first** for index.html — always fetches the latest version, falls back to cache when offline
+- **Cache-first** for all other assets — instant load, updates cache dynamically on miss
+
+Special requests ignored: blob: URLs, chrome-extension:, GoatCounter, Google Tag Manager.
+
+To deploy an update, increment `CACHE_VERSION` in `sw.js` — the activate handler automatically deletes the old cache.
+
+Registration added in index.html on window.load:
+```javascript
+navigator.serviceWorker.register('/sw.js')
+```
+
+---
+
+## Installation
+
+### Web / PWA
 
 ```bash
-# With Python 3
+# Must be served — fetch() does not work on file://
+git clone https://github.com/HDSoundSystem/McIntosh-DAP.git
+cd McIntosh-DAP
+
 python -m http.server 8000
+# or: npx http-server -p 8000
 
-# Or with Node.js http-server
-npx http-server -p 8000
+# Open http://localhost:8000
 ```
 
-1. **Access**: Open `http://localhost:8000`
+Install as PWA: Chrome/Edge — install icon in address bar. Safari — Share > Add to Home Screen.
 
-2. **Install as PWA** (optional):
-   - Chrome: Click install icon in address bar
-   - Edge: Menu → Apps → Install this app
-   - Safari: Share → Add to Home Screen
-
-### Desktop Version (Electron)
-
-#### Prerequisites
-
-- Node.js 14+ and npm
-
-#### Installation and Build
+### Electron (Desktop)
 
 ```bash
-# 1. Install dependencies
-npm install
-
-# 2. Launch in development mode
-npm start
-
-# 3. Build portable application (Windows)
-npm run dist
+npm install       # Electron 26 + electron-builder
+npm start         # development mode
+npm run dist      # build -> dist/McIntosh-DAP.exe (Windows portable)
 ```
 
-#### Executable File
-
-After build, the portable app is in:
-
-```
-dist/McIntosh-dap.exe
-```
-
-### Usage
-
-#### Getting Started
-
-1. **Power on the system**: Click STANDBY/ON button (red LED)
-2. **Load audio files**:
-   - Click INPUT knob to select individual files
-   - OR drag & drop audio files anywhere on the interface
-   - OR open the playlist popup and click `+` to add more tracks
-3. **Start playback**: Click PLAY/PAUSE
-
-#### Main Controls
-
-- **INPUT**: Load individual files (added to playlist)
-- **Drag & Drop**: Drop audio files anywhere on the interface to add them to the playlist
-- **Playlist `+`**: Add more tracks to the current playlist (button in playlist popup header)
-- **Playlist `−`**: Remove a track from the playlist (appears on hover on each track row)
-- **PLAY/PAUSE**: Play/Pause
-- **PREV/NEXT**: Previous/next track (hold for fast seek)
-- **STOP**: Stop playback
-- **VOLUME**: Click left/right or use mouse wheel — PUSH label above, ADJUST label below
-- **EQUALIZER**: Rotary knob below INPUT — click left/right or mouse wheel to cycle EQ presets
-- **BALANCE**: Rotary knob below VOLUME — click left/right or mouse wheel to adjust in 2% steps
-- **MUTE**: Mute audio
-- **BYPASS**: Cut all audio processing instantly (EQ, Bass/Treble, Loudness) — click again to restore
-- **OPTIONS**: Open options menu (EQ, balance, etc.)
-- **DISPLAY**: Change display mode
-- **RESET**: Restart application (with confirmation)
-
-#### OPTIONS Menu
-
-- **Bass/Treble**: Tone controls (±12dB in 2dB steps)
-- **Balance L/R**: Stereo balance (0.1 increments)
-- **TONE RESET**: Reset EQ and balance
-- **MONO**: Mono mode on/off
-- **LOUDNESS**: Loudness compensation on/off
-- **10-BAND EQ**: Open graphic equalizer
-- **REPEAT**: Cycle OFF → REPEAT(1) → REPEAT(ALL)
-- **RANDOM**: Random mode on/off
-- **A-B LOOP**: Cycle OFF → A set → A-B active
-- **BACK COLOR**: Customize background color
-- **SHADOW COLOR**: Customize shadow color
-
-#### Direct Rotary Controls (no menu required)
-
-- **EQUALIZER knob** (below INPUT): Cycle through EQ presets directly — FLAT, POP, ROCK, JAZZ, CLASSIC, LIVE
-- **BALANCE knob** (below VOLUME): Adjust stereo balance in 2% steps with mandatory center snap
+File associations registered by the build: .mp3 .flac .wav .m4a .aac .ogg .mp4 — double-click to open directly in the player.
 
 ---
 
-## ⚙️ Configuration
+## Configuration
 
-### Customizable CSS Variables
-
-File `/css/root.css`:
+### CSS Custom Properties — css/root.css
 
 ```css
 :root {
-  /* Main colors */
-  --panel-black: #1a1a1a;          /* Panel background */
-  --mc-blue: #00c3ff;               /* McIntosh signature blue */
-  --mc-green: #00ff66;              /* Label and LED green */
-  --chassis-shadow: rgba(0,0,0,0.7); /* Chassis shadow */
-  
-  /* VFD colors */
-  --vfd-bg: #0a0a0a;               /* VFD background */
-  --vfd-text: #00c3ff;             /* VFD text */
-  --vfd-glow: rgba(0,195,255,0.3); /* VFD glow */
-  
-  /* Button colors */
-  --btn-black: #000000;            /* Black buttons */
-  --btn-hover: #1a1a1a;            /* Button hover */
-  --btn-active: #2a2a2a;           /* Active buttons */
-  
-  /* Dimensions */
-  --panel-width: 1650px;
-  --panel-height: 750px;
-  --knob-size: 80px;
+    --release-number:            "RELEASE 3.5.0";
+    --background-color-app:      #454545;
+    --chassis-shadow:            #6e6e6e;
+    --vfd-color:                 #74f1fc;
+    --mc-blue:                   #00c3ff;
+    --mc-green:                  #02c705;
+    --panel-black:               #080808;
+    --mc-gold:                   #786b46;
+    --roboto:                    'Roboto', sans-serif;
+    --bitcount:                  'Bitcount Single', sans-serif;
 }
 ```
 
-### Electron Configuration
+### VU Meter Physics — js/vu-meter.js
 
-File `package.json`:
+Edit `VU_METER_CONFIG` directly in source for permanent defaults.
+
+### Electron Build — package.json
 
 ```json
 {
   "build": {
-    "appId": "com.yohann.mcintosh",
+    "appId": "com.HDSoundSystem.McIntoshDAP",
     "productName": "McIntosh-DAP",
-    "win": {
-      "icon": "assets/img/favicon.ico",
-      "target": "portable"
-    },
-    "directories": {
-      "output": "dist"
-    }
+    "win": { "icon": "assets/img/favicon.ico", "target": "portable" }
   }
 }
 ```
 
-### Service Worker Cache
-
-File `sw.js` - Modify to customize cache:
+### PWA Cache Version — sw.js
 
 ```javascript
-const CACHE_NAME = 'mcintosh-dap-v2.5.1';
-const urlsToCache = [
-  // Add or remove URLs to cache
-];
+const CACHE_VERSION = '3.5.0'; // increment on each deployment
 ```
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
-Contributions are welcome! Here's how to participate:
+1. Fork the project
+2. Create a branch: `git checkout -b feature/MyFeature`
+3. Commit and push
+4. Open a Pull Request
 
-### Contribution Guidelines
-
-1. **Fork** the project
-2. **Create a branch** for your feature (`git checkout -b feature/AmazingFeature`)
-3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
-4. **Push** to the branch (`git push origin feature/AmazingFeature`)
-5. **Open a Pull Request**
-
-### Code Standards
-
-#### JavaScript
-
-- Modern ES6+
-- Indentation: 4 spaces
-- Semicolons required
-- JSDoc comments for main functions
-- Naming: camelCase for variables/functions, PascalCase for classes
-
-#### CSS
-
-- BEM naming convention when appropriate
-- CSS variables for reusable values
-- Mobile-first for responsive
-- Comments for main sections
-
-#### HTML
-
-- Semantic HTML5
-- ARIA attributes for accessibility
-- Indentation: 4 spaces
-
-### Pull Request Process
-
-1. **Update** documentation if needed
-2. **Add tests** for new features
-3. **Verify** code works in web and desktop
-4. **Describe** changes clearly in PR
-5. **Wait** for review and feedback
-
-### Bug Reporting
-
-When reporting a bug, include:
-
-- **Browser/OS** (e.g., Windows 11, Chrome 120)
-- **Steps to reproduce**:
-  1. First step
-  2. Second step
-  3. What happened
-- **Expected vs actual behavior**
-- **Console errors** (if any) - F12 → Console
-- **Screenshots** (if visual issue)
-- **Audio file format** (if playback issue)
-
-### Feature Requests
-
-When requesting a feature:
-
-- Check if already on roadmap
-- Explain the use case
-- Describe expected behavior
-- Consider implementation complexity
-- Open to discussion and alternatives
+Conventions: ES6+, 4-space indent, camelCase variables, PascalCase classes. New CSS — add a file in css/ and @import it in style.css. Test in both browser and Electron before submitting.
 
 ---
 
-## 📄 License
+## License
 
-This project is licensed under the **MIT License**.
-
-```
-MIT License
-
-Copyright (c) 2026 Yohann Zaoui
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
+MIT License — Copyright (c) 2026 Yohann Zaoui. See `LICENSE` for full text.
 
 ---
 
-## ⚠️ Disclaimer
+## Disclaimer
 
-This is a **fan-made tribute project** and:
-
-- **IS NOT affiliated** with McIntosh Laboratory, Inc.
-- **IS NOT endorsed** by McIntosh Laboratory, Inc.
-- **IS NOT an official** McIntosh product
-- **IS NOT intended for commercial use**
-
-McIntosh® is a registered trademark of McIntosh Laboratory, Inc. This project is created solely for educational and entertainment purposes as a tribute to their iconic design legacy.
+Fan-made tribute project. Not affiliated with, endorsed by, or an official product of McIntosh Laboratory, Inc. McIntosh® is a registered trademark of McIntosh Laboratory, Inc. Created for educational and entertainment purposes only.
 
 ---
 
-## 🙏 Credits & Acknowledgments
+## Credits
 
-### Design Inspiration
+Design inspiration: **McIntosh Laboratory** — American audio manufacturer since 1949.
 
-This project pays homage to **McIntosh Laboratory**, legendary American manufacturer of high-end audio equipment since 1949, renowned for:
-
-- Iconic blue watt meters with illuminated scales
-- Premium build quality and craftsmanship
-- Timeless design aesthetics (black glass, chrome, illuminated meters)
-- Audiophile-grade performance and sound quality
-- Power Guard® technology for speaker protection
-- Hand-built in Binghamton, New York, USA
-
-### Libraries & Resources
-
-- **[Font Awesome](https://fontawesome.com/)** - Comprehensive icon library (v7)
-- **[jsmediatags](https://github.com/aadsm/jsmediatags)** - Audio metadata extraction library
-- **[Google Fonts](https://fonts.google.com/)** - Web typography (Bitcount Single, Roboto)
-- **[Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)** - Mozilla Developer Network documentation
-- **[HTML5 Audio](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio)** - W3C specification
-- **[Service Worker API](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)** - PWA offline functionality
-- **[Media Session API](https://developer.mozilla.org/en-US/docs/Web/API/Media_Session_API)** - System media controls integration
-- **[Electron](https://www.electronjs.org/)** - Cross-platform desktop application framework
-
-### Special Thanks
-
-- The open-source community for tools and inspiration
-- Audio enthusiasts and HiFi collectors for feedback
-- McIntosh Laboratory for decades of design excellence
-- All contributors, testers, and users
-- The Web Audio API community and documentation authors
-- Electron.js team for desktop integration capabilities
+Libraries and tools: jsmediatags · Font Awesome 7 · Google Fonts (Bitcount Single, Roboto) · Electron · Web Audio API · Media Session API · Service Worker API
 
 ---
 
-## 📞 Support & Contact
+<img width="1912" height="885" alt="screen-1" src="https://github.com/user-attachments/assets/ccc058ab-ab83-4bab-99d7-8428b2de1104" />
 
-### Getting Help
+**Enjoy your premium web audio experience!**
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/mcintosh-dap/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/mcintosh-dap/discussions)
-- **Documentation**: This README and inline code comments
-
-### Useful Resources
-
-- [Web Audio API Documentation](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
-- [HTML5 Audio Guide](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio)
-- [jsmediatags Documentation](https://github.com/aadsm/jsmediatags)
-- [Service Worker Documentation](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)
-- [PWA Guide](https://web.dev/progressive-web-apps/)
-- [BiquadFilter API](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode)
-- [StereoPanner API](https://developer.mozilla.org/en-US/docs/Web/API/StereoPannerNode)
-- [Electron Documentation](https://www.electronjs.org/docs/latest)
-
-### FAQ
-
-**Q: Can I add files by dragging and dropping them?**
-A: Yes! Drag any audio files (FLAC, MP3, WAV, M4A, AAC, OGG, MP4) directly onto the interface. They will be added to the existing playlist. If the playlist was empty, playback starts automatically. The VFD briefly displays `+N FILE(S) ADDED` as confirmation. You can also use the `+` button in the playlist popup header to add tracks, or the INPUT knob for individual file selection.
-
-**Q: Can I remove a track from the playlist?**
-A: Yes — hover over any track in the playlist popup to reveal the `−` button on the right. Clicking it removes that track. If it was currently playing and a next track exists, playback continues automatically. If it was the last track playing, audio stops cleanly.
-
-**Q: Why won't my audio files play?**
-A: Check that they're in a supported format (FLAC/MP3/WAV/MP4/AAC/OGG). Some browsers require user interaction before playing audio.
-
-**Q: Why can't I see album art?**
-A: Album art must be embedded in the file's ID3 tags. Use a tag editor like Mp3tag to add artwork.
-
-**Q: What's the difference between REPEAT and REPEAT(1)?**
-A: REPEAT(1) repeats the current track. REPEAT(ALL) repeats the entire playlist.
-
-**Q: How do I install as a PWA?**
-A: Serve via HTTPS, then look for "Install" option in your browser menu (usually in the address bar).
-
-**Q: Why don't VU meters move?**
-A: Ensure audio is playing and system is powered on. Check browser console for Web Audio API errors.
-
-**Q: Can I use this offline?**
-A: Yes, once installed as a PWA. However, audio files must be loaded each session (not cached).
-
-**Q: How do I build the desktop app?**
-A: Install Node.js, run `npm install`, then `npm run dist`. See the Desktop Version section for details.
-
-**Q: Do the taskbar buttons work on macOS/Linux?**
-A: Taskbar thumbnail buttons are Windows-only. However, global media key shortcuts work on all platforms.
-
-**Q: What's the difference between the 10-band EQ and BASS/TREBLE?**
-A: BASS/TREBLE are classic tone controls (shelf filters) for quick adjustments. The 10-band EQ provides precise frequency control across the entire audio spectrum. They work together.
-
-**Q: How do I reset all EQ settings?**
-A: Use TONE RESET in the options menu to reset BASS/TREBLE and balance. Use FLAT in the EQ popup to reset all 10 bands to 0dB. The EQUALIZER knob will also select the FLAT preset when cycled to position 0.
-
-**Q: What does BYPASS do exactly?**
-A: BYPASS cuts all audio processing in one click — EQ, Bass/Treble tone controls, and Loudness are all set to 0dB. The signal passes through completely unprocessed. When you deactivate BYPASS, every setting is restored exactly as it was before: all EQ bands, tone controls, and loudness state. It's useful for quickly comparing your processed sound with the original signal.
-
-**Q: Can I change EQ settings while BYPASS is active?**
-A: No — all processing controls (EQ sliders, Bass/Treble buttons, Loudness) are locked while BYPASS is active, to preserve the state that will be restored on deactivation.
-
-**Q: Can I customize the visual appearance?**
-A: Yes! Use the BACK COLOR and SHADOW COLOR pickers in the options menu. The DISPLAY button also cycles through different visual states.
-
-**Q: How do I set the balance exactly to center?**
-A: The BALANCE knob features a mandatory center snap — when turning from left to right (or right to left), it automatically locks to 0 (center) before continuing. This ensures you never miss the center position.
-
----
-<img width="738" height="194" alt="MCdoor" src="https://github.com/user-attachments/assets/ba76d4cc-f360-4a31-b22b-412fd17865e6" />
-<img width="1803" height="820" alt="2" src="https://github.com/user-attachments/assets/c2b0344b-0f45-4bda-b07f-6bf9151ef7fe" />
-<img width="1809" height="832" alt="3" src="https://github.com/user-attachments/assets/3aa8bbdd-645f-48a6-af37-ec172d43e7ce" />
-<img width="1808" height="822" alt="4" src="https://github.com/user-attachments/assets/f00c9797-c9ca-4801-84cd-4b0fb146c597" />
-<img width="1793" height="825" alt="4-2" src="https://github.com/user-attachments/assets/5fddb0ba-505e-47ae-9c5e-620fba35f33d" />
-<img width="1805" height="818" alt="4-1" src="https://github.com/user-attachments/assets/559b1b6b-3029-47ea-a3d7-c90296c410d0" />
-
-**Enjoy your premium web audio experience! 🎵🎛️**
-
-*Made with ❤️ for audio enthusiasts everywhere*
+*Made with love for audio enthusiasts everywhere*
