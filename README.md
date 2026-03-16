@@ -11,7 +11,7 @@ A premium web-based audio player that faithfully recreates the McIntosh amplifie
 ![Version](https://img.shields.io/badge/version-3.5.0-blue)
 
 ![preview](https://github.com/user-attachments/assets/7bc36eb4-3abf-4167-862a-a5e87df7afc9)
-<img width="1859" height="880" alt="1" src="https://github.com/user-attachments/assets/9aa0d11d-75dd-4e3e-a4aa-4d7c2bd0514f" />
+<img width="1826" height="842" alt="1" src="https://github.com/user-attachments/assets/7eca1b2b-d2cf-483d-9bc6-74e71bd29d94" />
 
 ---
 
