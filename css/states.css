@@ -1,10 +1,10 @@
-.meter-container.stealth-mode {
+.meter-container {
     filter: brightness(0);
     opacity: 0.1;
     transition: all 0.4s ease;
 }
 
-.meter-container.stealth-mode .needle {
+.meter-container .needle {
     display: none;
 }
 
