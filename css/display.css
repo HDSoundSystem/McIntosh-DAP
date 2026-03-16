@@ -197,3 +197,11 @@
     font-weight: 300;
     display: none;
 }
+
+.blink-pause {
+  animation: blinker 1.5s linear infinite;
+}
+
+@keyframes blinker {
+  50% { opacity: 0; }
+}

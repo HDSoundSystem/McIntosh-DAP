@@ -145,7 +145,7 @@ function updateStatusIcon(state) {
     if (!isPoweredOn || !statusIcon) return;
     statusIcon.className = "";
     if (state === 'play') statusIcon.innerHTML = 'PLAY';
-    else if (state === 'pause') { statusIcon.innerHTML = 'PAUSE'; }
+    else if (state === 'pause') { statusIcon.innerHTML = 'PAUSE'; statusIcon.classList.add('blink-pause'); }
     else if (state === 'stop') statusIcon.innerHTML = 'STOP';
 }
 
