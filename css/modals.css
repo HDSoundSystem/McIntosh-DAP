@@ -557,3 +557,60 @@
     border-color: #ff0000;
     background: rgba(255, 0, 0, 0.1);
 }
+
+/* 1. Préparation du bouton parent */
+[data-title] {
+  position: relative;
+  cursor: pointer;
+}
+
+/* 2. Création de la bulle (l'étiquette) */
+[data-title]::after {
+  content: attr(data-title);
+  position: absolute;
+  top: 150%; /* On part du haut et on descend */
+  left: 50%;
+  transform: translateX(-50%);
+  
+  /* Style Gold & Black */
+  background-color: #000;
+  color: var(--mc-gold);
+  border: 1px solid var(--mc-gold);
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: normal;
+  white-space: nowrap;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  
+  /* Animation */
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* 3. La petite flèche (inversée vers le haut) */
+[data-title]::before {
+  content: '';
+  position: absolute;
+  top: 130%; /* Positionnée entre le bouton et la bulle */
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-bottom-color: var(--mc-gold); /* La flèche pointe maintenant vers le haut */
+  
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+/* 4. Affichage au survol (mouvement vers le bas) */
+[data-title]:hover::after, 
+[data-title]:hover::before {
+  opacity: 1;
+  visibility: visible;
+  top: 125%; /* L'étiquette descend doucement à sa place */
+}
