@@ -344,7 +344,7 @@
     text-transform: uppercase;
 }
 
-.matrix-display {
+.matrix-display.vfd-off {
     opacity: 0 !important;
     transition: opacity 0.4s ease;
 }
