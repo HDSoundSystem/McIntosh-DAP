@@ -217,13 +217,6 @@
     text-overflow: ellipsis;
 }
 
-.playlist-logo-container {
-    text-align: center;
-    margin-top: 30px;
-    margin-bottom: 20px;
-    width: 100%;
-}
-
 #popup-track-info {
     display: flex;
     align-items: baseline;
@@ -460,23 +453,6 @@
     margin-bottom: 20px;
 }
 
-.scan-label {
-    background: var(--mc-green);
-    color: black;
-    padding: 10px 20px;
-    cursor: pointer;
-    text-align: center;
-    font-weight: bold;
-    display: inline-block;
-    margin-bottom: 15px;
-}
-
-.file-browser {
-    flex-grow: 1;
-    overflow-y: auto;
-    background: rgba(0, 255, 0, 0.05);
-    border: 1px inset #333;
-}
 
 #file-list li {
     padding: 12px;

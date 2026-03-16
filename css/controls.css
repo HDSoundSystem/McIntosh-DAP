@@ -331,16 +331,6 @@
     font-size: 10px;
 }
 
-.blink-soft {
-    animation: blinker 1.5s linear infinite;
-}
-
-@keyframes blinker {
-    50% {
-        opacity: 0.3;
-    }
-}
-
 #vfd-mode-indicator {
     position: absolute;
     bottom: 8px;
