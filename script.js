@@ -708,8 +708,8 @@ document.getElementById('display-btn')?.addEventListener('click', () => {
 
     const vfd = document.getElementById('vfd');
     const meters = document.querySelectorAll('.meter');
-    const mcLogo = document.getElementById('mc-logo'); // Ton logo mc-logo.png
-    const labels = document.querySelectorAll('.label-green, .small-label, .small-label-option-menu');
+    const mcLogo = document.getElementById('mc-logo');
+    const labels = document.querySelectorAll('.label-green, .small-label, .small-label-option-menu, .mini-label-green');
 
     displayMode = (displayMode + 1) % 2;
 
