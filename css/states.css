@@ -41,6 +41,13 @@
     transition: color 0.8s ease, opacity 0.8s ease !important;
 }
 
+.label-dimmed {
+    color: #555555 !important;
+    opacity: 0.7 !important;
+    text-shadow: none !important;
+    transition: color 0.5s ease, opacity 0.5s ease;
+}
+
 .label-off {
     color: #c0c0c0 !important;
     opacity: 1;
