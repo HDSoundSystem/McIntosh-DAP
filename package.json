@@ -11,7 +11,7 @@
   "author": "Yohann Zaoui",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^26.0.0",
+    "electron": "^41.0.3",
     "electron-builder": "^24.6.4"
   },
   "build": {
@@ -61,5 +61,8 @@
     "directories": {
       "output": "dist"
     }
+  },
+  "dependencies": {
+    "node": "^25.8.1"
   }
 }
