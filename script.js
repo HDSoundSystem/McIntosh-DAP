@@ -254,8 +254,10 @@ function loadTrack(index) {
                 setTimeout(() => fitText(vfdLarge, 30), 10);
                 const popupAlbum = document.getElementById('popup-album-name');
                 const popupArtist = document.getElementById('popup-artist-name');
+                const popupTrack = document.getElementById('popup-track-title');
                 if (popupAlbum) popupAlbum.textContent = (t.album || 'UNKNOWN ALBUM').toUpperCase();
                 if (popupArtist) popupArtist.textContent = (t.artist || 'UNKNOWN ARTIST').toUpperCase();
+                if (popupTrack) popupTrack.textContent = (t.title || file.name.replace(/\.[^/.]+$/, '')).toUpperCase();
                 const img = t.picture;
                 if (currentCoverBlobUrl) { URL.revokeObjectURL(currentCoverBlobUrl); currentCoverBlobUrl = null; }
                 if (img) {
@@ -277,8 +279,10 @@ function loadTrack(index) {
                 setTimeout(() => fitText(vfdLarge, 30), 10);
                 const popupAlbumErr = document.getElementById('popup-album-name');
                 const popupArtistErr = document.getElementById('popup-artist-name');
+                const popupTrackErr = document.getElementById('popup-track-title');
                 if (popupAlbumErr) popupAlbumErr.textContent = 'UNKNOWN ALBUM';
                 if (popupArtistErr) popupArtistErr.textContent = 'UNKNOWN ARTIST';
+                if (popupTrackErr) popupTrackErr.textContent = file.name.replace(/\.[^/.]+$/, '').toUpperCase();
                 popupImg.src = "";
                 popupImg.style.display = 'none';
                 noCoverText && (noCoverText.style.display = 'flex');
