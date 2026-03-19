@@ -37,6 +37,13 @@ function createWindow() {
     width: 1200,
     height: 800,
     autoHideMenuBar: true,
+    // --- Custom title bar (Windows) ---
+    titleBarStyle: 'hidden',          // Hide default title bar, keep window controls
+    titleBarOverlay: {
+      color: '#080808',               // Background — matches --panel-black
+      symbolColor: '#786b46',         // Buttons color — matches --mc-gold
+      height: 32
+    },
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false
