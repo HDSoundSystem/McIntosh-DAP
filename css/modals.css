@@ -242,6 +242,37 @@
     max-width: 600px;
 }
 
+#popup-track-playing {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 12px 10px;
+    font-family: var(--roboto);
+    font-size: 10px;
+    letter-spacing: 1px;
+    max-width: 600px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.popup-track-label {
+    color: rgba(120, 107, 70, 0.8);
+    font-weight: 400;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+#popup-track-title {
+    color: var(--mc-gold);
+    font-weight: 600;
+    text-transform: uppercase;
+    text-shadow: 0 0 6px rgba(120, 107, 70, 0.4);
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 #popup-album-name {
     color: var(--mc-gold);
 }
