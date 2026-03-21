@@ -1,15 +1,11 @@
-// --- IMPORT COMPATIBLE ---
 let McIntoshAudioEngine;
 
 if (typeof require !== 'undefined') {
-    // We're in Electron
     McIntoshAudioEngine = require('./js/mcintosh-audio-engine.js');
 } else {
-    // We are on the web (the file must be loaded in the HTML before script.js)
     McIntoshAudioEngine = window.McIntoshAudioEngine;
 }
 
-// --- SELECTEURS ---
 const nl = document.getElementById('needle-l');
 const nr = document.getElementById('needle-r');
 const vfdLarge = document.querySelector('.vfd-large');
@@ -31,33 +27,21 @@ const volumeKnob = document.getElementById('volume-knob');
 const pwr = document.getElementById('pwr');
 const powerLed = document.querySelector('.power-led');
 const audio = document.getElementById('main-audio');
-
-// --- ENGINE INITIALIZATION ---
 const engine = new McIntoshAudioEngine(audio);
-
-// --- REBOOT SELECTORS ---
 const rebootModal = document.getElementById('reboot-modal');
 const btnYes = document.getElementById('reboot-yes');
 const btnNo = document.getElementById('reboot-no');
-
-// --- EQ SELECTORS (BASS/TREBLE) ---
 const bassDown = document.getElementById('bass-down');
 const bassUp = document.getElementById('bass-up');
 const trebleDown = document.getElementById('treble-down');
 const trebleUp = document.getElementById('treble-up');
 const toneReset = document.getElementById('tone-reset');
-
-// --- BALANCE SELECTORS ---
 const balL = document.getElementById('balance-L');
 const balR = document.getElementById('balance-R');
-
-// --- POPUP SELECTORS ---
 const albumOverlay = document.getElementById('album-overlay');
 const albumPopup = document.getElementById('album-popup');
 const popupImg = document.getElementById('popup-img');
 const noCoverText = document.getElementById('no-cover-text');
-
-// --- LIBRARY SELECTORS ---
 const libBtn = document.getElementById('library-btn');
 const modal = document.getElementById('library-modal');
 const closeBtn = document.querySelector('.close-btn');
@@ -79,19 +63,17 @@ let isLoudnessActive = false;
 let isMonoActive = false;
 let isBypassActive = false;
 let bypassSnapshot = null;
-
 let seekInterval = null;
 let isSeeking = false;
 let seekStartTime = 0;
 let isMouseDown = false;
-// currentAngleL/R et targetAngleL/R sont gérés en interne par js/vu-meter.js
 let isRandom = false;
 let repeatMode = 0;
 let abMode = 0;
 let pointA = 0;
 let pointB = 0;
 let volHoldInterval = null;
-let currentCoverBlobUrl = null; // Blob URL for Media Session artwork (Chrome requires non-data: URL)
+let currentCoverBlobUrl = null;
 
 // --- VOLUME INITIALIZATION ---
 let currentVolume = 0.05;
@@ -527,15 +509,13 @@ addInput?.addEventListener('change', (e) => {
 });
 
 // --- PLAYLIST DRAG ---
-(function() {
+(function () {
     let isDragging = false;
     let dragOffsetX = 0;
     let dragOffsetY = 0;
 
     const getPopup = () => document.getElementById('playlist-popup');
 
-    // Délégation sur document — fonctionne même si .playlist-header
-    // est injecté après le chargement de script.js
     document.addEventListener('mousedown', (e) => {
         const header = e.target.closest('.playlist-header');
         if (!header) return;
@@ -546,7 +526,7 @@ addInput?.addEventListener('change', (e) => {
 
         const rect = popup.getBoundingClientRect();
         popup.style.transform = 'none';
-        popup.style.top  = rect.top  + 'px';
+        popup.style.top = rect.top + 'px';
         popup.style.left = rect.left + 'px';
 
         isDragging = true;
@@ -560,14 +540,14 @@ addInput?.addEventListener('change', (e) => {
         const popup = getPopup();
         if (!popup) return;
         popup.style.left = (e.clientX - dragOffsetX) + 'px';
-        popup.style.top  = (e.clientY - dragOffsetY) + 'px';
+        popup.style.top = (e.clientY - dragOffsetY) + 'px';
     });
 
     document.addEventListener('mouseup', () => { isDragging = false; });
 })();
 
 // --- EQ POPUP DRAG ---
-(function() {
+(function () {
     let isDragging = false;
     let dragOffsetX = 0;
     let dragOffsetY = 0;
@@ -582,7 +562,7 @@ addInput?.addEventListener('change', (e) => {
         if (!popup) return;
         const rect = popup.getBoundingClientRect();
         popup.style.transform = 'none';
-        popup.style.top  = rect.top  + 'px';
+        popup.style.top = rect.top + 'px';
         popup.style.left = rect.left + 'px';
         isDragging = true;
         dragOffsetX = e.clientX - rect.left;
@@ -595,7 +575,7 @@ addInput?.addEventListener('change', (e) => {
         const popup = getPopup();
         if (!popup) return;
         popup.style.left = (e.clientX - dragOffsetX) + 'px';
-        popup.style.top  = (e.clientY - dragOffsetY) + 'px';
+        popup.style.top = (e.clientY - dragOffsetY) + 'px';
     });
 
     document.addEventListener('mouseup', () => { isDragging = false; });
@@ -822,10 +802,10 @@ document.getElementById('ab-loop-btn')?.addEventListener('click', () => {
     updateVFDStatusDisplay();
 });
 
-// --- VU-METRES ---
-// La logique d'animation est dans js/vu-meter.js
-// Les paramètres (sensibilité, courbe, lissage...) se règlent dans VU_METER_CONFIG
-// en haut de ce fichier.
+// --- VU METERS ---
+// Animation logic: see js/vu-meter.js
+// Settings (sensitivity, curve, smoothing, etc.) are in VU_METER_CONFIG
+// at the top of this file.
 startVuMeter(engine, audio, nl, nr, () => isPoweredOn);
 
 // --- VOLUME ---
@@ -980,7 +960,7 @@ function renderInfoPrefs() {
     if (!box) return;
 
     let prefs;
-    try { prefs = JSON.parse(localStorage.getItem(PREFS_KEY)); } catch(e) {}
+    try { prefs = JSON.parse(localStorage.getItem(PREFS_KEY)); } catch (e) { }
 
     if (!prefs) {
         box.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:rgba(120,107,70,0.5);font-size:9px;letter-spacing:2px;">NO SAVED PREFERENCES</div>';
@@ -991,15 +971,15 @@ function renderInfoPrefs() {
     const bool = v => v ? '<span style="color:#00ff41">ON</span>' : '<span style="color:#555">OFF</span>';
 
     const rows = [
-        ['VOLUME',    `${Math.round(prefs.volume * 100)}%`],
-        ['LOUDNESS',  bool(prefs.loudness)],
+        ['VOLUME', `${Math.round(prefs.volume * 100)}%`],
+        ['LOUDNESS', bool(prefs.loudness)],
         ['EQ PRESET', (prefs.eqPresetLabel || 'FLAT').replace('| EQ ', '')],
-        ['BASS',      `${sign(prefs.bassGain)} dB`],
-        ['TREBLE',    `${sign(prefs.trebleGain)} dB`],
-        ['BALANCE',   prefs.balance === 0 ? 'CENTER' : `${sign(Math.round(prefs.balance * 100))}%`],
-        ['MONO',      bool(prefs.mono)],
-        ['RANDOM',    bool(prefs.random)],
-        ['REPEAT',    prefs.repeatMode === 0 ? 'OFF' : prefs.repeatMode === 1 ? 'ONE' : 'ALL'],
+        ['BASS', `${sign(prefs.bassGain)} dB`],
+        ['TREBLE', `${sign(prefs.trebleGain)} dB`],
+        ['BALANCE', prefs.balance === 0 ? 'CENTER' : `${sign(Math.round(prefs.balance * 100))}%`],
+        ['MONO', bool(prefs.mono)],
+        ['RANDOM', bool(prefs.random)],
+        ['REPEAT', prefs.repeatMode === 0 ? 'OFF' : prefs.repeatMode === 1 ? 'ONE' : 'ALL'],
     ];
 
     box.innerHTML = rows.map(([label, val]) =>
@@ -1028,7 +1008,6 @@ bgPicker?.addEventListener('input', (e) => {
     if (bgBtn) bgBtn.style.background = color;
 });
 
-// Changement de la couleur de l'ombre du châssis
 const shadowPicker = document.getElementById('shadow-picker');
 shadowPicker?.addEventListener('input', (e) => {
     const color = e.target.value;
@@ -1040,16 +1019,15 @@ shadowPicker?.addEventListener('input', (e) => {
     if (shBtn) shBtn.style.background = color;
 });
 
-/* ------------------------------------------------------------------
-   GESTION DE L'ÉGALISEUR 10 BANDES  (FUSION DES DEUX BLOCS)
-------------------------------------------------------------------- */
+/* -------------------
+   10-BAND EQ CONTROL
+--------------------- */
 
-// Sélecteurs uniques (pas de redéclarations)
 const eqBtn = document.getElementById('eq-btn');
 const eqPopup = document.getElementById('eq-popup');
 const closeEq = document.getElementById('close-eq');
 const eqResetBtn = document.getElementById('eq-reset-btn');
-const eqSliders = document.querySelectorAll('.eq-band input'); // cible uniquement les sliders EQ
+const eqSliders = document.querySelectorAll('.eq-band input');
 const eqCanvas = document.getElementById('eq-curve');
 const eqCtx = eqCanvas?.getContext('2d');
 const displayElement = document.getElementById('eq-preset-name-display');
@@ -1227,10 +1205,6 @@ Object.keys(presetLabels).forEach(id => {
 // Init EQ
 if (displayElement) displayElement.innerText = "FLAT";
 
-// ================================
-// EQUALIZER & BALANCE — même logique que VOLUME
-// mousedown gauche/droite + wheel
-// ================================
 const eqPresetKeys = ['eq-reset-btn', 'eq-pop-btn', 'eq-rock-btn', 'eq-jazz-btn', 'eq-classic-btn', 'eq-live-btn'];
 let currentPresetIndex = 0;
 let eqKnobAngle = 0;
@@ -1295,32 +1269,32 @@ const PREFS_KEY = 'mcintosh-dap-prefs';
 
 function savePrefs() {
     const eqSlidersCurrent = document.querySelectorAll('.eq-band input');
-    const vfdPresetEl   = document.getElementById('vfd-preset-display');
+    const vfdPresetEl = document.getElementById('vfd-preset-display');
     const eqPresetLabel = document.getElementById('eq-preset-name-display');
     const prefs = {
-        volume:         currentVolume,
-        bassGain:       bassGain,
-        trebleGain:     trebleGain,
-        balance:        currentBalance,
-        loudness:       isLoudnessActive,
-        mono:           isMonoActive,
-        random:         isRandom,
-        repeatMode:     repeatMode,
-        eqBands:        Array.from(eqSlidersCurrent).map(s => ({
-                            freq: s.getAttribute('data-freq'),
-                            value: parseFloat(s.value)
-                        })),
-        vfdPresetText:  vfdPresetEl   ? vfdPresetEl.innerText   : '',
-        eqPresetLabel:  eqPresetLabel ? eqPresetLabel.innerText : 'FLAT',
-        bgColor:        document.body.style.backgroundColor || '',
-        shadowColor:    document.querySelector('.chassis-wrapper')?.style.getPropertyValue('--chassis-shadow') || ''
+        volume: currentVolume,
+        bassGain: bassGain,
+        trebleGain: trebleGain,
+        balance: currentBalance,
+        loudness: isLoudnessActive,
+        mono: isMonoActive,
+        random: isRandom,
+        repeatMode: repeatMode,
+        eqBands: Array.from(eqSlidersCurrent).map(s => ({
+            freq: s.getAttribute('data-freq'),
+            value: parseFloat(s.value)
+        })),
+        vfdPresetText: vfdPresetEl ? vfdPresetEl.innerText : '',
+        eqPresetLabel: eqPresetLabel ? eqPresetLabel.innerText : 'FLAT',
+        bgColor: document.body.style.backgroundColor || '',
+        shadowColor: document.querySelector('.chassis-wrapper')?.style.getPropertyValue('--chassis-shadow') || ''
     };
-    try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch(e) {}
+    try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch (e) { }
 }
 
 function loadPrefs() {
     let prefs;
-    try { prefs = JSON.parse(localStorage.getItem(PREFS_KEY)); } catch(e) {}
+    try { prefs = JSON.parse(localStorage.getItem(PREFS_KEY)); } catch (e) { }
     if (!prefs) return;
 
     // Volume
@@ -1331,7 +1305,7 @@ function loadPrefs() {
     }
 
     // Bass / Treble
-    if (prefs.bassGain  != null) bassGain  = prefs.bassGain;
+    if (prefs.bassGain != null) bassGain = prefs.bassGain;
     if (prefs.trebleGain != null) trebleGain = prefs.trebleGain;
     if (bassGain !== 0 || trebleGain !== 0) showTone();
 
@@ -1361,7 +1335,7 @@ function loadPrefs() {
     }
 
     // Random / Repeat
-    if (prefs.random)     isRandom = true;
+    if (prefs.random) isRandom = true;
     if (prefs.repeatMode) repeatMode = prefs.repeatMode;
     updateVFDStatusDisplay();
 
@@ -1392,7 +1366,7 @@ function loadPrefs() {
 }
 
 function resetPrefs() {
-    try { localStorage.removeItem(PREFS_KEY); } catch(e) {}
+    try { localStorage.removeItem(PREFS_KEY); } catch (e) { }
     showStatusBriefly('PREFS RESET');
     console.log('[PREFS] Cleared');
 }
