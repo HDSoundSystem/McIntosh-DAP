@@ -991,15 +991,15 @@ function renderInfoPrefs() {
     const bool = v => v ? '<span style="color:#00ff41">ON</span>' : '<span style="color:#555">OFF</span>';
 
     const rows = [
-        ['VOLUME',   `${Math.round(prefs.volume * 100)}%`],
-        ['BASS',     `${sign(prefs.bassGain)} dB`],
-        ['TREBLE',   `${sign(prefs.trebleGain)} dB`],
-        ['BALANCE',  prefs.balance === 0 ? 'CENTER' : `${sign(Math.round(prefs.balance * 100))}%`],
-        ['LOUDNESS', bool(prefs.loudness)],
-        ['MONO',     bool(prefs.mono)],
-        ['RANDOM',   bool(prefs.random)],
-        ['REPEAT',   prefs.repeatMode === 0 ? 'OFF' : prefs.repeatMode === 1 ? 'ONE' : 'ALL'],
+        ['VOLUME',    `${Math.round(prefs.volume * 100)}%`],
+        ['LOUDNESS',  bool(prefs.loudness)],
         ['EQ PRESET', (prefs.eqPresetLabel || 'FLAT').replace('| EQ ', '')],
+        ['BASS',      `${sign(prefs.bassGain)} dB`],
+        ['TREBLE',    `${sign(prefs.trebleGain)} dB`],
+        ['BALANCE',   prefs.balance === 0 ? 'CENTER' : `${sign(Math.round(prefs.balance * 100))}%`],
+        ['MONO',      bool(prefs.mono)],
+        ['RANDOM',    bool(prefs.random)],
+        ['REPEAT',    prefs.repeatMode === 0 ? 'OFF' : prefs.repeatMode === 1 ? 'ONE' : 'ALL'],
     ];
 
     box.innerHTML = rows.map(([label, val]) =>
