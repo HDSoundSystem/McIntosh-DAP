@@ -1,4 +1,4 @@
-<img width="1482" height="231" alt="banner" src="https://github.com/user-attachments/assets/87ed49b7-9437-4980-9dc6-4206d0007214" />
+<img width="1526" height="232" alt="vum" src="https://github.com/user-attachments/assets/c9c91b72-ecb2-4b2b-a25a-267395064b41" />
 
 # McIntosh Reference Digital Audio Player
 
