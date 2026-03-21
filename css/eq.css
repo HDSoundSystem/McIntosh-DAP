@@ -1,6 +1,6 @@
 .mc-popup-eq {
     display: none;
-    position: absolute;
+    position: fixed;
     top: 40%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -9,10 +9,11 @@
     border: 8px solid var(--mc-gold, #b29671);
     border-radius: 15px;
     padding: 20px;
-    z-index: 1000;
+    z-index: 10000;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
     color: white;
     font-family: var(--roboto);
+    user-select: none;
 }
 
 .eq-header {
@@ -25,6 +26,11 @@
     color: var(--mc-gold, #b29671);
     font-size: 14px;
     letter-spacing: 1px;
+    cursor: grab;
+}
+
+.eq-header:active {
+    cursor: grabbing;
 }
 
 .eq-sliders-container {
