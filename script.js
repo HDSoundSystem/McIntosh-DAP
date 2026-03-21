@@ -526,6 +526,55 @@ addInput?.addEventListener('change', (e) => {
     e.target.value = '';
 });
 
+// --- PLAYLIST DRAG ---
+(function() {
+    let isDragging = false;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+
+    const getPopup = () => document.getElementById('playlist-popup');
+
+    function startDrag(e) {
+        // Ignore clicks on buttons inside the header
+        if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT') return;
+        const popup = getPopup();
+        if (!popup) return;
+
+        // If popup is still using top/left + transform, switch to absolute coords first
+        const rect = popup.getBoundingClientRect();
+        popup.style.transform = 'none';
+        popup.style.top  = rect.top  + 'px';
+        popup.style.left = rect.left + 'px';
+
+        isDragging = true;
+        dragOffsetX = e.clientX - rect.left;
+        dragOffsetY = e.clientY - rect.top;
+        e.preventDefault();
+    }
+
+    function onMouseMove(e) {
+        if (!isDragging) return;
+        const popup = getPopup();
+        if (!popup) return;
+        popup.style.left = (e.clientX - dragOffsetX) + 'px';
+        popup.style.top  = (e.clientY - dragOffsetY) + 'px';
+    }
+
+    function stopDrag() {
+        isDragging = false;
+    }
+
+    // Attach header listener whenever the playlist popup becomes visible
+    // (header is always in DOM since options-menu.html is loaded at startup)
+    const header = document.querySelector('.playlist-header');
+    if (header) {
+        header.addEventListener('mousedown', startDrag);
+    }
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', stopDrag);
+})();
+
 // --- AUTRES CONTROLES ---
 inputBtn?.addEventListener('click', () => fileUpload?.click());
 fileUpload?.addEventListener('change', (e) => { if (e.target.files.length > 0) { if (!isPoweredOn) { isPoweredOn = true; } playlist = Array.from(e.target.files); playlistMeta = []; readMetaForFiles(playlist); loadTrack(0); } });
