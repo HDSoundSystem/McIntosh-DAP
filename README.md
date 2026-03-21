@@ -13,9 +13,6 @@ A premium web-based audio player that faithfully recreates the McIntosh amplifie
 ![preview](https://github.com/user-attachments/assets/7bc36eb4-3abf-4167-862a-a5e87df7afc9)
 <img width="1861" height="872" alt="1" src="https://github.com/user-attachments/assets/dc7dd285-7e51-460b-8ce3-e012f6a4a945" />
 <img width="1536" height="1024" alt="mcintoshIA" src="https://github.com/user-attachments/assets/86b8e333-3563-41d1-afd6-a82b10dd4931" />
-<img width="1024" height="1536" alt="20260320_1206_Image Generation_remix_01km5eqx9web6agtmd8mqsefeq" src="https://github.com/user-attachments/assets/e3cf8684-d354-4100-a66f-45e34a048de3" /><img width="1024" height="1536" alt="20260321_2228_Image Generation_remix_01km94r0vee65srcf0dxyvbjdy" src="https://github.com/user-attachments/assets/8f4e5058-e750-4891-a3bc-052d78fe42dd" />
-
-
 
 ---
 
