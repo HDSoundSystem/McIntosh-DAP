@@ -8,7 +8,7 @@ A premium web-based audio player that faithfully recreates the McIntosh amplifie
 
 ![Status](https://img.shields.io/badge/status-active-success)
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-3.5.1-blue)
+![Version](https://img.shields.io/badge/version-3.5.2-blue)
 
 ![preview](https://github.com/user-attachments/assets/7bc36eb4-3abf-4167-862a-a5e87df7afc9)
 <img width="1826" height="842" alt="1" src="https://github.com/user-attachments/assets/7eca1b2b-d2cf-483d-9bc6-74e71bd29d94" />

@@ -38,7 +38,7 @@
 
 .options-logo-container {
     text-align: center;
-    margin-top: 70px;
+    margin-top: 30px;
     padding: 10px 0;
     width: 100%;
 }
@@ -83,6 +83,12 @@
     border-bottom: 1px solid var(--mc-gold);
     background-color: black;
     flex-shrink: 0;
+    cursor: grab;
+    user-select: none;
+}
+
+.playlist-header:active {
+    cursor: grabbing;
 }
 
 .playlist-center-text {

@@ -526,6 +526,81 @@ addInput?.addEventListener('change', (e) => {
     e.target.value = '';
 });
 
+// --- PLAYLIST DRAG ---
+(function() {
+    let isDragging = false;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+
+    const getPopup = () => document.getElementById('playlist-popup');
+
+    // Délégation sur document — fonctionne même si .playlist-header
+    // est injecté après le chargement de script.js
+    document.addEventListener('mousedown', (e) => {
+        const header = e.target.closest('.playlist-header');
+        if (!header) return;
+        if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT') return;
+
+        const popup = getPopup();
+        if (!popup) return;
+
+        const rect = popup.getBoundingClientRect();
+        popup.style.transform = 'none';
+        popup.style.top  = rect.top  + 'px';
+        popup.style.left = rect.left + 'px';
+
+        isDragging = true;
+        dragOffsetX = e.clientX - rect.left;
+        dragOffsetY = e.clientY - rect.top;
+        e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const popup = getPopup();
+        if (!popup) return;
+        popup.style.left = (e.clientX - dragOffsetX) + 'px';
+        popup.style.top  = (e.clientY - dragOffsetY) + 'px';
+    });
+
+    document.addEventListener('mouseup', () => { isDragging = false; });
+})();
+
+// --- EQ POPUP DRAG ---
+(function() {
+    let isDragging = false;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
+
+    const getPopup = () => document.getElementById('eq-popup');
+
+    document.addEventListener('mousedown', (e) => {
+        const header = e.target.closest('.eq-header');
+        if (!header) return;
+        if (e.target.classList.contains('close-eq') || e.target.id === 'close-eq') return;
+        const popup = getPopup();
+        if (!popup) return;
+        const rect = popup.getBoundingClientRect();
+        popup.style.transform = 'none';
+        popup.style.top  = rect.top  + 'px';
+        popup.style.left = rect.left + 'px';
+        isDragging = true;
+        dragOffsetX = e.clientX - rect.left;
+        dragOffsetY = e.clientY - rect.top;
+        e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const popup = getPopup();
+        if (!popup) return;
+        popup.style.left = (e.clientX - dragOffsetX) + 'px';
+        popup.style.top  = (e.clientY - dragOffsetY) + 'px';
+    });
+
+    document.addEventListener('mouseup', () => { isDragging = false; });
+})();
+
 // --- AUTRES CONTROLES ---
 inputBtn?.addEventListener('click', () => fileUpload?.click());
 fileUpload?.addEventListener('change', (e) => { if (e.target.files.length > 0) { if (!isPoweredOn) { isPoweredOn = true; } playlist = Array.from(e.target.files); playlistMeta = []; readMetaForFiles(playlist); loadTrack(0); } });
@@ -896,7 +971,47 @@ if (typeof require !== 'undefined') {
     });
 }
 
+document.getElementById('reset-prefs-btn')?.addEventListener('click', () => {
+    resetPrefs();
+});
+
+function renderInfoPrefs() {
+    const box = document.getElementById('info-prefs-content');
+    if (!box) return;
+
+    let prefs;
+    try { prefs = JSON.parse(localStorage.getItem(PREFS_KEY)); } catch(e) {}
+
+    if (!prefs) {
+        box.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:rgba(120,107,70,0.5);font-size:9px;letter-spacing:2px;">NO SAVED PREFERENCES</div>';
+        return;
+    }
+
+    const sign = v => v > 0 ? `+${v}` : `${v}`;
+    const bool = v => v ? '<span style="color:#00ff41">ON</span>' : '<span style="color:#555">OFF</span>';
+
+    const rows = [
+        ['VOLUME',    `${Math.round(prefs.volume * 100)}%`],
+        ['LOUDNESS',  bool(prefs.loudness)],
+        ['EQ PRESET', (prefs.eqPresetLabel || 'FLAT').replace('| EQ ', '')],
+        ['BASS',      `${sign(prefs.bassGain)} dB`],
+        ['TREBLE',    `${sign(prefs.trebleGain)} dB`],
+        ['BALANCE',   prefs.balance === 0 ? 'CENTER' : `${sign(Math.round(prefs.balance * 100))}%`],
+        ['MONO',      bool(prefs.mono)],
+        ['RANDOM',    bool(prefs.random)],
+        ['REPEAT',    prefs.repeatMode === 0 ? 'OFF' : prefs.repeatMode === 1 ? 'ONE' : 'ALL'],
+    ];
+
+    box.innerHTML = rows.map(([label, val]) =>
+        `<div class="info-pref-row">
+            <span class="info-pref-label">${label}</span>
+            <span class="info-pref-value">${val}</span>
+        </div>`
+    ).join('');
+}
+
 function openInfo() {
+    renderInfoPrefs();
     if (typeof isPoweredOn !== 'undefined' && !isPoweredOn) return;
     const overlay = document.getElementById('info-overlay-fix');
     if (overlay) {
@@ -1175,6 +1290,216 @@ balanceKnob?.addEventListener('mousedown', (e) => {
     change();
     balHoldInterval = setInterval(change, 50);
 });
+// --- PREFERENCES (localStorage) ---
+const PREFS_KEY = 'mcintosh-dap-prefs';
+
+function savePrefs() {
+    const eqSlidersCurrent = document.querySelectorAll('.eq-band input');
+    const vfdPresetEl   = document.getElementById('vfd-preset-display');
+    const eqPresetLabel = document.getElementById('eq-preset-name-display');
+    const prefs = {
+        volume:         currentVolume,
+        bassGain:       bassGain,
+        trebleGain:     trebleGain,
+        balance:        currentBalance,
+        loudness:       isLoudnessActive,
+        mono:           isMonoActive,
+        random:         isRandom,
+        repeatMode:     repeatMode,
+        eqBands:        Array.from(eqSlidersCurrent).map(s => ({
+                            freq: s.getAttribute('data-freq'),
+                            value: parseFloat(s.value)
+                        })),
+        vfdPresetText:  vfdPresetEl   ? vfdPresetEl.innerText   : '',
+        eqPresetLabel:  eqPresetLabel ? eqPresetLabel.innerText : 'FLAT',
+        bgColor:        document.body.style.backgroundColor || '',
+        shadowColor:    document.querySelector('.chassis-wrapper')?.style.getPropertyValue('--chassis-shadow') || ''
+    };
+    try { localStorage.setItem(PREFS_KEY, JSON.stringify(prefs)); } catch(e) {}
+}
+
+function loadPrefs() {
+    let prefs;
+    try { prefs = JSON.parse(localStorage.getItem(PREFS_KEY)); } catch(e) {}
+    if (!prefs) return;
+
+    // Volume
+    if (prefs.volume != null) {
+        currentVolume = prefs.volume;
+        engine.setVolume(currentVolume);
+        if (volumeKnob) volumeKnob.style.transform = `rotate(${currentVolume * 270 - 135}deg)`;
+    }
+
+    // Bass / Treble
+    if (prefs.bassGain  != null) bassGain  = prefs.bassGain;
+    if (prefs.trebleGain != null) trebleGain = prefs.trebleGain;
+    if (bassGain !== 0 || trebleGain !== 0) showTone();
+
+    // Balance
+    if (prefs.balance != null) {
+        currentBalance = prefs.balance;
+        engine.setBalance(currentBalance);
+        const angle = currentBalance * 135;
+        if (typeof balKnobAngle !== 'undefined') {
+            balKnobAngle = angle;
+            const bk = document.getElementById('balance-knob');
+            if (bk) bk.style.transform = `rotate(${angle}deg)`;
+        }
+    }
+
+    // Loudness
+    if (prefs.loudness) {
+        isLoudnessActive = true;
+        document.getElementById('vfd-loudness-text')?.classList.add('loudness-visible');
+    }
+
+    // Mono
+    if (prefs.mono) {
+        isMonoActive = true;
+        engine.setMono(true);
+        document.getElementById('led-mono')?.classList.add('active');
+    }
+
+    // Random / Repeat
+    if (prefs.random)     isRandom = true;
+    if (prefs.repeatMode) repeatMode = prefs.repeatMode;
+    updateVFDStatusDisplay();
+
+    // EQ bands
+    if (prefs.eqBands?.length) {
+        prefs.eqBands.forEach(b => {
+            const slider = document.querySelector(`.eq-band input[data-freq="${b.freq}"]`);
+            if (slider) slider.value = b.value;
+            if (engine.setCustomFilter) engine.setCustomFilter(b.freq, b.value);
+        });
+        // Redraw curve
+        if (typeof drawEQCurve === 'function') drawEQCurve();
+    }
+
+    // Restore VFD preset badge
+    if (prefs.vfdPresetText != null) {
+        const vfdP = document.getElementById('vfd-preset-display');
+        if (vfdP) vfdP.innerText = prefs.vfdPresetText;
+    }
+    // Restore EQ popup label
+    if (prefs.eqPresetLabel != null) {
+        const eqLabel = document.getElementById('eq-preset-name-display');
+        if (eqLabel) eqLabel.innerText = prefs.eqPresetLabel;
+    }
+
+    // Apply EQ
+    applyLoudnessEffect();
+}
+
+function resetPrefs() {
+    try { localStorage.removeItem(PREFS_KEY); } catch(e) {}
+    showStatusBriefly('PREFS RESET');
+    console.log('[PREFS] Cleared');
+}
+
+// Save on every meaningful change — debounced 1s
+let prefsSaveTimeout = null;
+function scheduleSavePrefs() {
+    clearTimeout(prefsSaveTimeout);
+    prefsSaveTimeout = setTimeout(savePrefs, 1000);
+}
+
+// Hook saves on state changes
+const _origUpdateVolumeDisplay = updateVolumeDisplay;
+window._patchedSaveHooks = true;
+
+// Load prefs after a short delay (engine must be ready)
+setTimeout(loadPrefs, 300);
+
+// --- KEYBOARD SHORTCUTS ---
+document.addEventListener('keydown', (e) => {
+    // Ignore if typing in an input
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+    switch (e.code) {
+        case 'Space':
+            e.preventDefault();
+            if (isPoweredOn && playlist.length > 0) {
+                if (audio.paused) {
+                    engine.play().then(() => updateStatusIcon('play'));
+                } else {
+                    engine.pause();
+                    updateStatusIcon('pause');
+                }
+            }
+            break;
+
+        case 'ArrowRight':
+            if (!isPoweredOn || playlist.length === 0) break;
+            if (e.shiftKey) {
+                // Shift+→ : seek +10s
+                audio.currentTime = Math.min(audio.duration, audio.currentTime + 10);
+            } else {
+                // → : next track
+                const nextIdx = currentIndex < playlist.length - 1 ? currentIndex + 1 : 0;
+                loadTrack(nextIdx);
+            }
+            break;
+
+        case 'ArrowLeft':
+            if (!isPoweredOn || playlist.length === 0) break;
+            if (e.shiftKey) {
+                // Shift+← : seek -10s
+                audio.currentTime = Math.max(0, audio.currentTime - 10);
+            } else {
+                // ← : previous track
+                const prevIdx = currentIndex > 0 ? currentIndex - 1 : playlist.length - 1;
+                loadTrack(prevIdx);
+            }
+            break;
+
+        case 'ArrowUp':
+            e.preventDefault();
+            if (isPoweredOn) {
+                currentVolume = Math.min(1, currentVolume + 0.05);
+                updateVolumeDisplay();
+                scheduleSavePrefs();
+            }
+            break;
+
+        case 'ArrowDown':
+            e.preventDefault();
+            if (isPoweredOn) {
+                currentVolume = Math.max(0, currentVolume - 0.05);
+                updateVolumeDisplay();
+                scheduleSavePrefs();
+            }
+            break;
+
+        case 'KeyM':
+            if (isPoweredOn) {
+                isMuted = !isMuted;
+                audio.muted = isMuted;
+                showVolumeBriefly();
+            }
+            break;
+
+        case 'KeyB':
+            if (isPoweredOn) document.getElementById('bypass-btn')?.click();
+            break;
+
+        case 'KeyL':
+            if (isPoweredOn && !isBypassActive) document.getElementById('loudness-btn')?.click();
+            break;
+
+        case 'KeyR':
+            if (isPoweredOn) document.getElementById('random-btn')?.click();
+            break;
+
+        case 'KeyS':
+            if (isPoweredOn) document.getElementById('repeat-btn')?.click();
+            break;
+    }
+});
+
+// Auto-save on volume/bass/treble/balance changes
+document.addEventListener('mouseup', scheduleSavePrefs);
+
 window.addEventListener('mouseup', () => clearInterval(balHoldInterval));
 balanceKnob?.addEventListener('mouseleave', () => clearInterval(balHoldInterval));
 balanceKnob?.addEventListener('wheel', (e) => {

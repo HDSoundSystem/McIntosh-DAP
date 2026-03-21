@@ -1,4 +1,4 @@
-const CACHE_VERSION = '3.5.0';
+const CACHE_VERSION = '3.5.2';
 const CACHE_NAME = `McIntosh-DAP-${CACHE_VERSION}`;
 
 // Static assets — cached at install time, served from cache (cache-first)
@@ -40,8 +40,7 @@ const STATIC_ASSETS = [
     '/assets/img/McIntosh_Logo_White.png',
     '/assets/img/McIntosh_brush.png',
     '/assets/img/DD_overlay_logo_mc.png',
-    '/assets/img/vumeter-new.png',
-    '/assets/img/preview-image.jpg',
+    '/assets/img/vumeter.png',
     '/assets/windows/play.png',
     '/assets/windows/pause.png',
     '/assets/windows/prev.png',
