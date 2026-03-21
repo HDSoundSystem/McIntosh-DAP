@@ -1,9 +1,9 @@
 /* =============================================================================
    VU-METER — McIntosh DAP
-   Fichier : js/vu-meter.js
-   Rôle    : Anime les deux aiguilles des VU-mètres analogiques en fonction
-             du niveau audio fourni par l'engine.
-   Chargement : inclure ce fichier AVANT script.js dans le HTML :
+   File    : js/vu-meter.js
+   Role    : Animates both VU-meter needles based on the audio level
+             provided by the engine.
+   Loading : include this file BEFORE script.js in the HTML:
                 <script src="js/vu-meter.js"></script>
    ============================================================================= */
 
@@ -20,72 +20,72 @@
 const VU_METER_CONFIG = {
 
     /* -------------------------------------------------------------------------
-       POSITION DE REPOS
-       Angle (en degrés) de l'aiguille quand il n'y a aucun signal audio.
-       Une valeur négative = aiguille penchée vers la gauche (position "0" réelle).
-       Exemple : -55 → aiguille au repos à -55°
-       ⚠️  Modifier aussi ANGLE_MAX si vous changez cette valeur,
-           car l'amplitude totale = ANGLE_MAX - ANGLE_REST.
+       RESTING POSITION
+       Angle (in degrees) of the needle when there is no audio signal.
+       A negative value = needle leaning to the left (actual "0" position).
+       Example: -55 → needle at rest at -55°
+       ⚠️  Also update ANGLE_MAX if you change this value,
+           as the total sweep = ANGLE_MAX - ANGLE_REST.
     ------------------------------------------------------------------------- */
     ANGLE_REST: -55,
 
     /* -------------------------------------------------------------------------
-       AMPLITUDE MAXIMALE
-       Degrés supplémentaires que l'aiguille peut parcourir depuis ANGLE_REST
-       quand le signal est au maximum (pleine puissance).
-       Exemple : 110 → l'aiguille peut aller jusqu'à -55 + 110 = +55°
-       ↑ Augmenter → l'aiguille monte plus haut à plein volume
-       ↓ Diminuer  → l'aiguille reste plus basse même à fort volume
+       MAXIMUM SWEEP
+       Additional degrees the needle can travel from ANGLE_REST
+       when the signal is at maximum (full power).
+       Example: 110 → the needle can reach up to -55 + 110 = +55°
+       ↑ Increase → needle goes higher at full volume
+       ↓ Decrease → needle stays lower even at high volume
     ------------------------------------------------------------------------- */
     ANGLE_MAX: 110,
 
     /* -------------------------------------------------------------------------
-       AMPLIFICATION DU SIGNAL (boost)
-       Multiplicateur appliqué au niveau audio brut avant tout calcul.
-       Le niveau brut de l'engine va de 0 à ~72. Ce boost le ramène à une
-       plage utilisable (0-255) pour les fichiers peu dynamiques.
-       Exemple : 3.5 → multiplie le niveau brut par 3.5
-       ↑ Augmenter → aiguilles plus réactives, bougent plus sur les sons faibles
-       ↓ Diminuer  → aiguilles plus calmes, réservées aux sons forts
-       Valeurs conseillées : 2.0 (discret) — 3.5 (standard) — 6.0 (très sensible)
+       SIGNAL AMPLIFICATION (boost)
+       Multiplier applied to the raw audio level before any calculation.
+       The raw engine level ranges from 0 to ~72. This boost scales it to a
+       usable range (0–255) for files with low dynamic range.
+       Example: 3.5 → multiplies the raw level by 3.5
+       ↑ Increase → needles more reactive, move more on quiet sounds
+       ↓ Decrease → needles calmer, reserved for louder sounds
+       Suggested values: 2.0 (subtle) — 3.5 (standard) — 6.0 (very sensitive)
     ------------------------------------------------------------------------- */
     SIGNAL_BOOST: 3.5,
 
     /* -------------------------------------------------------------------------
-       COURBE DE RÉPONSE (exposant)
-       Contrôle la forme de la courbe entre signal faible et signal fort.
-       Formule : niveau_normalisé ^ RESPONSE_CURVE
-         < 1.0 → courbe logarithmique : très sensible aux sons faibles,
-                 l'aiguille bouge beaucoup même à bas volume (comportement
-                 proche d'un vrai VU-mètre analogique)
-         = 1.0 → courbe linéaire : progression strictement proportionnelle
-         > 1.0 → courbe exponentielle : l'aiguille ne décolle vraiment
-                 qu'aux volumes élevés
-       Exemple : 0.7 → comportement naturel, bon compromis faible/fort
-       Valeurs conseillées : 0.4 (très log) — 0.7 (standard) — 1.0 (linéaire)
+       RESPONSE CURVE (exponent)
+       Controls the shape of the curve between low and high signal levels.
+       Formula: normalized_level ^ RESPONSE_CURVE
+         < 1.0 → logarithmic curve: very sensitive to quiet sounds,
+                 the needle moves a lot even at low volume (behavior
+                 close to a real analog VU-meter)
+         = 1.0 → linear curve: strictly proportional progression
+         > 1.0 → exponential curve: the needle barely lifts
+                 until volume is high
+       Example: 0.7 → natural behavior, good low/high balance
+       Suggested values: 0.4 (very log) — 0.7 (standard) — 1.0 (linear)
     ------------------------------------------------------------------------- */
     RESPONSE_CURVE: 0.7,
 
     /* -------------------------------------------------------------------------
-       INERTIE DE MONTÉE (lissage actif)
-       Facteur d'interpolation appliqué quand l'audio joue et que l'aiguille
-       monte vers sa cible.
-       Formule : angle_actuel += (cible - actuel) * SMOOTHING_ATTACK
-         Proche de 1.0 → réponse quasi-instantanée, aiguille très nerveuse
-         Proche de 0.0 → réponse très lente, aiguille paresseuse
-       Exemple : 0.35 → montée rapide mais pas saccadée
-       Valeurs conseillées : 0.15 (lent) — 0.35 (standard) — 0.6 (vif)
+       ATTACK SMOOTHING (active smoothing)
+       Interpolation factor applied when audio is playing and the needle
+       is rising toward its target.
+       Formula: current_angle += (target - current) * SMOOTHING_ATTACK
+         Close to 1.0 → near-instant response, very snappy needle
+         Close to 0.0 → very slow response, sluggish needle
+       Example: 0.35 → fast attack without being jerky
+       Suggested values: 0.15 (slow) — 0.35 (standard) — 0.6 (snappy)
     ------------------------------------------------------------------------- */
     SMOOTHING_ATTACK: 0.35,
 
     /* -------------------------------------------------------------------------
-       INERTIE DE RETOUR AU REPOS (lissage inactif)
-       Facteur d'interpolation appliqué quand l'audio est en pause/stop et
-       que l'aiguille revient doucement vers ANGLE_REST.
-       Plus faible que SMOOTHING_ATTACK pour un retour naturellement lent,
-       comme une vraie aiguille physique soumise à la gravité.
-       Exemple : 0.1 → retour lent et élégant
-       Valeurs conseillées : 0.03 (très lent) — 0.1 (standard) — 0.25 (rapide)
+       RELEASE SMOOTHING (return to rest)
+       Interpolation factor applied when audio is paused/stopped and
+       the needle slowly falls back to ANGLE_REST.
+       Lower than SMOOTHING_ATTACK for a naturally slow return,
+       like a real physical needle governed by its return spring.
+       Example: 0.1 → slow and elegant return
+       Suggested values: 0.03 (very slow) — 0.1 (standard) — 0.25 (fast)
     ------------------------------------------------------------------------- */
     SMOOTHING_RELEASE: 0.1,
 
@@ -93,35 +93,35 @@ const VU_METER_CONFIG = {
 
 
 /* =============================================================================
-   LOGIQUE D'ANIMATION — ne pas modifier sauf si vous savez ce que vous faites
+   ANIMATION LOGIC — do not modify unless you know what you are doing
    ============================================================================= */
 
 /**
  * startVuMeter(engine, audio, nl, nr, getIsPoweredOn)
  *
- * Lance la boucle d'animation des VU-mètres.
+ * Starts the VU-meter animation loop.
  *
- * @param {object}   engine          — Instance de McIntoshAudioEngine
- * @param {HTMLAudioElement} audio   — L'élément <audio> principal
- * @param {Element}  needleL         — L'élément SVG/DOM de l'aiguille gauche (#needle-l)
- * @param {Element}  needleR         — L'élément SVG/DOM de l'aiguille droite (#needle-r)
- * @param {Function} getIsPoweredOn  — Fonction qui retourne l'état d'alimentation (true/false)
- *                                     Utiliser une fonction plutôt qu'une valeur directe permet
- *                                     de toujours lire la valeur à jour depuis script.js.
+ * @param {object}   engine          — McIntoshAudioEngine instance
+ * @param {HTMLAudioElement} audio   — The main <audio> element
+ * @param {Element}  needleL         — SVG/DOM element for the left needle (#needle-l)
+ * @param {Element}  needleR         — SVG/DOM element for the right needle (#needle-r)
+ * @param {Function} getIsPoweredOn  — Function that returns the power state (true/false)
+ *                                     Using a function rather than a direct value ensures
+ *                                     the latest state is always read from script.js.
  */
 function startVuMeter(engine, audio, needleL, needleR, getIsPoweredOn) {
 
-    // Angles courants (état interne de l'animation)
-    // Initialisés à ANGLE_REST pour partir de la position de repos
+    // Current angles (internal animation state)
+    // Initialized to ANGLE_REST to start from the resting position
     let currentAngleL = VU_METER_CONFIG.ANGLE_REST;
     let currentAngleR = VU_METER_CONFIG.ANGLE_REST;
 
-    // Angles cibles calculés à chaque frame à partir du niveau audio
+    // Target angles calculated each frame from the audio level
     let targetAngleL  = VU_METER_CONFIG.ANGLE_REST;
     let targetAngleR  = VU_METER_CONFIG.ANGLE_REST;
 
     /* -----------------------------------------------------------------------
-       Boucle principale — appelée ~60 fois par seconde via requestAnimationFrame
+       Main loop — called ~60 times per second via requestAnimationFrame
     ----------------------------------------------------------------------- */
     function animate() {
         requestAnimationFrame(animate);
@@ -130,14 +130,14 @@ function startVuMeter(engine, audio, needleL, needleR, getIsPoweredOn) {
 
         if (!audio.paused && getIsPoweredOn()) {
             /* -----------------------------------------------------------------
-               CALCUL DE L'ANGLE CIBLE
-               Formule complète :
-                 1. levels.left * SIGNAL_BOOST         → amplification du signal brut
-                 2. Math.min(255, ...)                 → écrêtage : on ne dépasse pas 255
-                 3. / 255                              → normalisation en [0 ; 1]
-                 4. Math.pow(..., RESPONSE_CURVE)      → application de la courbe de réponse
-                 5. * ANGLE_MAX                        → conversion en degrés
-                 6. + ANGLE_REST                       → décalage depuis la position de repos
+               TARGET ANGLE CALCULATION
+               Full formula:
+                 1. levels.left * SIGNAL_BOOST         → amplify the raw signal
+                 2. Math.min(255, ...)                 → clamp: never exceeds 255
+                 3. / 255                              → normalize to [0 ; 1]
+                 4. Math.pow(..., RESPONSE_CURVE)      → apply the response curve
+                 5. * ANGLE_MAX                        → convert to degrees
+                 6. + ANGLE_REST                       → offset from resting position
             ----------------------------------------------------------------- */
             targetAngleL = VU_METER_CONFIG.ANGLE_REST
                 + Math.pow(
@@ -152,28 +152,28 @@ function startVuMeter(engine, audio, needleL, needleR, getIsPoweredOn) {
                 ) * VU_METER_CONFIG.ANGLE_MAX;
 
             /* -----------------------------------------------------------------
-               LISSAGE DE MONTÉE (interpolation linéaire vers la cible)
-               L'aiguille ne saute pas directement à targetAngle,
-               elle s'en approche progressivement à chaque frame.
+               ATTACK SMOOTHING (linear interpolation toward target)
+               The needle does not jump directly to targetAngle;
+               it approaches it gradually each frame.
             ----------------------------------------------------------------- */
             currentAngleL += (targetAngleL - currentAngleL) * VU_METER_CONFIG.SMOOTHING_ATTACK;
             currentAngleR += (targetAngleR - currentAngleR) * VU_METER_CONFIG.SMOOTHING_ATTACK;
 
         } else {
             /* -----------------------------------------------------------------
-               RETOUR AU REPOS (audio pausé ou appareil éteint)
-               L'aiguille retombe doucement vers ANGLE_REST,
-               comme une aiguille physique soumise à son ressort.
+               RETURN TO REST (audio paused or device powered off)
+               The needle slowly falls back to ANGLE_REST,
+               like a physical needle pulled by its return spring.
             ----------------------------------------------------------------- */
             currentAngleL += (VU_METER_CONFIG.ANGLE_REST - currentAngleL) * VU_METER_CONFIG.SMOOTHING_RELEASE;
             currentAngleR += (VU_METER_CONFIG.ANGLE_REST - currentAngleR) * VU_METER_CONFIG.SMOOTHING_RELEASE;
         }
 
-        // Application des angles calculés aux éléments DOM des aiguilles
+        // Apply calculated angles to the needle DOM elements
         if (needleL) needleL.style.transform = `rotate(${currentAngleL}deg)`;
         if (needleR) needleR.style.transform = `rotate(${currentAngleR}deg)`;
     }
 
-    // Démarrage de la boucle
+    // Start the loop
     animate();
 }

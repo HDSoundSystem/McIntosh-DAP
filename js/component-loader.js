@@ -30,8 +30,6 @@ class ComponentLoader {
 
     async loadAll() {
         console.log('🚀 Starting component loading...');
-
-        // Load the main components into the amplifier panel
         const panel = document.getElementById('amplifier-panel');
         if (panel) {
             let allContent = '';
@@ -42,13 +40,12 @@ class ComponentLoader {
                     console.log(`✅ ${component.file} added`);
                 }
             }
-            panel.innerHTML = allContent; // Inject all at once without wrappers
+            panel.innerHTML = allContent;
             console.log(`✅ All components injected into amplifier-panel`);
         } else {
             console.error(`❌ Element #amplifier-panel not found in DOM`);
         }
 
-        // Load the modals separately
         const modalsSection = document.getElementById('modals-section');
         if (modalsSection) {
             const modalsContent = await this.loadComponent(this.modalsComponent.file);
@@ -58,12 +55,10 @@ class ComponentLoader {
 
         console.log('✅ All components loaded');
 
-        // Trigger a custom event to indicate that the components are ready
         document.dispatchEvent(new Event('componentsLoaded'));
     }
 }
 
-// Load components when the page loads
 document.addEventListener('DOMContentLoaded', async () => {
     console.log('📄 DOM loaded, initializing components...');
     const loader = new ComponentLoader();
