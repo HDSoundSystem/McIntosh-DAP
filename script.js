@@ -534,13 +534,16 @@ addInput?.addEventListener('change', (e) => {
 
     const getPopup = () => document.getElementById('playlist-popup');
 
-    function startDrag(e) {
-        // Ignore clicks on buttons inside the header
+    // Délégation sur document — fonctionne même si .playlist-header
+    // est injecté après le chargement de script.js
+    document.addEventListener('mousedown', (e) => {
+        const header = e.target.closest('.playlist-header');
+        if (!header) return;
         if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT') return;
+
         const popup = getPopup();
         if (!popup) return;
 
-        // If popup is still using top/left + transform, switch to absolute coords first
         const rect = popup.getBoundingClientRect();
         popup.style.transform = 'none';
         popup.style.top  = rect.top  + 'px';
@@ -550,29 +553,52 @@ addInput?.addEventListener('change', (e) => {
         dragOffsetX = e.clientX - rect.left;
         dragOffsetY = e.clientY - rect.top;
         e.preventDefault();
-    }
+    });
 
-    function onMouseMove(e) {
+    document.addEventListener('mousemove', (e) => {
         if (!isDragging) return;
         const popup = getPopup();
         if (!popup) return;
         popup.style.left = (e.clientX - dragOffsetX) + 'px';
         popup.style.top  = (e.clientY - dragOffsetY) + 'px';
-    }
+    });
 
-    function stopDrag() {
-        isDragging = false;
-    }
+    document.addEventListener('mouseup', () => { isDragging = false; });
+})();
 
-    // Attach header listener whenever the playlist popup becomes visible
-    // (header is always in DOM since options-menu.html is loaded at startup)
-    const header = document.querySelector('.playlist-header');
-    if (header) {
-        header.addEventListener('mousedown', startDrag);
-    }
+// --- EQ POPUP DRAG ---
+(function() {
+    let isDragging = false;
+    let dragOffsetX = 0;
+    let dragOffsetY = 0;
 
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', stopDrag);
+    const getPopup = () => document.getElementById('eq-popup');
+
+    document.addEventListener('mousedown', (e) => {
+        const header = e.target.closest('.eq-header');
+        if (!header) return;
+        if (e.target.classList.contains('close-eq') || e.target.id === 'close-eq') return;
+        const popup = getPopup();
+        if (!popup) return;
+        const rect = popup.getBoundingClientRect();
+        popup.style.transform = 'none';
+        popup.style.top  = rect.top  + 'px';
+        popup.style.left = rect.left + 'px';
+        isDragging = true;
+        dragOffsetX = e.clientX - rect.left;
+        dragOffsetY = e.clientY - rect.top;
+        e.preventDefault();
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (!isDragging) return;
+        const popup = getPopup();
+        if (!popup) return;
+        popup.style.left = (e.clientX - dragOffsetX) + 'px';
+        popup.style.top  = (e.clientY - dragOffsetY) + 'px';
+    });
+
+    document.addEventListener('mouseup', () => { isDragging = false; });
 })();
 
 // --- AUTRES CONTROLES ---
