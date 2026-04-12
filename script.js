@@ -150,8 +150,8 @@ function updateVFDStatusDisplay() {
     modeIndicator.innerHTML =
         `<span style="${abMode > 0 ? styleOn : styleOff}">${abText}</span>` +
         `<span style="${isRandom ? styleOn : styleOff}">RANDOM</span>` +
-        `<span style="${repeatMode === 1 ? styleOn : styleOff}">REPEAT(1)</span>` +
-        `<span style="${repeatMode === 2 ? styleOn : styleOff}">REPEAT(ALL)</span>`;
+        `<span style="${repeatMode === 1 ? styleOn : styleOff}">REPEAT 1</span>` +
+        `<span style="${repeatMode === 2 ? styleOn : styleOff}">REPEAT ALL</span>`;
 }
 
 // --- POWER (with reboot popup) ---
@@ -717,7 +717,7 @@ document.getElementById('bypass-btn')?.addEventListener('click', () => {
             if (engine.setCustomFilter) engine.setCustomFilter(s.getAttribute('data-freq'), 0);
         });
         // VFD
-        if (vfdPreset) vfdPreset.innerText = ' | BYPASS';
+        if (vfdPreset) vfdPreset.innerText =' | BYPASS';
         document.getElementById('vfd-loudness-text')?.classList.remove('loudness-visible');
         showStatusBriefly('BYPASS ON');
     } else {
