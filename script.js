@@ -451,12 +451,24 @@ trackCount?.addEventListener('click', (e) => {
     if (pp) pp.classList.add('visible');
 });
 
+document.getElementById('cover-btn')?.addEventListener('click', () => {
+    if (!isPoweredOn) return;
+    albumOverlay.style.display = 'block';
+    albumPopup.style.display = 'block';
+});
+
+document.getElementById('tracklist-btn')?.addEventListener('click', () => {
+    if (!isPoweredOn || playlist.length === 0) return;
+    renderPlaylistItems();
+    const pp = document.getElementById('playlist-popup');
+    if (pp) pp.classList.add('visible');
+});
+
 document.getElementById('playlist-close-btn')?.addEventListener('click', () => {
     const pp = document.getElementById('playlist-popup');
     if (pp) pp.classList.remove('visible');
 });
 
-// Delegation pour le bouton − (suppression de piste)
 document.getElementById('playlist-items')?.addEventListener('click', (e) => {
     const btn = e.target.closest('.pi-remove');
     if (!btn) return;
@@ -491,7 +503,6 @@ document.getElementById('playlist-items')?.addEventListener('click', (e) => {
     showStatusBriefly(`${playlist.length} TRACK${playlist.length !== 1 ? 'S' : ''}`);
 });
 
-// + ADD TRACKS button in playlist popup (exécuté directement, composants déjà chargés)
 const addBtn = document.getElementById('playlist-add-btn');
 const addInput = document.getElementById('playlist-add-input');
 addBtn?.addEventListener('click', (e) => {
@@ -501,14 +512,12 @@ addBtn?.addEventListener('click', (e) => {
 addInput?.addEventListener('change', (e) => {
     if (e.target.files.length > 0) {
         addFilesToPlaylist(e.target.files);
-        // Re-render immédiatement (les métadonnées se mettront à jour au fil du chargement)
         const pp = document.getElementById('playlist-popup');
         if (pp?.classList.contains('visible')) renderPlaylistItems();
     }
     e.target.value = '';
 });
 
-// --- PLAYLIST DRAG ---
 (function () {
     let isDragging = false;
     let dragOffsetX = 0;
@@ -546,7 +555,6 @@ addInput?.addEventListener('change', (e) => {
     document.addEventListener('mouseup', () => { isDragging = false; });
 })();
 
-// --- EQ POPUP DRAG ---
 (function () {
     let isDragging = false;
     let dragOffsetX = 0;
@@ -702,7 +710,6 @@ document.getElementById('bypass-btn')?.addEventListener('click', () => {
     const eqSliders = document.querySelectorAll('.eq-band input');
 
     if (isBypassActive) {
-        // Sauvegarder l'état complet
         bypassSnapshot = {
             bassGain,
             trebleGain,
@@ -710,7 +717,7 @@ document.getElementById('bypass-btn')?.addEventListener('click', () => {
             eqBands: Array.from(eqSliders).map(s => ({ freq: s.getAttribute('data-freq'), value: parseFloat(s.value) })),
             vfdPresetText: vfdPreset?.innerText || ''
         };
-        // Tout couper
+        
         engine.updateEQ(0, 0, false);
         eqSliders.forEach(s => {
             s.value = 0;
@@ -721,7 +728,7 @@ document.getElementById('bypass-btn')?.addEventListener('click', () => {
         document.getElementById('vfd-loudness-text')?.classList.remove('loudness-visible');
         showStatusBriefly('BYPASS ON');
     } else {
-        // Restaurer l'état sauvegardé
+        
         if (bypassSnapshot) {
             bassGain = bypassSnapshot.bassGain;
             trebleGain = bypassSnapshot.trebleGain;
@@ -773,7 +780,6 @@ document.getElementById('display-btn')?.addEventListener('click', () => {
     displayMode = (displayMode + 1) % 2;
 
     if (displayMode === 0) {
-        // --- MODE NORMAL (Couleur d'origine) ---
         vfd?.classList.remove('vfd-dimmed', 'force-off');
         meters.forEach(m => m.classList.remove('meter-dimmed', 'meter-off'));
         mcLogo?.classList.remove('logo-bw', 'logo-off');
@@ -781,7 +787,6 @@ document.getElementById('display-btn')?.addEventListener('click', () => {
         showStatusBriefly("DISPLAY: BRIGHT");
 
     } else if (displayMode === 1) {
-        // --- MODE DIMMED (Noir et Blanc + Tamisé) ---
         vfd?.classList.add('vfd-dimmed');
         meters.forEach(m => m.classList.add('meter-dimmed'));
         mcLogo?.classList.add('logo-bw');
@@ -1057,8 +1062,6 @@ function drawEQCurve() {
     const width = eqCanvas.width = eqCanvas.offsetWidth;
     const height = eqCanvas.height = eqCanvas.offsetHeight;
     eqCtx.clearRect(0, 0, width, height);
-
-    // Grille
     eqCtx.strokeStyle = "#1a1a1a";
     eqCtx.lineWidth = 1;
     eqCtx.beginPath();
@@ -1068,14 +1071,12 @@ function drawEQCurve() {
     }
     eqCtx.stroke();
 
-    // Points
     const points = Array.from(eqSliders).map((slider, index) => {
         const x = (width / (eqSliders.length - 1)) * index;
         const y = (height / 2) - (slider.value * (height / 26));
         return { x, y };
     });
 
-    // Courbe "McIntosh"
     eqCtx.beginPath();
     eqCtx.strokeStyle = "#00c3ff";
     eqCtx.lineWidth = 3;
@@ -1093,45 +1094,37 @@ function drawEQCurve() {
     eqCtx.shadowBlur = 0;
 }
 
-// Appliquer un preset (unique, fusion des comportements)
 function applyPreset(btnId) {
     if (!isPoweredOn) return;
 
     const gains = eqPresets[btnId];
     if (!gains) return;
 
-    // 1. Appliquer les gains aux sliders et au moteur audio
     eqSliders.forEach((slider, index) => {
         slider.value = gains[index];
         const freq = slider.getAttribute('data-freq');
         if (engine?.setCustomFilter) engine.setCustomFilter(freq, gains[index]);
     });
 
-    // 2. Préparer le nom du preset pour l'affichage
-    // On transforme "eq-rock-btn" en "ROCK"
     let presetName = btnId.replace('eq-', '').replace('-btn', '').toUpperCase();
 
-    // 3. Logique d'affichage sur le VFD (à côté du bitrate)
     const vfdPresetElement = document.getElementById('vfd-preset-display');
     if (vfdPresetElement) {
         if (presetName === 'RESET' || presetName === 'FLAT') {
-            vfdPresetElement.innerText = ""; // On cache si c'est FLAT
+            vfdPresetElement.innerText = "";
         } else {
-            vfdPresetElement.innerText = " | EQ " + presetName; // On affiche avec un séparateur
+            vfdPresetElement.innerText = " | EQ " + presetName;
         }
     }
 
-    // 4. Mise à jour de ton grand affichage central (optionnel)
     if (displayElement) {
         displayElement.innerText = (presetName === 'RESET') ? 'FLAT' : presetName;
     }
 
-    // Feedback visuel
     showStatusBriefly("PRESET: " + (presetName === 'RESET' ? 'FLAT' : presetName));
     if (typeof drawEQCurve === 'function') drawEQCurve();
 }
 
-// Ouvrir la pop-up EQ
 eqBtn?.addEventListener('click', (e) => {
     if (isPoweredOn) {
         e.stopPropagation();
@@ -1142,13 +1135,11 @@ eqBtn?.addEventListener('click', (e) => {
     }
 });
 
-// Fermer la pop-up EQ
 closeEq?.addEventListener('click', () => {
     eqPopup.style.display = 'none';
 });
 eqPopup?.addEventListener('click', (e) => e.stopPropagation());
 
-// Sliders (manuel)
 eqSliders.forEach(slider => {
     slider.addEventListener('input', (e) => {
         if (isBypassActive) return;
@@ -1163,7 +1154,6 @@ eqSliders.forEach(slider => {
     });
 });
 
-// Bouton RESET (FLAT)
 eqResetBtn?.addEventListener('click', () => {
     if (!isPoweredOn) return;
 
@@ -1179,7 +1169,6 @@ eqResetBtn?.addEventListener('click', () => {
     showStatusBriefly("EQ FLAT (0dB)");
 });
 
-// Boutons de presets
 Object.keys(eqPresets).forEach(id => {
     const btn = document.getElementById(id);
     if (btn) {
@@ -1190,7 +1179,6 @@ Object.keys(eqPresets).forEach(id => {
     }
 });
 
-// (Optionnel) Mise à jour du label si clic sur bouton (sans appliquer, au cas où)
 Object.keys(presetLabels).forEach(id => {
     const btn = document.getElementById(id);
     if (btn) {
@@ -1346,22 +1334,20 @@ function loadPrefs() {
             if (slider) slider.value = b.value;
             if (engine.setCustomFilter) engine.setCustomFilter(b.freq, b.value);
         });
-        // Redraw curve
+        
         if (typeof drawEQCurve === 'function') drawEQCurve();
     }
 
-    // Restore VFD preset badge
     if (prefs.vfdPresetText != null) {
         const vfdP = document.getElementById('vfd-preset-display');
         if (vfdP) vfdP.innerText = prefs.vfdPresetText;
     }
-    // Restore EQ popup label
+    
     if (prefs.eqPresetLabel != null) {
         const eqLabel = document.getElementById('eq-preset-name-display');
         if (eqLabel) eqLabel.innerText = prefs.eqPresetLabel;
     }
 
-    // Apply EQ
     applyLoudnessEffect();
 }
 
@@ -1378,11 +1364,9 @@ function scheduleSavePrefs() {
     prefsSaveTimeout = setTimeout(savePrefs, 1000);
 }
 
-// Hook saves on state changes
 const _origUpdateVolumeDisplay = updateVolumeDisplay;
 window._patchedSaveHooks = true;
 
-// Load prefs after a short delay (engine must be ready)
 setTimeout(loadPrefs, 300);
 
 // --- KEYBOARD SHORTCUTS ---
@@ -1482,3 +1466,10 @@ balanceKnob?.addEventListener('wheel', (e) => {
     applyBalance(e.deltaY < 0);
 });
 balanceKnob?.addEventListener('mouseenter', () => isPoweredOn && showBalanceStatus());
+
+window.addEventListener('beforeunload', (e) => {
+    if (!audio.paused) {
+        e.preventDefault();
+        e.returnValue = '';
+    }
+});

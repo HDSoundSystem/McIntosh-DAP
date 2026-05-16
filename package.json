@@ -1,6 +1,6 @@
 {
   "name": "McIntosh-Reference-DAP",
-  "version": "3.5.2",
+  "version": "3.5.3",
   "description": "McIntosh-Reference-Digital-Audio-Player",
   "main": "main.js",
   "scripts": {
@@ -11,7 +11,7 @@
   "author": "Yohann Zaoui",
   "license": "MIT",
   "devDependencies": {
-    "electron": "^41.0.3",
+    "electron": "^42.1.0",
     "electron-builder": "^24.6.4"
   },
   "build": {
