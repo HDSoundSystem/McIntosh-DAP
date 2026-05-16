@@ -451,6 +451,19 @@ trackCount?.addEventListener('click', (e) => {
     if (pp) pp.classList.add('visible');
 });
 
+document.getElementById('cover-btn')?.addEventListener('click', () => {
+    if (!isPoweredOn) return;
+    albumOverlay.style.display = 'block';
+    albumPopup.style.display = 'block';
+});
+
+document.getElementById('tracklist-btn')?.addEventListener('click', () => {
+    if (!isPoweredOn || playlist.length === 0) return;
+    renderPlaylistItems();
+    const pp = document.getElementById('playlist-popup');
+    if (pp) pp.classList.add('visible');
+});
+
 document.getElementById('playlist-close-btn')?.addEventListener('click', () => {
     const pp = document.getElementById('playlist-popup');
     if (pp) pp.classList.remove('visible');
@@ -1453,3 +1466,10 @@ balanceKnob?.addEventListener('wheel', (e) => {
     applyBalance(e.deltaY < 0);
 });
 balanceKnob?.addEventListener('mouseenter', () => isPoweredOn && showBalanceStatus());
+
+window.addEventListener('beforeunload', (e) => {
+    if (!audio.paused) {
+        e.preventDefault();
+        e.returnValue = '';
+    }
+});
