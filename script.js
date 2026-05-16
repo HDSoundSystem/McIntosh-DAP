@@ -1466,3 +1466,10 @@ balanceKnob?.addEventListener('wheel', (e) => {
     applyBalance(e.deltaY < 0);
 });
 balanceKnob?.addEventListener('mouseenter', () => isPoweredOn && showBalanceStatus());
+
+window.addEventListener('beforeunload', (e) => {
+    if (!audio.paused) {
+        e.preventDefault();
+        e.returnValue = '';
+    }
+});
