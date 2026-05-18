@@ -1,7 +1,6 @@
-const CACHE_VERSION = '3.5.2';
+const CACHE_VERSION = '3.5.3';
 const CACHE_NAME = `McIntosh-DAP-${CACHE_VERSION}`;
 
-// Static assets — cached at install time, served from cache (cache-first)
 const STATIC_ASSETS = [
     '/style.css',
     '/script.js',
@@ -48,9 +47,6 @@ const STATIC_ASSETS = [
     '/assets/windows/stop.png'
 ];
 
-// ─── INSTALL ──────────────────────────────────────────────────────────────────
-// Cache all static assets on install.
-// If any single file fails, the entire installation fails — every path must be exact.
 self.addEventListener('install', (event) => {
     console.log(`[SW] Install — cache ${CACHE_NAME}`);
     event.waitUntil(
@@ -58,14 +54,12 @@ self.addEventListener('install', (event) => {
             .then((cache) => cache.addAll(STATIC_ASSETS))
             .then(() => {
                 console.log('[SW] All assets cached');
-                return self.skipWaiting(); // Activate immediately without waiting for tabs to close
+                return self.skipWaiting();
             })
             .catch((err) => console.error('[SW] Install error:', err))
     );
 });
 
-// ─── ACTIVATE ─────────────────────────────────────────────────────────────────
-// Delete old caches from previous versions.
 self.addEventListener('activate', (event) => {
     console.log(`[SW] Activate — cache ${CACHE_NAME}`);
     event.waitUntil(
@@ -82,7 +76,6 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// ─── FETCH ────────────────────────────────────────────────────────────────────
 self.addEventListener('fetch', (event) => {
     const url = event.request.url;
 
@@ -94,9 +87,6 @@ self.addEventListener('fetch', (event) => {
 
     const requestURL = new URL(url);
 
-    // ── NETWORK-FIRST strategy for index.html ─────────────────────────────────
-    // Always try the network first to get the latest version.
-    // Falls back to cache when offline.
     if (requestURL.pathname === '/' || requestURL.pathname === '/index.html') {
         event.respondWith(
             fetch(event.request)
@@ -110,8 +100,6 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // ── CACHE-FIRST strategy for all static assets ────────────────────────────
-    // Serve from cache if available, otherwise fetch from network and cache dynamically.
     event.respondWith(
         caches.match(event.request)
             .then((cachedResponse) => {
