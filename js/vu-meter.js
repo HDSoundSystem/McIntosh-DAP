@@ -49,7 +49,7 @@ const VU_METER_CONFIG = {
        ↓ Decrease → needles calmer, reserved for louder sounds
        Suggested values: 2.0 (subtle) — 3.5 (standard) — 6.0 (very sensitive)
     ------------------------------------------------------------------------- */
-    SIGNAL_BOOST: 4.5,
+    SIGNAL_BOOST: 3.7,
 
     /* -------------------------------------------------------------------------
        RESPONSE CURVE (exponent)
