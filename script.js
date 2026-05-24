@@ -1147,9 +1147,9 @@ eqSliders.forEach(slider => {
         const gain = e.target.value;
         if (engine.setCustomFilter) engine.setCustomFilter(freq, gain);
         drawEQCurve();
-        if (displayElement) displayElement.innerText = "CUSTOM";
+        if (displayElement) displayElement.innerText = "PERSONALIZED";
         const vfdPresetElement = document.getElementById('vfd-preset-display');
-        if (vfdPresetElement) vfdPresetElement.innerText = " | EQ CUSTOM";
+        if (vfdPresetElement) vfdPresetElement.innerText = " | EQ PERSONALIZED";
         showStatusBriefly(`${freq}Hz: ${gain > 0 ? '+' : ''}${gain}dB`);
     });
 });
