@@ -49,7 +49,7 @@ const VU_METER_CONFIG = {
        ↓ Decrease → needles calmer, reserved for louder sounds
        Suggested values: 2.0 (subtle) — 3.5 (standard) — 6.0 (very sensitive)
     ------------------------------------------------------------------------- */
-    SIGNAL_BOOST: 3.7,
+    SIGNAL_BOOST: 5.5,
 
     /* -------------------------------------------------------------------------
        RESPONSE CURVE (exponent)
@@ -64,7 +64,7 @@ const VU_METER_CONFIG = {
        Example: 0.7 → natural behavior, good low/high balance
        Suggested values: 0.4 (very log) — 0.7 (standard) — 1.0 (linear)
     ------------------------------------------------------------------------- */
-    RESPONSE_CURVE: 0.7,
+    RESPONSE_CURVE: 0.6,
 
     /* -------------------------------------------------------------------------
        ATTACK SMOOTHING (active smoothing)
@@ -76,7 +76,7 @@ const VU_METER_CONFIG = {
        Example: 0.35 → fast attack without being jerky
        Suggested values: 0.15 (slow) — 0.35 (standard) — 0.6 (snappy)
     ------------------------------------------------------------------------- */
-    SMOOTHING_ATTACK: 0.35,
+    SMOOTHING_ATTACK: 0.45,
 
     /* -------------------------------------------------------------------------
        RELEASE SMOOTHING (return to rest)
@@ -87,7 +87,7 @@ const VU_METER_CONFIG = {
        Example: 0.1 → slow and elegant return
        Suggested values: 0.03 (very slow) — 0.1 (standard) — 0.25 (fast)
     ------------------------------------------------------------------------- */
-    SMOOTHING_RELEASE: 0.1,
+    SMOOTHING_RELEASE: 0.08,
 
 };
 
