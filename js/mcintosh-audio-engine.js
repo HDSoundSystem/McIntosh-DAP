@@ -209,13 +209,29 @@ if (typeof window.McIntoshAudioEngine === 'undefined' && typeof McIntoshAudioEng
 
         getLevels() {
             if (!this.isInitialized) return { left: 0, right: 0 };
-            const dataL = new Uint8Array(this.analyserL.frequencyBinCount);
-            const dataR = new Uint8Array(this.analyserR.frequencyBinCount);
-            this.analyserL.getByteFrequencyData(dataL);
-            this.analyserR.getByteFrequencyData(dataR);
-            const avgL = dataL.reduce((a, b) => a + b, 0) / dataL.length;
-            const avgR = dataR.reduce((a, b) => a + b, 0) / dataR.length;
-            return { left: avgL, right: avgR };
+            // RMS en domaine temporel : reflète l'amplitude réelle du signal
+            // (donc suit correctement le volume), contrairement à
+            // getByteFrequencyData qui est clampé sur une échelle dB fixe
+            // (minDecibels/maxDecibels) et sature dès -30 dBFS.
+            const dataL = new Uint8Array(this.analyserL.fftSize);
+            const dataR = new Uint8Array(this.analyserR.fftSize);
+            this.analyserL.getByteTimeDomainData(dataL);
+            this.analyserR.getByteTimeDomainData(dataR);
+
+            let sumSqL = 0, sumSqR = 0;
+            for (let i = 0; i < dataL.length; i++) {
+                const v = (dataL[i] - 128) / 128; // -1..1
+                sumSqL += v * v;
+            }
+            for (let i = 0; i < dataR.length; i++) {
+                const v = (dataR[i] - 128) / 128;
+                sumSqR += v * v;
+            }
+            const rmsL = Math.sqrt(sumSqL / dataL.length); // 0..1
+            const rmsR = Math.sqrt(sumSqR / dataR.length);
+
+            // Ramené sur 0-72 pour rester compatible avec l'échelle attendue par vu-meter.js
+            return { left: rmsL * 72, right: rmsR * 72 };
         }
     }
 
